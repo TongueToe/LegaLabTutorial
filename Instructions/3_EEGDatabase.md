@@ -1,5 +1,101 @@
 # 3-EEG_database
 
+## EEG database 
+
+## 3.1
+
+
+## 3.2 EEG-structure
+
+There is one event structure per for each subject. All sessions for the subject will be in the same event structure. The structure contains 688 entries in an array, each of which has these fields shown below.
+Example of non-recalled word:
+>> EVENTS.events(30)        
+           subject: 'UT004'     ---- UID for subject
+           session: 0           ---- session for this subject
+              list: 1           ---- which list of words (of 25 lists)
+         serialpos: 3           ---- which word (of 15 words/list)
+              type: 'WORD'      ---- word presented to subject
+              item: 'WHALE'     ---- which word
+            itemno: 137         ---- item from large list of items
+          recalled: 0           ---- Bool: 0=not recalled, 1=recalled
+            mstime: 1.4207e+12  ---time from beg of EEG recording(ms)
+          msoffset: 1           --- ??
+           rectime: -999        --- time the word was recalled
+         intrusion: -999        --- ??
+            isStim: 0           --- stim stuff that we don’t use 
+        expVersion: 'v_1.03'
+           stimLoc: 'X'
+           stimAmp: 1.5000
+         stimAnode: 82
+      stimAnodeTag: 'T'5'
+       stimCathode: 83
+    stimCathodeTag: 'T'6'
+          stimList: 1
+           eegfile: '/data10/RAM/subjects/UT004/eeg.reref/UT004_08Jan15_0902'
+--- eeg file that corresponds to the epoch 
+--- each channel is saved as a separate file 
+--- suffix .1 = channel 1
+--- Suffix .15 = channel 15
+Anatomical location of these channels is coded in a separate structure
+         eegoffset: 1328198     --- # samples from beginning 
+
+Depth electrodes: Probes and the 10 contacts along the probes 
+Surface electrodes: The cortical surface electrodes
+Jacksheet gives a number to each electrode (e.g. between 1 to 150)
+Another data structure details where the electrode was located in XYZ coord space, broadman area, and anatomical area
+Depth electrodes in medial temporal lobe have been localized more precisely.
+
+Events can be filtered by type.
+Type:Recword is the event when the subject is speaking the word. When they begin to speak it. Manually labeled. 
+13:24 
+Example of successfully recalled word:
+>> EVENTS.events(31)
+ans = 
+           subject: 'UT004'
+           session: 0
+              list: 1
+         serialpos: 4
+              type: 'WORD'
+              item: 'HORSE'
+            itemno: 128
+          recalled: 1
+            mstime: 1.4207e+12
+          msoffset: 1
+           rectime: 14318
+         intrusion: -999
+            isStim: 1
+        expVersion: 'v_1.03'
+           stimLoc: 'X'
+           stimAmp: 1.5000
+         stimAnode: 82
+      stimAnodeTag: 'T'5'
+       stimCathode: 83
+    stimCathodeTag: 'T'6'
+          stimList: 1
+           eegfile: '/data10/RAM/subjects/UT004/eeg.reref/UT004_08Jan15_0902'
+         eegoffset: 1333095
+
+
+
+
+
+
+
+
+
+
+Events for 20 subjects
+
+
+
+
+
+
+
+
+
+
+
 In computational neuroscience, analyzing EEG data often involves studying signal characteristics across trials of different conditions. In the context of memory research, the focus is on understanding the brain signals associated with remembering or forgetting information. This analysis can be conducted during two specific time periods: the encoding period and the retrieval period.
 
 1. **Encoding Period Analysis**: The goal of analyzing the encoding period is to identify differences in brain states that occur after the presentation of a stimulus or item. Typically, conditions in the encoding period are categorized as "Recalled" and "Non-recalled" based on the subject's later response to the item. The Recalled condition represents trials in which the subject later recalls the item, while the Non-recalled condition represents trials in which the subject does not recall the item.
