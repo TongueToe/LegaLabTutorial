@@ -4,9 +4,10 @@
 
 ## 3.1 Behavioral-Tasks
 
-FR
-AR
-[AR Task](../src/src/ar_task_explanation.pdf)
+Free Recall (FR) Task
+Assciocative Recognition (AR) Task 
+
+[AR Task](../src/ar_task_explanation.pdf)
 
 
 
