@@ -1,0 +1,15 @@
+#Begin Header. [Do not edit before this line. Never edit with an instance of the program open.]
+#Annotator: JL
+#UTC Locally Formatted: September 3, 2015	1:07:11 PM EDT
+#UNIX: 1441300031
+#Program Version: 1.10
+#OS Properties: {os.name	Mac OS X}{os.arch	x86_64}{user.name	exp}{user.country	US}{user.language	en}
+#Java Properties: {java.runtime.version	1.6.0_65-b14-462-11M4609}{java.specification.name	Java Platform API Specification}{java.specification.vendor	Sun Microsystems Inc.}{java.specification.version	1.6}{java.vendor	Apple Inc.}{java.version	1.6.0_65}{java.vm.name	Java HotSpot(TM) 64-Bit Server VM}{java.vm.specification.name	Java Virtual Machine Specification}{java.vm.specification.vendor	Sun Microsystems Inc.}{java.vm.specification.version	1.0}{java.vm.vendor	Apple Inc.}{java.vm.version	20.65-b04-462}
+#83 112 97 110 58 32 49 52 52 49 51 48 48 48 50 51 49 53 56 45 49 52 52 49 51 48 48 49 49 48 48 53 55 
+
+2797.6643990929706	85	EGG
+3369.4784580498867	124	HOLE
+4264.036281179138	287	WALL
+5289.138321995465	123	HILL
+7241.609977324263	117	GUARD
+17817.98185941043	189	PLATE

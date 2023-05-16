@@ -1,0 +1,67 @@
+#!/bin/bash
+# Script to create folder if it doesn't exist and mount helium store
+
+#NEONURL=itf-rs-store16.hpc.uiowa.edu/hbrl
+NEONURL=itf-rs-store16.hpc.uiowa.edu
+LOCALUSER=$(whoami)
+DEFAULT_MOUNTDIR=~/hbrl
+#domain=healthcare
+domain=iowa
+
+echo 
+echo "    $0" 
+echo
+echo mounts $NEONURL to the folder $MOUNTDIR
+echo
+echo "    $0 mountdir user" 
+echo
+echo mounts to mountdir with owndership set to user. 
+echo
+echo 
+
+
+MOUNTDIR=${1:-$DEFAULT_MOUNTDIR}
+
+ [ -d $MOUNTDIR ] || mkdir $MOUNTDIR
+
+echo "Please enter your HawkID: "
+
+read hawkid
+
+echo $MOUNTDIR
+echo "Enter your hawkid password"
+read -s passwd
+
+
+
+SHARES=$(smbclient -m SMB3_10  -W iowa -U $hawkid%$passwd -L $NEONURL | grep -o 'HBRL_\w*')
+
+
+
+tmpname=/tmp/temp$RANDOM
+touch $tmpname
+chmod 200 $tmpname
+echo username=$hawkid>>$tmpname
+echo password=$passwd>>$tmpname
+echo domain=$domain>>$tmpname
+
+for share in $SHARES 
+do	
+	MOUNTAT=$MOUNTDIR/$share
+	FULLURL=//$NEONURL/$share
+ 	[ -d $MOUNTAT ] || mkdir $MOUNTAT
+	cmd="sudo mount -t cifs -o vers=3.0,credentials=$tmpname,uid=$LOCALUSER,gid=$LOCALUSER $FULLURL $MOUNTAT"
+	echo $cmd #sudo mount -t cifs -o vers=3.0,credentials=$tmpname,uid=$LOCALUSER,gid=$LOCALUSER $FULLURL $MOUNTAT
+	#echo mount -t cifs -o vers=1.0,domain=healthcare,user=$hawkid,uid=$LOCALUSER,gid=$LOCALUSER //$NEONURL $MOUNTDIR
+	$cmd
+	#sudo mount -t cifs -o vers=3.0,credentials=$tmpname,uid=$LOCALUSER,gid=$LOCALUSER $FULLURL $MOUNTAT
+	#sudo mount -t cifs -o vers=3.0,credentials=$tmpname,uid=$LOCALUSER,gid=$LOCALUSER //$NEONURL $MOUNTDIR
+	[ $? -eq 0 ] && echo "$NEONURL was succesfully mounted at  $MOUNTDIR" || rmdir $MOUNTAT
+done
+
+shred -u $tmpname
+
+
+
+
+

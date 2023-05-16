@@ -1,0 +1,122 @@
+1 RB1 Hippocampus anterior
+2 RB2 Hippocampus anterior
+3 RB3 Hippocampus anterior
+4 RB4 WM
+5 RB5 WM
+6 RB6 WM
+7 RB7 WM/MTG
+8 RB8 MTG
+9 RB9 MTG
+10 RB10 MTG
+11 RI1 Temporal pole
+12 RI2 Temporal pole
+13 RI3 Temporal pole
+14 RI4 WM
+15 RI5 WM
+16 RI6 Planum polare
+17 RI7 Planum polare
+18 RI8 STG anterior
+19 RI9 STG anterior
+20 RI10 STG anterior
+21 RA1 Amygdala
+22 RA2 Amygdala
+23 RA3 Amygdala
+24 RA4 Amygdala/WM
+25 RA5 WM
+26 RA6 WM
+27 RA7 WM
+28 RA8 MTG anterior
+29 RA9 MTG anterior
+30 RA10 MTG anterior
+31 RT1 Insula posterior
+32 RT2 Insula posterior
+33 RT3 Temporal operculum
+34 RT4 WM
+35 RT5 WM
+36 RT6 WM
+37 RT7 STG
+38 RT8 STS
+39 RT9 MTG
+40 RT10 OUT
+41 RC1 WM
+42 RC2 WM/Hippocampus posterior
+43 RC3 Hippocampus posterior
+44 RC4 Hippocampus posterior/WM
+45 RC5 WM
+46 RC6 WM
+47 RC7 WM/MTG
+48 RC8 MTG
+49 RC9 MTG
+50 RC10 OUT
+51 RX1 Posterior cingulate
+52 RX2 Posterior cingulate/WM
+53 RX3 WM
+54 RX4 WM
+55 RX5 WM
+56 RX6 WM
+57 RX7 SMG
+58 RX8 SMG
+59 RX9 SMG
+60 RX10 OUT
+61 RP1 Precuneus
+62 RP2 Precuneus
+63 RP3 WM
+64 RP4 WM
+65 RP5 IPL
+66 RP6 IPL
+67 RP7 IPL
+68 RP8 IPL
+69 RP9 OUT
+70 RP10 OUT
+71 RQ1 Anterior cingulate
+72 RQ2 Anterior cingulate
+73 RQ3 SFG
+74 RQ4 WM
+75 RQ5 WM/SFG
+76 RQ6 SFS
+77 RQ7 SFS
+78 RQ8 MFG
+79 RQ9 MFG
+80 RQ10 MFG
+81 RO1 RIGHT orbito-frontal medial
+82 RO2 RIGHT orbito-frontal medial/WM
+83 RO3 RIGHT gyrus rectus
+84 RO4 IHF
+85 RO5 LEFT gyrus rectus
+86 RO6 WM
+87 RO7 WM
+88 RO8 WM
+89 RO9 IFG
+90 RO10 OUT
+91 RF1 Fusiform
+92 RF2 Fusiform
+93 RF3 WM
+94 RF4 WM
+95 RF5 WM
+96 RF6 WM
+97 RF7 ITS
+98 RF8 ITG
+99 RF9 OUT
+100 RF10 OUT
+101 LB1 Hippocampus anterior
+102 LB2 Hippocampus anterior
+103 LB3 Hippocampus anterior
+104 LB4 WM
+105 LB5 WM
+106 LB6 WM
+107 LB7 MTG
+108 LB8 MTG/STS
+109 LB9 MTG/STS
+110 LB10 OUT
+111 LI1 Entorhinal
+112 LI2 Entorhinal
+113 LI3 WM/Fusiform anterior
+114 LI4 WM/Fusiform anterior
+115 LI5 ITG anterior
+116 LI6 ITG anterior
+117 LI7 ITG/ITS anterior
+118 LI8 ITG/ITS anterior
+119 LI9 OUT
+120 LI10 OUT
+SPK
+SZ
