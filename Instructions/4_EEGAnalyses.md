@@ -1,37 +1,8 @@
 # 4-Analyses_of_EEG_Data
 
-The EEG data collected from subjects in our lab is organized and formatted consistently using event structures, which are Matlab .mat files. These event structures contain various information about the task performed, including patient performance, task parameters, and most importantly, time offset values that align the EEG time with the Unix computer time when the event occurred. Below is a breakdown of the information included in the event structure for a Free-Recall (FR) task:
 
-- **subject**: This field contains the subject code corresponding to the event in that row.
-- **session**: This field specifies the session number for the event.
-- **list**: This field specifies the list number within the corresponding session. For example, if a subject participated in 3 sessions, there will be 3 list #1s. If a subject completed 1 full session and 2 partial sessions, there may only be 1 list #25. For events that are not part of a list of words or recalls, the value is -999.
-- **serialpos**: This field specifies the position of the word corresponding to the event in the corresponding list. The first word in list 1 will have a serial position of 1, the sixth word will have a serial position of 6, and so on. The eighth word of the eleventh list will have a serial position of 8 (within list 11).
-- **type**: This field indicates the type of event. The possible entries are as follows:
-  - B: Beginning of the EEG recording.
-  - SESS START: Beginning of the session on the testing computer.
-  - COUNTDOWN START: Beginning of the countdown from 10 to 0 that precedes each list.
-  - COUNTDOWN END: End of the countdown that precedes each list.
-  - PRACTICE WORD: Word presented during the first list of each session, which serves as a practice list.
-  - PRACTICE DISTRACT START: Beginning of the distractor math problems for the practice list.
-  - PRACTICE DISTRACT END: End of the distractor math problems for the practice list.
-  - PRACTICE REC START: Beginning of the 30-second recall period for the practice list.
-  - PRACTICE REC END: End of the recall period for the practice list.
-  - TRIAL: Precedes any events for a new list.
-  - ORIENT: Fixation point on the screen (+) that precedes the list of words after the countdown.
-  - WORD: Presentation of a word on a test list (relevant for encoding analysis).
-  - REC WORD: Vocalized response of a word during the recall period. These entries are manually scored by research assistants.
-  - SESS END: Marks the end of the session.
-  - E: Marks the end of the recordings.
-- **item**: This field specifies the specific word that was presented or recalled. Entries that do not correspond to a presented or recalled word are marked as 'X'.
-- **itemno**: This field specifies the number of the word presented or recalled from the word pool. Analyses can be performed using either the word number or the actual word entry in the 'item' field.
-- **recalled**: This field contains -999 for entries that are not word presentations. For words that were presented and remembered, it has a value of 1. For words that were presented but not remembered, it has a value of 0.
-- **intrusion**: Indicates whether the item was correctly recalled (intrusion == 0), a Prior List Intrusion (PLI) if intrusion > 0, or an Extra List Intrusion (ELI) if intrusion == -1.
-- **eegfile**: This field points to the corresponding EEG file for that entry in the events structure. You will need to update this field to point to the location of the EEG files on your system. The filename should remain the same, but the folder location may need to be modified.
-- **set**: This field specifies the number of milliseconds from the beginning of the EEG file where the event in that entry starts. This information is used by functions in the EEG toolbox to determine which segment of the EEG data to analyze for a specific event.
 
-Understanding the organization and structure of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
-
-## 3.3 Raw EEG and Event-Related Potentials (ERPs)
+## 4.1 Raw EEG and Event-Related Potentials (ERPs)
 
 An event-related potential (ERP) refers to the change in voltage patterns observed during an "event" of interest. These events can be any stimuli presented to the subject or any responses obtained from them during a memory task. The underlying idea of an ERP is that any consistent voltage deflection observed after averaging across multiple events reflects a time-locked response to the evaluated event.
 
@@ -66,6 +37,100 @@ EEG = gete_ms(21, events, 1800, -200, 500, [58 62], 'stop', 1, 200, [-200 0]);
 This example will return a matrix with a number of rows equal to the number of events in `events` and 360 columns. The resample frequency is 200 Hz, so each sample represents 5 ms. The duration of the computed voltage is 1800 ms (360 samples). The voltage output starts 200 ms before the word onset and ends 1600 ms after the word onset. Therefore, samples 1 to 40 correspond to the period before the word, and samples 41 to 360 represent the period after the word. A baseline subtraction of the average voltage from -200 ms to 0 ms was performed.
 
 By utilizing the `gete_ms` function, researchers can extract ERPs from the raw EEG signals and examine the voltage changes over time in response to specific events of interest.
+
+../src/eeg_toolbox
+
+
+```matlab
+% Add the eeg_toolbox to the MATLAB search path
+addpath(genpath('../../src/eeg_toolbox'));
+
+% Load the EEG data from the events.mat file
+EEGdata = ('../../behData/UT014/behavioral/FR1/session_0/events.mat');
+load(EEGdata);
+
+% Filter the encoding events based on recall status
+encodingevents = events(strcmp({events.type}, 'WORD'));
+recalled = encodingevents([encodingevents.recalled] == 1);
+nonrecalled = encodingevents([encodingevents.recalled] == 0);
+
+% Specify the electrode number of interest
+electrode_num = 77;
+
+% Set the sampling frequency (Fs) and time vector (tval)
+Fs = 500;
+tval = linspace(0, 1800, 1.8 * Fs);
+
+% Get the raw EEG trials for the specified electrode and time window
+EEG = gete_ms(electrode_num, recalled, 1800, -0, 200);
+
+% Resample the EEG data to the desired sampling frequency
+EEG = resample(EEG', Fs, 1000)';
+
+% Plot the raw EEG trials
+figure('position',[20 20 600 900])
+plot(tval, EEG')
+xlabel('Time (ms)')
+ylabel('Amplitude (uV)')
+title('Raw EEG Trials')
+
+```
+
+
+
+
+
+## 4.1 Basic Signal Processing Background
+
+In signal processing, a fundamental concept is the Fourier Theorem, which states that any continuous time-varying signal can be expressed as a sum of sinusoids with varying frequencies, amplitudes, and phase shifts (Fourier Series). While Fourier Series deals with expressing signals as a combination of sinusoids, in time-frequency decomposition, we encounter the reverse problem: we have a signal and want to break it down into its individual frequency components.
+
+This is achieved through a linear operation called the Fourier Transform or Fast Fourier Transform (FFT). The Fourier Transform calculates multiple dot products between the signal of interest and sinusoids of different frequencies, allowing us to visualize the presence of different frequency components in the signal. By applying the FFT, the signal is transformed from the time-domain into the frequency-domain, where time information is lost since sinusoids have infinite duration.
+
+To preserve temporal precision during the transformation, a finite kernel is used in the dot product calculations. One common approach is to use a wavelet, with the Morlet wavelet being a widely used example. The Morlet wavelet represents a sine wave modulated by a Gaussian (normal distribution) function. Wavelets, such as the Morlet wavelet, are particularly useful for localizing frequency information in time, as they provide control over the tradeoff between temporal and frequency precision.
+
+In our lab, we predominantly use wavelets for time-frequency decomposition, as they allow us to analyze how frequency patterns change over time during the encoding and retrieval periods of a memory task. While a detailed understanding of the mathematical intricacies behind time-frequency decomposition is not necessary for performing analysis, it is beneficial to have a general understanding of these algorithms and how they process signals. This understanding helps to grasp the overall process and interpretation of the results.
+
+For more comprehensive information on decomposition and wavelet theories, I recommend referring to Chapter 11 of Cohen's book, which delves deeper into these concepts and their applications in signal processing.
+
+
+ - [Line Noise Removal]
+
+
+## Basci Signal Processing
+
+
+
+The EEG data collected from subjects in our lab is organized and formatted consistently using event structures, which are Matlab .mat files. These event structures contain various information about the task performed, including patient performance, task parameters, and most importantly, time offset values that align the EEG time with the Unix computer time when the event occurred. Below is a breakdown of the information included in the event structure for a Free-Recall (FR) task:
+
+- **subject**: This field contains the subject code corresponding to the event in that row.
+- **session**: This field specifies the session number for the event.
+- **list**: This field specifies the list number within the corresponding session. For example, if a subject participated in 3 sessions, there will be 3 list #1s. If a subject completed 1 full session and 2 partial sessions, there may only be 1 list #25. For events that are not part of a list of words or recalls, the value is -999.
+- **serialpos**: This field specifies the position of the word corresponding to the event in the corresponding list. The first word in list 1 will have a serial position of 1, the sixth word will have a serial position of 6, and so on. The eighth word of the eleventh list will have a serial position of 8 (within list 11).
+- **type**: This field indicates the type of event. The possible entries are as follows:
+  - B: Beginning of the EEG recording.
+  - SESS START: Beginning of the session on the testing computer.
+  - COUNTDOWN START: Beginning of the countdown from 10 to 0 that precedes each list.
+  - COUNTDOWN END: End of the countdown that precedes each list.
+  - PRACTICE WORD: Word presented during the first list of each session, which serves as a practice list.
+  - PRACTICE DISTRACT START: Beginning of the distractor math problems for the practice list.
+  - PRACTICE DISTRACT END: End of the distractor math problems for the practice list.
+  - PRACTICE REC START: Beginning of the 30-second recall period for the practice list.
+  - PRACTICE REC END: End of the recall period for the practice list.
+  - TRIAL: Precedes any events for a new list.
+  - ORIENT: Fixation point on the screen (+) that precedes the list of words after the countdown.
+  - WORD: Presentation of a word on a test list (relevant for encoding analysis).
+  - REC WORD: Vocalized response of a word during the recall period. These entries are manually scored by research assistants.
+  - SESS END: Marks the end of the session.
+  - E: Marks the end of the recordings.
+- **item**: This field specifies the specific word that was presented or recalled. Entries that do not correspond to a presented or recalled word are marked as 'X'.
+- **itemno**: This field specifies the number of the word presented or recalled from the word pool. Analyses can be performed using either the word number or the actual word entry in the 'item' field.
+- **recalled**: This field contains -999 for entries that are not word presentations. For words that were presented and remembered, it has a value of 1. For words that were presented but not remembered, it has a value of 0.
+- **intrusion**: Indicates whether the item was correctly recalled (intrusion == 0), a Prior List Intrusion (PLI) if intrusion > 0, or an Extra List Intrusion (ELI) if intrusion == -1.
+- **eegfile**: This field points to the corresponding EEG file for that entry in the events structure. You will need to update this field to point to the location of the EEG files on your system. The filename should remain the same, but the folder location may need to be modified.
+- **set**: This field specifies the number of milliseconds from the beginning of the EEG file where the event in that entry starts. This information is used by functions in the EEG toolbox to determine which segment of the EEG data to analyze for a specific event.
+
+Understanding the organization and structure of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
+
 
 ## 3.4 Oscillatory Power
 
@@ -227,113 +292,3 @@ Here are some additional resources for statistical analysis:
 - Cohen, J. (1992). *A power primer*. Psychological Bulletin, 112(1), 155-159. (Cohen's textbook on effect sizes)
 
 
-
-## 4 Exploring Folders on your Apple Computer Using Terminal
-It is often much more efficient to work with folders and files on your computer from the command line (Terminal on an Apple Computer). Depending on your operating system, the command line interface on your computer may be different but the functionality should be preserved across all systems.
-Terminal is effectively the same as ’Finder’ on an Apple Computer or ’My Computer’ on a PC but using it requires becoming acquainted with some common commands. While it may seem to add unnecessary complexity at first, you will soon find that navigating through your computer from the command line can help you accomplish seemingly tedious tasks much more efficiently.
-As you first begin working in Terminal, it may be helpful to have a file browser window (such as Finder on a Mac) open. As you use terminal commands to navigate from your computer, verify that the result of navigating through your computer with the file browser is the same as navigating through the command line.
-
-## 4.1 Navigating and Managing Files and Folders in Terminal
-
-Here are some common command line functions for navigating and managing files and folders in Terminal:
-
-- `pwd`: Prints the current directory (path).
-- `ls`: Lists the contents of the current directory.
-- `ls -l`: Lists detailed information about the files and folders in the current directory, including permissions, owner, size, and creation date.
-- `cd [path]`: Changes the current directory to the specified path.
-- `cd ..`: Moves up to the parent directory.
-- `cd ~`: Moves to the user's home directory.
-- `cp [source] [destination]`: Copies a file or folder from the source path to the destination path.
-- `cp -r [source] [destination]`: Copies a folder and its contents recursively.
-- `mv [source] [destination]`: Moves or renames a file or folder.
-- `mkdir [path]`: Creates a new folder at the specified path.
-- `rm [path]`: Removes (deletes) a file or empty folder at the specified path.
-- `rm -r [path]`: Removes a folder and its contents recursively.
-- `ssh [user]@[server]`: Connects to a remote server using Secure Shell (SSH) protocol.
-- `scp [source] [destination]`: Copies files or folders between local and remote machines using SSH.
-- `chmod [permissions] [file]`: Changes the permissions of a file or folder.
-- `chown [owner]:[group] [file]`: Changes the owner and group of a file or folder.
-- `sudo [command]`: Executes a command with superuser (root) privileges.
-
-These commands are just a subset of the many available commands in Terminal. It's important to exercise caution when using commands like `rm` and `sudo`, as they can have permanent and potentially destructive effects. Always double-check your commands and ensure that you have appropriate permissions before executing them.
-
-
-### Data Collection
-For data collection purposes, the following directories can be utilized:
-
-- stim: This directory is dedicated to storing data related to brain stimulation.
-- nonstim: This directory is dedicated to storing data related to tasks without brain stimulation.
-- setup: This directory is used for storing setup-related files and documentation.
-
-### 5.1 Verbal Tasks
-Verbal tasks involve tasks that are focused on language and verbal memory. The following verbal tasks are included:
-
-- FR1: This task is known as Free Recall 1. It involves subjects freely recalling a list of words.
-- fr_stim: This task pertains to stimulation of PCC or AG.
-- ARstim: 
-- AR1:
-
-### 5.2 Spatial Tasks
-Spatial tasks concentrate on spatial cognition and memory. The following spatial tasks are included:
-
-- TH1: This task is referred to as Tower of Hanoi 1. It assesses spatial problem-solving skills.
-- train: This task involves spatial navigation training, designed to enhance spatial memory and navigation abilities.
-
-### 5.3 Stim-Only Tasks
-Stim-Only tasks involve tasks that primarily revolve around brain stimulation. The following stim-only tasks are included:
-
-- CCEP: This task stands for Cortical Cerebral Evoked Potentials. It measures the brain's response to electrical stimulation.
-- cortical mapping: This task involves mapping the cortical areas of the brain.
-- BNstim: This task send biniary noise stimulation to PCC
-
-
-It is important to maintain proper organization and labeling of data to ensure easy access and retrieval. Each task category should have its own dedicated folder within the corresponding data collection directory. Additionally, adhering to data management best practices, such as consistent file naming conventions and regular backups, is essential for efficient data analysis and preservation.
-
-
-## 6. Data Processing
-
-In order to analyze patient data, the behavioral and EEG components need to be processed and organized into the appropriate format. The data processing pipeline typically consists of several steps, including memory testing, obtaining EEG recordings, splitting the EEG recording, creating an event structure, and aligning events. In this section, we will focus on the processing details of the most common memory task analyzed in the lab: FR1.
-
-FR1 (Free Recall 1) Task Processing:
-1. Memory Testing: Conduct the Free Recall 1 task with the patient, where they freely recall a list of words.
-2. Obtain EEG Recording: Record the EEG signals from the patient during the task using the appropriate equipment.
-3. Split EEG Recording: Split the continuous EEG recording into segments that correspond to each trial or event in the task. This can be done using software tools or custom scripts to identify and extract the relevant time periods for each trial.
-4. Make Event Structure: Create an event structure, typically in the form of a MATLAB .mat file, which contains information about the task events and their corresponding timings. This event structure should include details such as subject ID, session number, list number, serial position, event type, item presented/recalled, recall accuracy, and EEG file references.
-5. Align Events: Align the events in the event structure with the corresponding EEG segments. This involves matching the timings of the events with the timestamps in the EEG recording, ensuring that the EEG data for each event is properly associated.
-
-By following this data processing pipeline, the behavioral and EEG components of the FR1 task can be organized and prepared for further analysis. It is crucial to accurately label and align the events to ensure the synchronization between behavioral performance and EEG recordings. This will enable subsequent analyses such as event-related potential (ERP) extraction, time-frequency decomposition, and connectivity analysis.
-
-Proper documentation and version control should be maintained throughout the data processing pipeline to ensure reproducibility and facilitate collaboration among researchers. Additionally, it is essential to adhere to data privacy and protection guidelines when handling patient data, following institutional protocols and obtaining necessary permissions and consents.
-
-Remember to consult the specific protocols and guidelines provided by your lab or institution for detailed instructions on data processing procedures and tools.
-Apologies for the oversight. Here's the missing section:
-
-## 6.1 Memory Testing
-
-Before conducting memory tests with the patient, it is crucial to start and stop the clinical EEG recording. This ensures that the session recording is isolated for analysis purposes. One critical aspect to keep in mind during memory testing is the presence of sync pulses on the clinical EEG. These sync pulses, injected into channel DC09 by the testing laptop, serve as markers to align the session events with the EEG time based on Unix timestamps. If no sync pulses are recorded during the testing session, the session will be deemed useless and should be discarded.
-
-After completing the memory testing session, the audio files should be immediately annotated using PennTotalRecall by the person who administered the test. PennTotalRecall will generate .ann files for each list, which are integral for the subsequent event creation and analysis processes.
-
-## 6.2 Obtain EEG Recording
-
-After memory testing, it is essential to save the EEG recording for the corresponding session. The EEG recording files will vary depending on whether it is a macro or micro recording. For macro recordings, the files of interest are typically in the format .21E and .EEG, while for micro recordings, the files are usually .ns3 and .ns6.
-
-To ensure proper organization, create a "raw" folder within the subject's directory and save the EEG recording files in this folder. The recommended naming convention for the folder is "MM DD YYYY [task name]," indicating the date and task associated with the recording.
-
-## 6.3 Split EEG Recording
-
-The next step in the data processing pipeline is to split the raw EEG recording into individual channel components and perform re-referencing. This process can be achieved using a wrapper script called "nk_split_wrapper.m."
-
-Before running the script, create a new "tagnameorder_script.m" file inside the "docs" folder of the subject's directory. You can copy the template from a previous subject and update the electrode label names to match the current subject's recording. The electrode labels can be found in the .21E file (open with TextEdit), which lists the active channels during the recording. Rename the labels in the tagnameorder_script.m file accordingly, ensuring there are no repeats and excluding labels that do not start with "L" or "R" (EKG and DC should always be included last). Save the file and restart Matlab to ensure the tag name file is recognized.
-
-To split the EEG recording, open "nk_split_wrapper.m" and modify the subject name and raw folder name to match the session's information. Then, click "run" to execute the script. The command prompt will indicate the creation of a jacksheet and noreref files for each electrode, and the script will pause in debug mode.
-
-Check the jacksheet in the "docs" folder to ensure there are only 130 channels and that all the labels appear appropriate. If everything looks correct, type "dbcont" in the command prompt to continue the script. The command prompt will then display a list of electrodes to be included or excluded in the re-referencing step. Include all electrodes except for EKG and DC in the reference.
-
-After completing the debugging process, the re-referenced electrode files will populate in the "reref" folder within the subject directory.
-
-Note: It's important to be aware that the macro recordings from Parkland and Zale may have different file formats. The Zale EEG recordings are often in an extended format, allowing for more than 128 channels. In this case, you will need to use the EEG splitter, a GUI tool, to split the Zale EEG recording. Simply follow the instructions provided by the EEG splitter to complete the splitting process.
-
-## 7 Additional Resources
-
-For more detailed information and resources, you can refer to the [Additional Resources](DataCollection.md) file.
