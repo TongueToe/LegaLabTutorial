@@ -29,7 +29,7 @@ To get started in the Lega Lab, familiarize yourself with the ongoing projects, 
 
 # Table of Contents
 
-- [Introduction](LabInstruction.md #Lab Introduction)
+- [Introduction](LabInstruction.md #Lab-Introduction)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
   - [Usage](#usage)
