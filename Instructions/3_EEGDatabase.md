@@ -9,35 +9,37 @@
 
 There is one event structure per for each subject. All sessions for the subject will be in the same event structure. The structure contains 688 entries in an array, each of which has these fields shown below.
 Example of non-recalled word:
->> EVENTS.events(30)        
-           subject: 'UT004'     ---- UID for subject
-           session: 0           ---- session for this subject
-              list: 1           ---- which list of words (of 25 lists)
-         serialpos: 3           ---- which word (of 15 words/list)
-              type: 'WORD'      ---- word presented to subject
-              item: 'WHALE'     ---- which word
-            itemno: 137         ---- item from large list of items
-          recalled: 0           ---- Bool: 0=not recalled, 1=recalled
-            mstime: 1.4207e+12  ---time from beg of EEG recording(ms)
-          msoffset: 1           --- ??
-           rectime: -999        --- time the word was recalled
-         intrusion: -999        --- ??
-            isStim: 0           --- stim stuff that we don’t use 
-        expVersion: 'v_1.03'
-           stimLoc: 'X'
-           stimAmp: 1.5000
-         stimAnode: 82
-      stimAnodeTag: 'T'5'
-       stimCathode: 83
-    stimCathodeTag: 'T'6'
-          stimList: 1
-           eegfile: '/data10/RAM/subjects/UT004/eeg.reref/UT004_08Jan15_0902'
---- eeg file that corresponds to the epoch 
---- each channel is saved as a separate file 
---- suffix .1 = channel 1
---- Suffix .15 = channel 15
-Anatomical location of these channels is coded in a separate structure
-         eegoffset: 1328198     --- # samples from beginning 
+
+- `EVENTS.events(30)`
+  - `subject`: 'UT004'     ---- UID for subject
+  - `session`: 0           ---- session for this subject
+  - `list`: 1           ---- which list of words (of 25 lists)
+  - `serialpos`: 3           ---- which word (of 15 words/list)
+  - `type`: 'WORD'      ---- word presented to subject
+  - `item`: 'WHALE'     ---- which word
+  - `itemno`: 137         ---- item from large list of items
+  - `recalled`: 0           ---- Bool: 0=not recalled, 1=recalled
+  - `mstime`: 1.4207e+12  ---time from beg of EEG recording(ms)
+  - `msoffset`: 1           --- ??
+  - `rectime`: -999        --- time the word was recalled
+  - `intrusion`: -999        --- ??
+  - `isStim`: 0           --- stim stuff that we don’t use 
+  - `expVersion`: 'v_1.03'
+  - `stimLoc`: 'X'
+  - `stimAmp`: 1.5000
+  - `stimAnode`: 82
+  - `stimAnodeTag`: 'T'5'
+  - `stimCathode`: 83
+  - `stimCathodeTag`: 'T'6'
+  - `stimList`: 1
+  - `eegfile`: '/data10/RAM/subjects/UT004/eeg.reref/UT004_08Jan15_0902'
+  - eeg file that corresponds to the epoch 
+  - each channel is saved as a separate file 
+  - suffix .1 = channel 1
+  - Suffix .15 = channel 15
+  - Anatomical location of these channels is coded in a separate structure
+  - `eegoffset`: 1328198     --- # samples from beginning
+
 
 Depth electrodes: Probes and the 10 contacts along the probes 
 Surface electrodes: The cortical surface electrodes
@@ -49,41 +51,30 @@ Events can be filtered by type.
 Type:Recword is the event when the subject is speaking the word. When they begin to speak it. Manually labeled. 
 13:24 
 Example of successfully recalled word:
->> EVENTS.events(31)
-ans = 
-           subject: 'UT004'
-           session: 0
-              list: 1
-         serialpos: 4
-              type: 'WORD'
-              item: 'HORSE'
-            itemno: 128
-          recalled: 1
-            mstime: 1.4207e+12
-          msoffset: 1
-           rectime: 14318
-         intrusion: -999
-            isStim: 1
-        expVersion: 'v_1.03'
-           stimLoc: 'X'
-           stimAmp: 1.5000
-         stimAnode: 82
-      stimAnodeTag: 'T'5'
-       stimCathode: 83
-    stimCathodeTag: 'T'6'
-          stimList: 1
-           eegfile: '/data10/RAM/subjects/UT004/eeg.reref/UT004_08Jan15_0902'
-         eegoffset: 1333095
-
-
-
-
-
-
-
-
-
-
+- `EVENTS.events(31)`
+  - `subject`: 'UT004'
+  - `session`: 0
+  - `list`: 1
+  - `serialpos`: 4
+  - `type`: 'WORD'
+  - `item`: 'HORSE'
+  - `itemno`: 128
+  - `recalled`: 1
+  - `mstime`: 1.4207e+12
+  - `msoffset`: 1
+  - `rectime`: 14318
+  - `intrusion`: -999
+  - `isStim`: 1
+  - `expVersion`: 'v_1.03'
+  - `stimLoc`: 'X'
+  - `stimAmp`: 1.5000
+  - `stimAnode`: 82
+  - `stimAnodeTag`: 'T'5'
+  - `stimCathode`: 83
+  - `stimCathodeTag`: 'T'6'
+  - `stimList`: 1
+  - `eegfile`: '/data10/RAM/subjects/UT004/eeg.reref/UT004_08Jan15_0902'
+  - `eegoffset`: 1333095
 Events for 20 subjects
 
 
