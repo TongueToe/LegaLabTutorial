@@ -1,5 +1,5 @@
 
-![Logo](logo/lega_lab_logo.png)
+![Logo](src/logo/lega_lab_logo.png)
 
 Welcome to the Lega Lab! We are delighted to have you join our team. This README file will provide you with an overview of the lab and its research focus, as well as acknowledge the contributions of previous lab members.
 
@@ -29,30 +29,28 @@ To get started in the Lega Lab, familiarize yourself with the ongoing projects, 
 
 # Table of Contents
 
-- [1. Introduction](LabInstruction.md#1-Introduction)
-- [2. Setup](#getting-started)
-  - [Local Machine](#installation)
-  - [BioHPC](#usage)
-  - [Off Campus](#usage)
-- [3. EEG Data](#data-collection)
-  - [behavioral Tasks](#installation)
-  - [Data Structure](#installation)
-  - [RAW EEG and Event-related Potential (ERP)](#usage)
-
-- [4. Analyses of EEG Data](#data-collection)
-  - [Basic Signal Processing](#installation)
-  - [Oscillatory Power](#installation)
-  - [Connectivity Analysis](#usage)
-  - [Behavioral Analysis (Recall Percentage, Lag-CRP, Serial Position)](#usage)
-  - [Statistical Procudures](#usage)
-  
-- [5. Data Collection](#data-processing)
-  - [Memory Testing](#memory-testing)
-  - [Obtain EEG Recording](#obtain-eeg-recording)
-  - [Split EEG Recording](#split-eeg-recording)
-- [6. Data Processing](#analysis)
-  - [Chapter 1](/path/to/another.md#chapter-1)
-  - [Chapter 2](/path/to/another.md#chapter-2)
+[1. Introduction](/Instructions/1_Instrucitons.md)
+[2. Setup](/Instructions/2_Setups.md)
+  - [Local Machine](/Instructions/2_Setups.md)
+  - [BioHPC](/Instructions/2_Setups.md)
+  - [Off Campus](/Instructions/2_Setups.md)
+[3. EEG Database](/Instructions/3_EEGDatabase.md)
+  - [behavioral Tasks](/Instructions/3_EEGDatabase.md)
+  - [Data Structure](/Instructions/3_EEGDatabase.md)
+  - [RAW EEG and Event-related Potential (ERP)](/Instructions/3_EEGDatabase.md)
+[4. Analyses of EEG Data](/Instructions/4_EEGAnalyses.md)
+  - [Basic Signal Processing](/Instructions/4_EEGAnalyses.md)
+  - [Oscillatory Power](/Instructions/4_EEGAnalyses.md)
+  - [Connectivity Analysis](/Instructions/4_EEGAnalyses.md)
+  - [Behavioral Analysis (Recall Percentage, Lag-CRP, Serial Position)](/Instructions/4_EEGAnalyses.md)
+  - [Statistical Procudures](/Instructions/4_EEGAnalyses.md)
+[5. Data Collection](/Instructions/5_EEGCollections.md)
+  - [Memory Testing](/Instructions/5_EEGCollections.md)
+  - [Obtain EEG Recording](/Instructions/5_EEGCollections.md)
+  - [Split EEG Recording](/Instructions/5_EEGCollections.md)
+[6. Behavioral Data Processing](/Instructions/5_EEGProcessing.md)
+  - [Chapter 1](/Instructions/5_EEGProcessing.md)
+  - [Chapter 2](/Instructions/5_EEGProcessing.md)
 
 
 
@@ -62,3 +60,5 @@ We are excited to have you as part of the Lega Lab, and we look forward to colla
 Best regards,
 
 Lega Lab
+
+![Logoman](src/logo/lega_lab_man.png)
