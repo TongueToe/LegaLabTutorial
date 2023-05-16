@@ -1,6 +1,6 @@
 # LegaLabTutorial
 Lega Lab Tutorial
-# Lab Introduction
+# LabIntroduction
 
 Welcome to the lab! This tutorial aims to provide you with an overview of the lab's activities and help you become a productive and contributing member. We will cover various topics, including setting up BioHPC, running analysis, patient testing, and more.
 
