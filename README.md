@@ -27,6 +27,23 @@ We would like to extend our appreciation to all other past lab members for their
 
 To get started in the Lega Lab, familiarize yourself with the ongoing projects, research protocols, and datasets. Take the time to explore our documentation, code repositories, and previous publications. Feel free to reach out to current lab members for guidance or any questions you may have.
 
+# Table of Contents
+
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Data Collection](#data-collection)
+- [Data Processing](#data-processing)
+  - [Memory Testing](#memory-testing)
+  - [Obtain EEG Recording](#obtain-eeg-recording)
+  - [Split EEG Recording](#split-eeg-recording)
+- [Analysis](#analysis)
+  - [Chapter 1](/path/to/another.md#chapter-1)
+  - [Chapter 2](/path/to/another.md#chapter-2)
+- [Results](/results.md)
+- [Contributing](CONTRIBUTING.md)
+- [License](LICENSE)
 [Click here to go to the Table of Contents](LabInstruction.md)
 
 
