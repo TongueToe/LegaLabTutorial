@@ -6,7 +6,7 @@
 
 FR
 AR
-[AR Task](src/ar_task_explanation.pdf)
+[AR Task](../src/src/ar_task_explanation.pdf)
 
 
 
