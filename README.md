@@ -1,4 +1,5 @@
-# Welcome to the Lega Lab
+
+![Logo](logo/lega_lab_logo.png)
 
 Welcome to the Lega Lab! We are delighted to have you join our team. This README file will provide you with an overview of the lab and its research focus, as well as acknowledge the contributions of previous lab members.
 
@@ -33,5 +34,4 @@ We are excited to have you as part of the Lega Lab, and we look forward to colla
 
 Best regards,
 
-David X. Wang
 Lega Lab
