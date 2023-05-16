@@ -2,7 +2,12 @@
 
 ## EEG database 
 
-## 3.1
+## 3.1 Behavioral-Tasks
+
+FR
+AR
+[AR Task](src\ar_task_experimenter_explanation.pdf)
+
 
 
 ## 3.2 EEG-structure
