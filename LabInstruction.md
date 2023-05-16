@@ -1,6 +1,7 @@
 # LegaLabTutorial
 Lega Lab Tutorial
-# Lab-Introduction
+
+# 1-Introduction
 
 Welcome to the lab! This tutorial aims to provide you with an overview of the lab's activities and help you become a productive and contributing member. We will cover various topics, including setting up BioHPC, running analysis, patient testing, and more.
 
@@ -20,7 +21,7 @@ If you come across any issues with this tutorial (e.g., unclear instructions, ty
 
 Thank you and enjoy your time in the lab!
 
-## BioHPC
+## 2-BioHPC
 
 BioHPC is the high-performance computing group at UT Southwestern. They offer a range of computational resources, workshops, and cloud storage options specifically designed for research labs on campus. This section provides a brief overview of getting started with BioHPC, but it does not cover every resource they offer in detail.
 

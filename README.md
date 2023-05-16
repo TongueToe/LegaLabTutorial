@@ -29,22 +29,32 @@ To get started in the Lega Lab, familiarize yourself with the ongoing projects, 
 
 # Table of Contents
 
-- [Introduction](LabInstruction.md#Lab-Introduction)
-- [Getting Started](#getting-started)
-  - [Installation](#installation)
-  - [Usage](#usage)
-- [Data Collection](#data-collection)
-- [Data Processing](#data-processing)
+- [1. Introduction](LabInstruction.md#1-Introduction)
+- [2. Setup](#getting-started)
+  - [Local Machine](#installation)
+  - [BioHPC](#usage)
+  - [Off Campus](#usage)
+- [3. EEG Data](#data-collection)
+  - [behavioral Tasks](#installation)
+  - [Data Structure](#installation)
+  - [RAW EEG and Event-related Potential (ERP)](#usage)
+
+- [4. Analyses of EEG Data](#data-collection)
+  - [Basic Signal Processing](#installation)
+  - [Oscillatory Power](#installation)
+  - [Connectivity Analysis](#usage)
+  - [Behavioral Analysis (Recall Percentage, Lag-CRP, Serial Position)](#usage)
+  - [Statistical Procudures](#usage)
+  
+- [5. Data Collection](#data-processing)
   - [Memory Testing](#memory-testing)
   - [Obtain EEG Recording](#obtain-eeg-recording)
   - [Split EEG Recording](#split-eeg-recording)
-- [Analysis](#analysis)
+- [6. Data Processing](#analysis)
   - [Chapter 1](/path/to/another.md#chapter-1)
   - [Chapter 2](/path/to/another.md#chapter-2)
-- [Results](/results.md)
-- [Contributing](CONTRIBUTING.md)
-- [License](LICENSE)
-[Click here to go to the Table of Contents](LabInstruction.md)
+
+
 
 
 We are excited to have you as part of the Lega Lab, and we look forward to collaborating with you on groundbreaking research in the field of memory neuroscience!
