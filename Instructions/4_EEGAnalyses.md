@@ -78,8 +78,6 @@ title('Raw EEG Trials')
 
 
 
-
-
 ## 4.1 Basic Signal Processing Background
 
 In signal processing, a fundamental concept is the Fourier Theorem, which states that any continuous time-varying signal can be expressed as a sum of sinusoids with varying frequencies, amplitudes, and phase shifts (Fourier Series). While Fourier Series deals with expressing signals as a combination of sinusoids, in time-frequency decomposition, we encounter the reverse problem: we have a signal and want to break it down into its individual frequency components.
@@ -96,7 +94,42 @@ For more comprehensive information on decomposition and wavelet theories, I reco
  - [Line Noise Removal]
 
 
-## Basci Signal Processing
+## Basic Signal Processing
+
+One of the most important element of signal processing is a mathematical concept called Fourier Theorem. It states that any continuous time-varying signal can be expressed as the sum of a series of sinusoids of varying frequencies, amplitude, and phase shifts (Fourier Series). In time-frequency decomposition we run into the reverse problem: we have signal and want to break it down to its individual frequency components. How this is done is through a linear operation called Fourier Transform, or Fast Fourier Transform (FFT). In this process, multiple dot products are calculated between a signal of interest and sinusoids of a range of frequencies in order to visualize how much of that frequency component exist in the signal. Through a FFT, the signal is transformed from the time-domain into the frequency-domain with no time information preserved, because sine waves have infinite length. A solution for preserving temporal precision during a transform operation is to use a finite kernal in calculating the dot products, and one of the most common way is with a wavelet. Wavelets, specifically the Morlet wavelet is a sine wave modeled by a Gaussian (normal distribution), provides an excellent means of localizing frequency information in time in terms of the control the user has over the tradeoff between temporal and frequency precision, which is the predominate method we use in this lab. This is a very rough explanation of how a signal is processed, but the main takeaway is that we breakdown signals to its individual frequency components to understand how these patterns change over time during the encoding and retrieval periods of a memory task. Although understanding of the minute arithmetic details behind time-frequency decomposition is not necessary in performing analysis, it is prudent to at least have a good sense of what these algorithms are doing to your signals in order to have a better idea of the overall process. For more information on decomposition and wavelet theories, refer to chapter 11 of Cohen.
+
+
+\[Wang, D.X., & Davila, C.E. (2019). Subspace averaging of auditory evoked potentials. *2019 41st Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)*. IEEE.\]\(https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8857818&casa_token=k9i8i1-JHd0AAAAA:7OdbbCIS16QEMUy6OUmk6TkSbwsP84U-m2VJ_9V8m6ZkN9C_FJlNS_mc0MJ5OPaRqyODuHMA-7ua&tag=1\)
+
+
+
+```matlab
+% Step 2: Remove DC offsets and line noise
+EEG_denoised = bandstop(EEG', [59, 61], Fs, 'Steepness', 0.85)'; % remove line-noise
+EEG_offsetfixed = highpass(EEG_denoised', 1, Fs, 'Steepness', 0.8)'; % remove DC offset
+subplot(4, 1, 2)
+plot(tval, EEG_offsetfixed')
+xlabel('Time (ms)')
+ylabel('Amplitude (uV)')
+title('EEG trials after DC offset & line noise removal')
+
+% Step 3: Remove outliers
+[EEG_outremoved, ind1] = EucOutRemove(EEG_offsetfixed, 0.3);
+subplot(4, 1, 3)
+plot(tval, EEG_outremoved')
+xlabel('Time (ms)')
+ylabel('Amplitude (uV)')
+title('EEG trials after outlier removal')
+
+% Step 4: Denoise using subspace approach
+EEG_subdenoised = SubSpaceDenoise(EEG_outremoved, 10);
+subplot(4, 1, 4)
+plot(tval, EEG_subdenoised')
+xlabel('Time (ms)')
+ylabel('Amplitude (uV)')
+title('EEG trials after subspace denoised')
+```
+
 
 
 
