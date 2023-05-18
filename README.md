@@ -22,7 +22,7 @@ To get started in the Lega Lab, familiarize yourself with the ongoing projects, 
   - [Local Machine](/Instructions/2_Setups.md)
   - [BioHPC](/Instructions/2_Setups.md)
   - [Off Campus](/Instructions/2_Setups.md)
-- [3-EEG_database](/Instructions/3_EEGDatabase.md#3-eeg_database)
+- [3. EEG database](/Instructions/3_EEGDatabase.md#3-eeg_database)
   - [3.1 Behavioral Paradigms](/Instructions/3_EEGDatabase.md31-behavioral-tasks)
   - [3.2 EEG structure](/Instructions/3_EEGDatabase.md32-eeg-structure)
   - [3.3 Behavioral Analyses (Exercises)](/Instructions/3_EEGDatabase.md33-behavioral-analyses-exercises)
