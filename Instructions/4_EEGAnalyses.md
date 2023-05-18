@@ -418,3 +418,19 @@ Here are some additional resources for statistical analysis:
 - Cohen, J. (1992). *A power primer*. Psychological Bulletin, 112(1), 155-159. (Cohen's textbook on effect sizes)
 
 
+
+# Table of Contents
+
+1. [4. Analyses of EEG Data](#4-analyses-of-eeg-data)
+   1. [4.1 Raw EEG and Event-Related Potentials (ERPs)](#41-raw-eeg-and-event-related-potentials-erps)
+   2. [4.2 Basic Signal Processing](#42-basic-signal-processing)
+   3. [4.3 EEG Pre-processing](#43-eeg-pre-processing)
+   4. [4.4 Power Spectrum](#44-power-spectrum)
+   5. [4.5 Analyzing Frequency Bands](#45-analyzing-frequency-bands)
+   6. [4.6 Oscillatory Power and Phase](#46-oscillatory-power-and-phase)
+      1. [4.6.1 Instantaneous Power and Phase using Hilbert Transform with band-pass filtered EEG signals via `gete_ms`](#461-instantaneous-power-and-phase-using-hilbert-transform-with-band-pass-filtered-eeg-signals-via-gete_ms)
+      2. [4.6.2 Time-Frequency Representation (Instantaneous Power and Phase by Frequencies) with `getphasepow`](#462-time-frequency-representation-instantaneous-power-and-phase-by-frequencies-with-getphasepow)
+   7. [4.7 Connectivity Analysis](#47-connectivity-analysis)
+   8. [4.8 Statistical Testing](#48-statistical-testing)
+
+
