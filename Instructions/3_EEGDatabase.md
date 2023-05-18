@@ -148,61 +148,173 @@ In this first exercise, you will perform a simple behavioral analysis of free re
 
 **For following excercises, please note that the path `LegaLabTutorial/BehData/UT014/behavioral/FR1/events.mat` is assumed to be the correct path to the `events.mat` file.**
 
-#### Probability of Recall for UT014 Session 0 List 1
+-**Probability of Recall for UT014 Session 0 List 1**
 
-The objective of this exercise is to familiarize you with the `events.mat` file used to filter experimental events. In this exercise, you will easily be able to check that your code is running properly by manually calculating the recall probability for a list and verifying that your manual calculation gives you the same result as your code.
+  The objective of this exercise is to familiarize you with the `events.mat` file used to filter experimental events. In this exercise, you will easily be able to check that your code is running properly by manually calculating the recall probability for a list and verifying that your manual calculation gives you the same result as your code.
 
-1. Load the `events.mat` file located at `LegaLabTutorial/BehData/UT014/behavioral/FR1/events.mat`.
-2. Extract the events for session 0 list 1 that have type 'WORD'.
-3. Using the 'recalled' field in the events structure, find the total number of words that were recalled.
-4. Count the total number of words that were presented for session 0 list 1.
-5. To calculate the probability of recall, divide the number of words recalled by the number of words presented.
-6. Save out the probability of recall for R1134T session 0 list 1.
+  1. Load the `events.mat` file located at `LegaLabTutorial/BehData/UT014/behavioral/FR1/events.mat`.
+  2. Extract the events for session 0 list 1 that have type 'WORD'.
+  3. Using the 'recalled' field in the events structure, find the total number of words that were recalled.
+  4. Count the total number of words that were presented for session 0 list 1.
+  5. To calculate the probability of recall, divide the number of words recalled by the number of words presented.
+  6. Save out the probability of recall for R1134T session 0 list 1.
 
-#### Probability of Recall for UT014 Session 0 All Lists
+  ```matlab
+  % Probability of Recall for UT014 Session 0 List 1
+  load('LegaLabTutorial/BehData/UT014/behavioral/FR1/events.mat');
 
-This exercise should not require any skills beyond the skills used in the previous exercise. Because this exercise is over a larger set of data, it will be more difficult to manually check your work. This exercise should demonstrate why analyzing data is much more efficient using MATLAB.
+  % Extract events for session 0 list 1 with type 'WORD'
+  session0_list1_events = events([events.session] == 0 & [events.list] == 1 & strcmp({events.type}, 'WORD'));
 
-1. Load the `events.mat` file located at `LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat`.
-2. Extract the events for session 0 that have type 'WORD'.
-3. Using the 'recalled' field in the events structure, find the total number of words that were recalled across all events for session 0.
-4. Count the total number of words that were presented for session 0.
-5. To calculate the probability of recall, divide the number of words recalled by the number of words presented during this session.
-6. Save out the probability of recall for UT014 session 0.
+  % Count the number of words recalled
+  num_words_recalled = sum([session0_list1_events.recalled]);
 
-#### Probability of Recall for UT014 All Sessions, All Lists
+  % Count the total number of words presented
+  num_words_presented = sum(strcmp({session0_list1_events.type}, 'WORD'));
 
-While there are many different ways to perform this analysis, one way to complete this exercise is using a 'for-loop'. You will want your code to check for the number of sessions and calculate a probability of recall for each session if a subject participated in more than one session. This exercise will also introduce you to plotting in MATLAB and calculating the standard error of the mean.
+  % Calculate the probability of recall
+  recall_probability = num_words_recalled / num_words_presented;
 
-1. Load the `events.mat` file located at `LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat`.
-2. Determine the number of sessions that R1158T participated in based on the unique entries in the 'session' field.
-3. Loop through each session number.
-4. Extract the events for the session you are looping for that have type 'WORD'.
-5. Using the 'recalled' field in the events structure, find the total number of words that were recalled across all events for the session you are looping through.
-6. Count the total number of words that were presented for that session.
-7. To calculate the probability of recall, divide the number of words recalled by the number of words presented during that session.
-8. Repeat until you have a recall probability for all sessions for UT014.
-9. Create a labeled and titled barplot showing the recall probability for UT014.
-   - The bar height should be the average of the recall probabilities for all sessions. You should also add error bars to the barplot. The error bar length should be 1 standard error of the mean (SEM). To calculate SEM, calculate the standard deviation of the recall probabilities across the sessions and divide the standard deviation by the sqrt(# sessions - 1). Because you cannot calculate a STD from 1 value and some subjects only participated in 1 session, it will be helpful to write your code so that the STD is only computed if there is more than 1 session.
+  % Save the probability of recall for UT014 Session 0 List 1
+  save('UT014_Session0_List1_RecallProbability.mat', 'recall_probability');
+  ```
 
+-**Probability of Recall for UT014 Session 0 All Lists**
 
-#### Probability of Recall for All Subjects, All Sessions, and All Lists
+  This exercise should not require any skills beyond the skills used in the previous exercise. Because this exercise is over a larger set of data, it will be more difficult to manually check your work. This exercise should demonstrate why analyzing data is much more efficient using MATLAB.
 
-This next exercise will require you to navigate through folders using MATLAB. One approach is to use the 'dir' function to get all of the folder names in the data folder. These will be the subject names. You will then loop through each subject, load the events structure for that subject, and calculate the probability of recall for each session that subject participated in. This will require more sophisticated use of strings to generate the unique filenames for each subject. This exercise will also introduce a new method of plotting data: the grouped bar plot.
+  1. Load the `events.mat` file located at `LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat`.
+  2. Extract the events for session 0 that have type 'WORD'.
+  3. Using the 'recalled' field in the events structure, find the total number of words that were recalled across all events for session 0.
+  4. Count the total number of words that were presented for session 0.
+  5. To calculate the probability of recall, divide the number of words recalled by the number of words presented during this session.
+  6. Save out the probability of recall for UT014 session 0.
 
-1. Write code to dynamically find the subjects who have FR1 'events.mat' files. Your code should be able to work if a new subject is added to the folder without you having to change anything in your code.
-2. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/[Subject]/behavioral/FR1/events.mat' for each subject.
-3. Determine the number of sessions that each subject participated in based on the unique entries in the 'session' field.
-4. Loop through each session number.
-5. Extract the events for the session you are looping for that have type 'WORD'.
-6. Using the 'recalled' field in the events structure, find the total number of words that were recalled across all events for the session you are looping through.
-7. Count the total number of words that were presented for that session.
-8. To calculate the probability of recall, divide the number of words recalled by the number of words presented during that session.
-9. Repeat until you have a recall probability for all sessions for all subjects.
-10. Create a grouped bar plot where there is one bar for each session for each subject. All sessions for a subject should be grouped together. The subject name will be on the x-axis, and the recall probability will be on the y-axis. There will be a separate bar for each session for each subject.
-    - Because you are plotting the recall probability for each session, you do not need error bars for this figure.
-    - Your plot should dynamically create the labels and groupings so that if another subject or session is added, the plot can be generated without having to change your code.
-11. Plot a bar plot showing the average recall probability across all subjects. First, average the recall probability for each subject across all sessions. Then, compute the SEM and mean of the average recall probability. Plot error bars for the average recall probability across subjects. In your title, include the number of subjects that contributed to the average.
+  ```matlab
+  % Probability of Recall for UT014 Session 0 All Lists
+  load('LegaLabTutorial/BehData/UT014/behavioral/FR1/events.mat');
+
+  % Extract events for session 0 with type 'WORD'
+  session0_events = events([events.session] == 0 & strcmp({events.type}, 'WORD'));
+
+  % Count the number of words recalled
+  num_words_recalled = sum([session0_events.recalled]);
+
+  % Count the total number of words presented
+  num_words_presented = sum(strcmp({session0_events.type}, 'WORD'));
+
+  % Calculate the probability of recall
+  recall_probability = num_words_recalled / num_words_presented;
+
+  % Save the probability of recall for UT014 Session 0 All Lists
+  save('UT014_Session0_AllLists_RecallProbability.mat', 'recall_probability');
+  ```
+
+-**Probability of Recall for UT014 All Sessions, All Lists**
+
+  While there are many different ways to perform this analysis, one way to complete this exercise is using a 'for-loop'. You will want your code to check for the number of sessions and calculate a probability of recall for each session if a subject participated in more than one session. This exercise will also introduce you to plotting in MATLAB and calculating the standard error of the mean.
+
+  1. Load the `events.mat` file located at `LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat`.
+  2. Determine the number of sessions that R1158T participated in based on the unique entries in the 'session' field.
+  3. Loop through each session number.
+  4. Extract the events for the session you are looping for that have type 'WORD'.
+  5. Using the 'recalled' field in the events structure, find the total number of words that were recalled across all events for the session you are looping through.
+  6. Count the total number of words that were presented for that session.
+  7. To calculate the probability of recall, divide the number of words recalled by the number of words presented during that session.
+  8. Repeat until you have a recall probability for all sessions for UT014.
+  9. Create a labeled and titled barplot showing the recall probability for UT014.
+    - The bar height should be the average of the recall probabilities for all sessions. You should also add error bars to the barplot. The error bar length should be 1 standard error of the mean (SEM). To calculate SEM, calculate the standard deviation of the recall probabilities across the sessions and divide the standard deviation by the sqrt(# sessions - 1). Because you cannot calculate a STD from 1 value and some subjects only participated in 1 session, it will be helpful to write your code so that the STD is only computed if there is more than 1 session.
+  ```matlab
+  % Probability of Recall for UT014 All Sessions, All Lists
+  load('LegaLabTutorial/BehData/UT014/behavioral/FR1/events.mat');
+
+  % Determine the number of sessions for UT014
+  num_sessions = max([events.session]);
+
+  recall_probability_sessions = zeros(num_sessions, 1);
+
+  for session = 1:num_sessions
+      % Extract events for the current session with type 'WORD'
+      session_events = events([events.session] == session & strcmp({events.type}, 'WORD'));
+      
+      % Count the number of words recalled
+      num_words_recalled = sum([session_events.recalled]);
+      
+      % Count the total number of words presented
+      num_words_presented = sum(strcmp({session_events.type}, 'WORD'));
+      
+      % Calculate the probability of recall for the current session
+      recall_probability_sessions(session) = num_words_recalled / num_words_presented;
+  end
+
+  % Save the probability of recall for UT014 All Sessions, All Lists
+  save('UT014_AllSessions_AllLists_RecallProbability.mat', 'recall_probability_sessions');
+  ```
+
+-**Probability of Recall for All Subjects, All Sessions, and All Lists**
+
+  This next exercise will require you to navigate through folders using MATLAB. One approach is to use the 'dir' function to get all of the folder names in the data folder. These will be the subject names. You will then loop through each subject, load the events structure for that subject, and calculate the probability of recall for each session that subject participated in. This will require more sophisticated use of strings to generate the unique filenames for each subject. This exercise will also introduce a new method of plotting data: the grouped bar plot.
+
+  1. Write code to dynamically find the subjects who have FR1 'events.mat' files. Your code should be able to work if a new subject is added to the folder without you having to change anything in your code.
+  2. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/[Subject]/behavioral/FR1/events.mat' for each subject.
+  3. Determine the number of sessions that each subject participated in based on the unique entries in the 'session' field.
+  4. Loop through each session number.
+  5. Extract the events for the session you are looping for that have type 'WORD'.
+  6. Using the 'recalled' field in the events structure, find the total number of words that were recalled across all events for the session you are looping through.
+  7. Count the total number of words that were presented for that session.
+  8. To calculate the probability of recall, divide the number of words recalled by the number of words presented during that session.
+  9. Repeat until you have a recall probability for all sessions for all subjects.
+  10. Create a grouped bar plot where there is one bar for each session for each subject. All sessions for a subject should be grouped together. The subject name will be on the x-axis, and the recall probability will be on the y-axis. There will be a separate bar for each session for each subject.
+      - Because you are plotting the recall probability for each session, you do not need error bars for this figure.
+      - Your plot should dynamically create the labels and groupings so that if another subject or session is added, the plot can be generated without having to change your code.
+  11. Plot a bar plot showing the average recall probability across all subjects. First, average the recall probability for each subject across all sessions. Then, compute the SEM and mean of the average recall probability. Plot error bars for the average recall probability across subjects. In your title, include the number of subjects that contributed to the average.
+
+  ```maltab 
+  % Probability of Recall for All Subjects, All Sessions, and All Lists
+  data_folder = 'LegaLabTutorial/BehData';
+
+  % Get the list of subject folders
+  subject_folders = dir(data_folder);
+  subject_folders = subject_folders(~ismember({subject_folders.name}, {'.', '..'}));
+
+  recall_probability_subjects = cell(numel(subject_folders), 1);
+
+  for subject_idx = 1:numel(subject_folders)
+      subject_name = subject_folders(subject_idx).name;
+      
+      % Get the list of session folders for the current subject
+      session_folders = dir(fullfile(data_folder, subject_name, 'behavioral/FR1'));
+      session_folders = session_folders(~ismember({session_folders.name}, {'.', '..'}));
+      
+      recall_probability_sessions = zeros(numel(session_folders), 1);
+      
+      for session_idx = 1:numel(session_folders)
+          session_name = session_folders(session_idx).name;
+          
+          % Load the events for the current session
+          events_file = fullfile(data_folder, subject_name, 'behavioral/FR1', session_name, 'events.mat');
+          load(events_file);
+          
+          % Extract events with type 'WORD'
+          session_events = events(strcmp({events.type}, 'WORD'));
+          
+          % Count the number of words recalled
+          num_words_recalled = sum([session_events.recalled]);
+          
+          % Count the total number of words presented
+          num_words_presented = sum(strcmp({session_events.type}, 'WORD'));
+          
+          % Calculate the probability of recall for the current session
+          recall_probability_sessions(session_idx) = num_words_recalled / num_words_presented;
+      end
+      
+      % Save the probability of recall for the current subject
+      recall_probability_subjects{subject_idx} = recall_probability_sessions;
+  end
+
+  % Save the probability of recall for All Subjects, All Sessions, and All Lists
+  save('AllSubjects_AllSessions_AllLists_RecallProbability.mat', 'recall_probability_subjects');
+  ```
 
 ### 3.3.2 Generating Serial Position Curve
 
@@ -216,7 +328,7 @@ This exercise will guide you through how to generate a serial position curve (SP
   4. For each serial position, count the number of times that the word in that position was recalled using the 'recalled' field.
   5. Calculate the percentage of words at each serial position that were recalled for this subject and session. You should have one probability for each serial position.
   6. Plot the serial position curve for UT014 Session 0 as a line. Title and label your plot accordingly.
-  
+
   **Example codes**
   ```matlab
   % Serial Position Curve for UT014 Session 0
@@ -246,13 +358,67 @@ This exercise will guide you through how to generate a serial position curve (SP
   1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
   2. Loop through each session and calculate the recall probability at each serial position for each session.
   3. Calculate the standard error of the mean (SEM) of the recall probability at each serial position and plot the serial position curve with error bars for this subject.
+  
+  **Example codes**
+  ```matlab
+  % Serial Position Curve for UT014 All Sessions
+  load('LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat');
 
+  sessions = unique([events.session]);
+  recall_probability_all_sessions = zeros(numel(sessions), 12);
+
+  for i = 1:numel(sessions)
+      session_events = events([events.session] == sessions(i));
+      num_words_presented = histcounts([session_events.serialpos], 1:13);
+      num_words_recalled = histcounts([session_events([session_events.recalled]).serialpos], 1:13);
+      recall_probability_all_sessions(i, :) = num_words_recalled(1:12) ./ num_words_presented(1:12);
+  end
+
+  mean_recall_probability = mean(recall_probability_all_sessions);
+  sem_recall_probability = std(recall_probability_all_sessions) ./ sqrt(numel(sessions));
+
+  figure;
+  errorbar(1:12, mean_recall_probability, sem_recall_probability);
+  xlabel('Serial Position');
+  ylabel('Recall Probability');
+  title('Serial Position Curve for UT014 All Sessions');
+  ```
 - **Serial Position Curve for All Subjects, All Sessions**
 
   1. Loop through each subject and load the 'events.mat' file for each subject.
   2. Loop through each session for each subject and calculate the serial position curve for each session.
   3. Average the serial position curves across sessions for each subject.
   4. Plot the average serial position curve across subjects with SEM error bars. Include the number of subjects in the title of the plot.
+  
+  **Example codes**
+  ```matlab
+  % Serial Position Curve for All Subjects, All Sessions
+  subjects = {'UT014', 'Subject2', 'Subject3'}; % Add subject names
+  num_subjects = numel(subjects);
+
+  recall_probability_all_subjects = zeros(num_subjects, 12);
+
+  for s = 1:num_subjects
+      load(['LegaLabTutorial/sampleData/', subjects{s}, '/behavioral/FR1/events.mat']);
+      sessions = unique([events.session]);
+      recall_probability_all_sessions = zeros(numel(sessions), 12);
+      
+      for i = 1:numel(sessions)
+          session_events = events([events.session] == sessions(i));
+          num_words_presented = histcounts([session_events.serialpos], 1:13);
+          num_words_recalled = histcounts([session_events([session_events.recalled]).serialpos], 1:13);
+          recall_probability_all_sessions(i, :) = num_words_recalled(1:12) ./ num_words_presented(1:12);
+      end
+      
+      recall_probability_all_subjects(s, :) = mean(recall_probability_all_sessions);
+  end
+
+  mean_recall_probability_all_subjects = mean(recall_probability_all_subjects);
+  sem_recall_probability_all_subjects = std(recall_probability_all_subjects) ./ sqrt(num_subjects);
+
+  figure;
+  errorbar(1:12, mean_recall_probability_all_subjects, sem_recall_probability_all_subject
+  ```
 
 ### 3.3.3 Generating a Lag-Conditional Response Probability (CRP) Curve
 
@@ -412,142 +578,212 @@ This exercise will guide you through generating a lag-conditional response proba
 
 In this section, you will learn how to analyze the EEG data collected during the behavioral task. This includes plotting raw voltage, calculating event-related potentials (ERP), baseline re-referencing, and generating average ERPs.
 
-#### Plotting Raw Voltage
+#### 3.3.4.1 Plotting Raw Voltage
 
 This exercise focuses on plotting the voltage recorded from one electrode for a single event.
 
 - **Voltage for UT0145 ch 1, 1 Event**
-  ```matlab
-  % Load events.mat file for UT014
+  1. Load the events.mat file for UT014.
+  2. Change the path in events.eegfile to point to the location of the EEG files on your computer.
+  3. Extract the first event corresponding to word presentation (type 'WORD').
+  4. Calculate the voltage for that event using a time window of 150 ms before word onset and 2000 ms after word onset with a buffer of 1000 ms. Filter out line-noise using a [58 62] Hz first-order 'stop' filter.
+  5. Plot the voltage with the time relative to word onset on the x-axis. Indicate the word onset with a green vertical line and the word offset with a red vertical line.
+  6. Label and title the plot appropriately specifying the subject, channel number, word presented, and sampling rate.
+  ```matlab 
+  % Voltage for UT0145 ch 1, 1 Event
   load('LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat');
 
-  % Change the path in events.eegfile to point to the EEG files on your computer
-  events.eegfile = '/path/to/UT014/eeg.reref/UT01405Dec17_1545';
+  % Change the path in events.eegfile to point to the location of the EEG files on your computer
 
-  % Extract the first event corresponding to word presentation
-  event = events(strcmp({events.type}, 'WORD'), 1);
+  % Extract the first event corresponding to word presentation (type 'WORD')
+  event_idx = find(strcmp({events.type}, 'WORD'), 1);
 
-  % Calculate the voltage for that event
-  voltage = gete_ms(event, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000]);
+  % Load the EEG data for the event
+  eeg_data = load(events(event_idx).eegfile);
 
-  % Plot the voltage
+  % Calculate the voltage for the event with the specified time window and filtering
+  voltage = getems(eeg_data.data, eeg_data.srate, events(event_idx).eegoffset, events(event_idx).eegoffset + events(event_idx).eeglength, [-1000, 1000], [58 62], 'stop');
+
+  % Create a time vector relative to word onset
+  time = (-1000:1000) / eeg_data.srate;
+
+  % Plot the voltage with time relative to word onset
   figure;
-  t = (-150:1:2000);  % Time vector
-  plot(t, voltage);
-  xlabel('Time (ms)');
-  ylabel('Voltage (\muV)');
-  title('Voltage for UT0145 ch 1, 1 Event');
+  plot(time, voltage);
+
+  % Add vertical lines to indicate word onset and offset
   hold on;
-  line([0 0], ylim, 'Color', 'g');  % Word onset (green line)
-  line([1600 1600], ylim, 'Color', 'r');  % Word offset (red line)
+  word_onset = events(event_idx).eegoffset / eeg_data.srate;
+  word_offset = (events(event_idx).eegoffset + events(event_idx).eeglength) / eeg_data.srate;
+  line([word_onset, word_onset], get(gca, 'YLim'), 'Color', 'g');
+  line([word_offset, word_offset], get(gca, 'YLim'), 'Color', 'r');
   hold off;
+
+  % Label and title the plot
+  xlabel('Time relative to word onset (ms)');
+  ylabel('Voltage');
+  title(sprintf('Raw Voltage for UT014, Channel 1, Event %d', event_idx));
   ```
 
 - **Voltage for UT014 ch 1, 1 Event with Resampling**
-  ```matlab
-  % Calculate the voltage for the same event and time window with resampling
-  voltage_resampled = resample(voltage, 100, 1000);  % Resample to 100 Hz
+  1. Calculate the voltage for the same event and time window as above but now resample the data to 100 Hz.
+  2. Plot the resampled voltage on the same plot as the voltage calculated above to compare the two traces.
+  ```matlab 
+  % Calculate the voltage for the same event and time window as above, but now resample the data to 100 Hz
+  resampled_voltage = resample(voltage, 100, eeg_data.srate);
 
-  % Plot the resampled voltage on the same plot
+  % Create a time vector for the resampled data
+  resampled_time = (-1000:1000) / 100;
+
+  % Plot the resampled voltage on the same plot as the original voltage
   hold on;
-  plot(t, voltage_resampled);
-  legend('Raw Voltage', 'Resampled Voltage');
-  ```
+  plot(resampled_time, resampled_voltage);
+  hold off;
 
-#### Plotting Event-related Potential (ERP)
+  % Add a legend to differentiate the two traces
+  legend('Original Voltage', 'Resampled Voltage');
+
+  % Label and title the plot
+  xlabel('Time relative to word onset (ms)');
+  ylabel('Voltage');
+  title(sprintf('Comparison of Raw Voltage for UT014, Channel 1, Event %d', event_idx));
+
+  ```
+#### 3.3.4.2 Plotting Event-related Potential (ERP)
 
 This exercise focuses on computing and plotting event-related potentials (ERP) for single and multiple channels.
 
 - **Plotting the ERP for UT014, Channel 1 All Encoding Events**
-  ```matlab
-  % Filter events.mat structure for UT014 encoding events
-  encoding_events = events(strcmp({events.type}, 'WORD'));
-
-  % Calculate the raw voltage for all encoding events
-  voltage_all = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000]);
-
-  % Compute mean and standard deviation of voltage across all events
-  mean_voltage = mean(voltage_all);
-  std_voltage = std(voltage_all);
-
-  % Plot the ERP with error bars
-  figure;
-  errorbar(t, mean_voltage, std_voltage);
-  xlabel('Time (ms)');
-  ylabel('Voltage (\muV)');
-  title('ERP for UT014, Channel 1 All Encoding Events');
-  ```
+  1. Filter the events.mat structure for UT014 for only the encoding events.
+  2. Calculate the raw voltage for all these events.
+  3. Find the mean and standard deviation of voltage across all events.
+  4. Plot the ERP with error bars for this channel. Label and title the plot accordingly.
 
 - **Plotting the ERP for 2 Channels for All Encoding Events for UT014**
-  ```matlab
-  % Calculate the ERP for channel 2
-  voltage_channel2 = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000], 'ch',2);
-
-  % Plot the ERPs for channel 1 and channel 2 on the same figure
-  figure;
-  errorbar(t, mean_voltage, std_voltage, 'b');  % Channel 1
-  hold on;
-  errorbar(t, mean(voltage_channel2), std(voltage_channel2), 'r');  % Channel 2
-  xlabel('Time (ms)');
-  ylabel('Voltage (\muV)');
-  title('ERP for 2 Channels for All Encoding Events for UT014');
-  legend('Channel 1', 'Channel 2');
-  hold off;
-  ```
+  1. Calculate the ERP for channel 2 as done for channel 1 in the previous exercise.
+  2. Plot the ERP with error bars for channel 2 and 1 on the same figure, labeling each channel.
 
 - **Plotting the Baseline Re-referenced ERP for 2 Channels**
-  ```matlab
-  % Calculate the baseline-referenced ERP for channels 1 and 2
-  baseline = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 0]);
-  voltage_channel1_baseline = voltage_channel1 - mean(baseline);
-  voltage_channel2_baseline = voltage_channel2 - mean(baseline);
-
-  % Plot the baseline-referenced ERPs for each channel
-  figure;
-  errorbar(t, mean(voltage_channel1_baseline), std(voltage_channel1_baseline), 'b');  % Channel 1
-  hold on;
-  errorbar(t, mean(voltage_channel2_baseline), std(voltage_channel2_baseline), 'r');  % Channel 2
-  xlabel('Time (ms)');
-  ylabel('Voltage (\muV)');
-  title('Baseline Re-referenced ERP for 2 Channels');
-  legend('Channel 1', 'Channel 2');
-  line([min(t) max(t)], [0 0], 'Color', 'k');  % Horizontal line at y=0
-  line([0 0], ylim, 'Color', 'g');  % Word onset (green line)
-  line([1600 1600], ylim, 'Color', 'r');  % Word offset (red line)
-  hold off;
-  ```
+  1. Calculate the ERP for channels 1 and 2 as done in the previous exercise. Perform a baseline subtraction using the -150 ms to 0 ms baseline.
+  2. Plot the baseline re-referenced ERP for each channel and label the plot accordingly.
+  3. Add a horizontal line at y=0 to indicate the baseline. Clearly indicate the word onset and offset in the figure.
 
 - **Plotting the Average ERP in the Hippocampus**
-  ```matlab
-  % Determine the electrodes with EEG files for each subject
-  electrodes = [1, 2, 3, 42, 43, 44];
+  1. Determine the electrodes you have EEG files for each subject.
+  2. Loop through each electrode for each subject and calculate the ERP for all encoding events.
+  3. Average the ERP across all electrodes for all subjects to generate an average ERP for the hippocampus.
+  4. Plot the average hippocampal ERP with error bars.
 
-  % Initialize average ERP matrix
-  average_erp = zeros(numel(t), numel(electrodes));
+Please note that the path in events.eegfile needs to be modified to point to the location of the EEG files on your computer.
 
-  % Loop through each electrode for each subject and calculate the ERP
-  for subject = subjects
-      for electrode = electrodes
-          % Load events.mat file for the subject
-          events_file = fullfile('LegaLabTutorial', 'sampleData', subject, 'behavioral', 'FR1', 'events.mat');
-          load(events_file);
+```matlab 
+% Plotting the ERP for UT014, Channel 1 All Encoding Events
+encoding_events = events(strcmp({events.type}, 'WORD'));
+num_events = numel(encoding_events);
 
-          % Change the path in events.eegfile to point to the EEG files on your computer
-          events.eegfile = sprintf('/path/to/%s/eeg.reref/%s', subject, eeg_file_for_electrode(electrode));
+erp_data = zeros(num_events, 2001);  % Assuming 2001 time points
 
-          % Filter events.mat structure for only the encoding events
-          encoding_events = events(strcmp({events.type}, 'WORD'));
+for event_idx = 1:num_events
+    eeg_data = load(encoding_events(event_idx).eegfile);
+    voltage = getems(eeg_data.data, eeg_data.srate, encoding_events(event_idx).eegoffset, encoding_events(event_idx).eegoffset + encoding_events(event_idx).eeglength, [-1000, 1000], [58 62], 'stop');
+    erp_data(event_idx, :) = voltage;
+end
 
-          % Calculate the raw voltage for all encoding events
-          voltage = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000], 'ch', electrode);
+mean_voltage = mean(erp_data, 1);
+std_voltage = std(erp_data, 0, 1);
+sem_voltage = std_voltage / sqrt(num_events);
 
-          % Add the voltage to the average ERP matrix
-          average_erp(:, electrode) = average_erp(:, electrode) + mean(voltage);
-      end
-  end
+time = (-1000:1000) / eeg_data.srate;
 
-  % Average the ERP across all electrodes for all subjects
-  average_erp = average_erp / numel(subjects);
+figure;
+errorbar(time, mean_voltage, sem_voltage);
+xlabel('Time relative to word onset (ms)');
+ylabel('Voltage');
+title('ERP for UT014, Channel 1, All Encoding Events');
 
-  % Calculate the standard error of the mean (SEM)
-  sem_erp = std(average_erp, 0,
+% Plotting the ERP for 2 Channels for All Encoding Events for UT014
+erp_data_ch2 = zeros(num_events, 2001);  % Assuming 2001 time points
+
+for event_idx = 1:num_events
+    eeg_data_ch2 = load(encoding_events(event_idx).eegfile_ch2);
+    voltage_ch2 = getems(eeg_data_ch2.data, eeg_data_ch2.srate, encoding_events(event_idx).eegoffset_ch2, encoding_events(event_idx).eegoffset_ch2 + encoding_events(event_idx).eeglength_ch2, [-1000, 1000], [58 62], 'stop');
+    erp_data_ch2(event_idx, :) = voltage_ch2;
+end
+
+mean_voltage_ch2 = mean(erp_data_ch2, 1);
+std_voltage_ch2 = std(erp_data_ch2, 0, 1);
+sem_voltage_ch2 = std_voltage_ch2 / sqrt(num_events);
+
+figure;
+hold on;
+errorbar(time, mean_voltage, sem_voltage);
+errorbar(time, mean_voltage_ch2, sem_voltage_ch2);
+hold off;
+
+xlabel('Time relative to word onset (ms)');
+ylabel('Voltage');
+title('ERP for UT014, Channels 1 and 2, All Encoding Events');
+legend('Channel 1', 'Channel 2');
+
+% Plotting the Baseline Re-referenced ERP for 2 Channels
+baseline_start = -150;
+baseline_end = 0;
+
+baseline_erp_data = erp_data - mean(erp_data(:, time >= baseline_start & time <= baseline_end), 2);
+baseline_erp_data_ch2 = erp_data_ch2 - mean(erp_data_ch2(:, time >= baseline_start & time <= baseline_end), 2);
+
+mean_baseline_voltage = mean(baseline_erp_data, 1);
+std_baseline_voltage = std(baseline_erp_data, 0, 1);
+sem_baseline_voltage = std_baseline_voltage / sqrt(num_events);
+
+mean_baseline_voltage_ch2 = mean(baseline_erp_data_ch2, 1);
+std_baseline_voltage_ch2 = std(baseline_erp_data_ch2, 0, 1);
+sem_baseline_voltage_ch2 = std_baseline_voltage_ch2 / sqrt(num_events);
+
+figure;
+hold on;
+errorbar(time, mean_baseline_voltage, sem_baseline_voltage);
+errorbar(time, mean_baseline_voltage_ch2, sem_baseline_voltage_ch2);
+hold off;
+
+xlabel('Time relative to word onset (ms)');
+ylabel('Voltage');
+title('Baseline Re-referenced ERP for Channels 1 and 2');
+legend('Channel 1', 'Channel 2');
+
+% Add a horizontal line at y=0 to indicate the baseline
+hold on;
+plot(get(gca, 'XLim'), [0 0], 'k--');
+hold off;
+
+% Plotting the Average ERP in the Hippocampus
+subject_list = dir('LegaLabTutorial/sampleData');
+subject_list = subject_list([subject_list.isdir]);
+subject_list = subject_list(~ismember({subject_list.name}, {'.', '..'}));
+
+num_subjects = numel(subject_list);
+all_erp_data = zeros(num_subjects, num_events, 2001);  % Assuming 2001 time points
+
+for subject_idx = 1:num_subjects
+    subject_name = subject_list(subject_idx).name;
+    
+    subject_events = load(fullfile('LegaLabTutorial/sampleData', subject_name, 'behavioral/FR1/events.mat'));
+    encoding_events = subject_events(strcmp({subject_events.type}, 'WORD'));
+    
+    for event_idx = 1:num_events
+        eeg_data = load(encoding_events(event_idx).eegfile);
+        voltage = getems(eeg_data.data, eeg_data.srate, encoding_events(event_idx).eegoffset, encoding_events(event_idx).eegoffset + encoding_events(event_idx).eeglength, [-1000, 1000], [58 62], 'stop');
+        all_erp_data(subject_idx, event_idx, :) = voltage;
+    end
+end
+
+mean_hippocampal_erp = mean(all_erp_data, 1);
+std_hippocampal_erp = std(all_erp_data, 0, 1);
+sem_hippocampal_erp = std_hippocampal_erp / sqrt(num_subjects);
+
+figure;
+errorbar(time, squeeze(mean_hippocampal_erp), squeeze(sem_hippocampal_erp));
+xlabel('Time relative to word onset (ms)');
+ylabel('Voltage');
+title('Average ERP in the Hippocampus');
+```
