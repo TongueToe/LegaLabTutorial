@@ -88,7 +88,10 @@ To preserve temporal precision during the transformation, a finite kernel is use
 In our lab, we predominantly use wavelets for time-frequency decomposition, as they allow us to analyze how frequency patterns change over time during the encoding and retrieval periods of a memory task. While a detailed understanding of the mathematical intricacies behind time-frequency decomposition is not necessary for performing analysis, it is beneficial to have a general understanding of these algorithms and how they process signals. This understanding helps to grasp the overall process and interpretation of the results.
 
 For more comprehensive information on decomposition and wavelet theories, I recommend referring to Chapter 11 of Cohen's book, which delves deeper into these concepts and their applications in signal processing.
-### 4.2 EEG Pre-processing
+
+**IMPORTANT: Most Matlab built-in functions such as hilbter() and bandpass() works on columns instead of rows, and we mostly use rows as EEG trials. Be cautious when applying these funcitons and make sure you use transpose ' (as shown in following exmaples)**
+
+## 4.3 EEG Pre-processing
 
 - [Line Noise Removal](/Instructions/4_EEGAnalyses.md#line-noise-removal)
       Line noise can often corrupt EEG signals, introducing unwanted frequency components that can interfere with the analysis. In order to address this issue, we employ techniques for line noise removal. These techniques involve filtering the EEG data to attenuate or eliminate the specific frequencies associated with line noise, typically 60 Hz, depending on the power grid frequency in your region. By removing line noise, we can enhance the quality of the EEG signals and reduce potential distortions in the data.
@@ -126,7 +129,7 @@ xlabel('Time (ms)')
 ylabel('Amplitude (uV)')
 title('EEG trials after subspace denoised')
 ```
-### 4.3 Power Spectrum
+## 4.4 Power Spectrum
 Applying the Fourier Transform: MATLAB provides functions such as fft or pwelch for calculating the power spectral density (PSD) estimate of the EEG signals. The Fourier transform is applied to each segment of the data to obtain the frequency-domain representation. Visualizing Power Spectra: Utilize MATLAB's plotting capabilities to visualize the power spectra. The PSD estimates can be plotted as a function of frequency, allowing you to observe the power distribution across different frequency bands. MATLAB's plot or spectrogram functions can be used for this purpose, providing customizable options for visualization. 
 
 **Example Codes (FFT):**
@@ -182,7 +185,7 @@ title('Power Spectral Density using Periodogram');
 grid on;
 ```
 
-### 4.4 Analyzing Frequency Bands:
+## 4.5 Analyzing Frequency Bands:
 
 Analyze specific frequency bands of interest to explore the neural oscillatory activity related to your research question. Common frequency bands include delta (0.5-4 Hz), theta (4-8 Hz), alpha (8-13 Hz), beta (13-30 Hz), and gamma (>30 Hz). MATLAB allows you to extract and quantify the power within these frequency bands using appropriate filtering or integration techniques.
 
@@ -205,8 +208,8 @@ beta_eeg = bandpass(eeg_data', beta_band, fs)'; % Beta band
 gamma_eeg = bandpass(eeg_data', gamma_band, fs)'; % Gamma band
 ```
 
-## 4.5 Oscillatory Power
-### 4.5.1 Instantaneous Power using Hilbert Transform with band-pass filtered EEG signals via `gete_ms`
+## 4.6 Oscillatory Power
+### 4.6.1 Instantaneous Power using Hilbert Transform with band-pass filtered EEG signals via `gete_ms`
 
 By employing the Hilbert Transform with `gete_ms`, you can estimate the instantaneous power of EEG signals, allowing for further analysis of the temporal dynamics and power fluctuations in the neural activity. Follow previous steps, you can apply Hilbert transfrom to band-pass filtered EEG signals to obtain instantaneous power (signal power as a function of time). To compute the instantaneous power of EEG signals using the Hilbert Transform with `gete_ms`, you can follow these steps:
 
@@ -228,7 +231,7 @@ gama_power = abs(gamma_analytic).^2;
 The resulting `xxx_power` will provide the time-varying power estimates for each event trial in the EEG data.
 
 
-### 4.5.2 Time-Frequency Representation (Instantaneous Power by Frequencies) with `getphasepow`
+### 4.6.2 Time-Frequency Representation (Instantaneous Power by Frequencies) with `getphasepow`
 
 As mentioned in the signal processing background section, time-frequency decomposition allows us to examine changes in various frequency components of a signal over time. This type of analysis is fundamental and can be performed using a critical function in the EEG toolbox called `getphasepow`. As the name suggests, this function calculates the phase and power values of a signal across all event trials in a time-frequency space using the Wavelet Transform.
 
@@ -243,10 +246,11 @@ The resulting `phase` and `power` matrices provide information about the phase a
 
 As you delve into more literature in the field, particularly studies involving rodents, you will encounter theories and findings based on changes in oscillatory power. Understanding the trends and implications of increased or decreased activities in different frequency bands in different brain regions during various memory paradigms will help you develop a better understanding of the expected results in your own analysis.
 
-## 4.6 Connectivity Analysis
+## 4.7 Connectivity Analysis
 When performing connectivity analysis on EEG data, several measures can be utilized, including Phase-Locking Value (PLV), Cross-Phase Amplitude Coupling (xPAC), Phase-Amplitude Coupling (PAC), Coherence, and Correlation. Let's explore each of these measures briefly:
 
 1. **Phase-Locking Value (PLV)**: PLV measures the phase synchronization between two EEG signals. It quantifies the consistency of phase relationships between different frequency components across trials or channels. PLV values range from 0 to 1, with higher values indicating stronger phase synchronization.
+
 
 2. **Cross-Phase Amplitude Coupling (xPAC)**: xPAC examines the relationship between the phase of one frequency band and the amplitude of another frequency band. It measures how the amplitude of a higher-frequency signal is modulated by the phase of a lower-frequency signal. xPAC is particularly useful for investigating interactions between different frequency ranges.
 
@@ -261,7 +265,7 @@ These measures provide different insights into connectivity patterns in EEG data
 Please note that these descriptions provide a brief overview, and the specific implementation and interpretation of these measures can vary depending on the research context.
 
 
-**3.6 Statistical Testing**
+## 4.8 Statistical Testing
 
 Statistical testing plays a crucial role in research analysis by allowing us to make inferences about populations based on sample data. It helps determine the significance of observed differences or relationships and provides a framework for drawing conclusions from the data. In this section, we will discuss some common statistical tests used in this lab and provide additional resources for further understanding.
 
