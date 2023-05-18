@@ -77,7 +77,7 @@ title('Raw EEG Trials')
 
 ```
 
-## 4.1 Basic Signal Processing Background
+## 4.2 Basic Signal Processing
 
 In signal processing, a fundamental concept is the Fourier Theorem, which states that any continuous time-varying signal can be expressed as a sum of sinusoids with varying frequencies, amplitudes, and phase shifts (Fourier Series). While Fourier Series deals with expressing signals as a combination of sinusoids, in time-frequency decomposition, we encounter the reverse problem: we have a signal and want to break it down into its individual frequency components.
 
@@ -88,7 +88,7 @@ To preserve temporal precision during the transformation, a finite kernel is use
 In our lab, we predominantly use wavelets for time-frequency decomposition, as they allow us to analyze how frequency patterns change over time during the encoding and retrieval periods of a memory task. While a detailed understanding of the mathematical intricacies behind time-frequency decomposition is not necessary for performing analysis, it is beneficial to have a general understanding of these algorithms and how they process signals. This understanding helps to grasp the overall process and interpretation of the results.
 
 For more comprehensive information on decomposition and wavelet theories, I recommend referring to Chapter 11 of Cohen's book, which delves deeper into these concepts and their applications in signal processing.
-## 4.1.1 EEG Pre-processing
+### 4.2 EEG Pre-processing
 
 - [Line Noise Removal](/Instructions/4_EEGAnalyses.md#line-noise-removal)
       Line noise can often corrupt EEG signals, introducing unwanted frequency components that can interfere with the analysis. In order to address this issue, we employ techniques for line noise removal. These techniques involve filtering the EEG data to attenuate or eliminate the specific frequencies associated with line noise, typically 60 Hz, depending on the power grid frequency in your region. By removing line noise, we can enhance the quality of the EEG signals and reduce potential distortions in the data.
@@ -97,8 +97,7 @@ For more comprehensive information on decomposition and wavelet theories, I reco
 - [Denoise (Optional)](/Instructions/4_EEGAnalyses.md#denoise-optional)
       In some cases, additional denoising techniques may be applied to further improve the quality of the EEG data. Denoising methods can help reduce unwanted noise, artifacts, or interference that might be present in the signals. These techniques employ various algorithms and signal processing approaches to enhance the signal-to-noise ratio and extract more meaningful information from the EEG data. The choice to utilize denoising techniques depends on the specific research goals and the nature of the data being analyzed. While denoising can be beneficial, it is important to carefully evaluate its potential effects on the data and interpret the results accordingly.
 
-**References:**
-[^1]: Wang, D.X., & Davila, C.E. (2019). Subspace averaging of auditory evoked potentials. *2019 41st Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)*. IEEE. [Link to Paper](https://ieeexplore.ieee.org/abstract/document/8857818)
+**References:** [^1]: Wang, D.X., & Davila, C.E. (2019). Subspace averaging of auditory evoked potentials. *2019 41st Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)*. IEEE. [Link to Paper](https://ieeexplore.ieee.org/abstract/document/8857818)
 
 **Example Codes:**
 ```matlab
@@ -127,7 +126,7 @@ xlabel('Time (ms)')
 ylabel('Amplitude (uV)')
 title('EEG trials after subspace denoised')
 ```
-### 4.1.2 Power Spectrum
+### 4.3 Power Spectrum
 Applying the Fourier Transform: MATLAB provides functions such as fft or pwelch for calculating the power spectral density (PSD) estimate of the EEG signals. The Fourier transform is applied to each segment of the data to obtain the frequency-domain representation. Visualizing Power Spectra: Utilize MATLAB's plotting capabilities to visualize the power spectra. The PSD estimates can be plotted as a function of frequency, allowing you to observe the power distribution across different frequency bands. MATLAB's plot or spectrogram functions can be used for this purpose, providing customizable options for visualization. 
 
 **Example Codes (FFT):**
@@ -183,7 +182,7 @@ title('Power Spectral Density using Periodogram');
 grid on;
 ```
 
-## 4.1.3 Analyzing Frequency Bands:
+### 4.4 Analyzing Frequency Bands:
 
 Analyze specific frequency bands of interest to explore the neural oscillatory activity related to your research question. Common frequency bands include delta (0.5-4 Hz), theta (4-8 Hz), alpha (8-13 Hz), beta (13-30 Hz), and gamma (>30 Hz). MATLAB allows you to extract and quantify the power within these frequency bands using appropriate filtering or integration techniques.
 
@@ -206,50 +205,30 @@ beta_eeg = bandpass(eeg_data', beta_band, fs)'; % Beta band
 gamma_eeg = bandpass(eeg_data', gamma_band, fs)'; % Gamma band
 ```
 
-## Basic Signal Processing
+## 4.5 Oscillatory Power
+### 4.5.1 Instantaneous Power using Hilbert Transform with band-pass filtered EEG signals via `gete_ms`
 
-One of the most important element of signal processing is a mathematical concept called Fourier Theorem. It states that any continuous time-varying signal can be expressed as the sum of a series of sinusoids of varying frequencies, amplitude, and phase shifts (Fourier Series). In time-frequency decomposition we run into the reverse problem: we have signal and want to break it down to its individual frequency components. How this is done is through a linear operation called Fourier Transform, or Fast Fourier Transform (FFT). In this process, multiple dot products are calculated between a signal of interest and sinusoids of a range of frequencies in order to visualize how much of that frequency component exist in the signal. Through a FFT, the signal is transformed from the time-domain into the frequency-domain with no time information preserved, because sine waves have infinite length. A solution for preserving temporal precision during a transform operation is to use a finite kernal in calculating the dot products, and one of the most common way is with a wavelet. Wavelets, specifically the Morlet wavelet is a sine wave modeled by a Gaussian (normal distribution), provides an excellent means of localizing frequency information in time in terms of the control the user has over the tradeoff between temporal and frequency precision, which is the predominate method we use in this lab. This is a very rough explanation of how a signal is processed, but the main takeaway is that we breakdown signals to its individual frequency components to understand how these patterns change over time during the encoding and retrieval periods of a memory task. Although understanding of the minute arithmetic details behind time-frequency decomposition is not necessary in performing analysis, it is prudent to at least have a good sense of what these algorithms are doing to your signals in order to have a better idea of the overall process. For more information on decomposition and wavelet theories, refer to chapter 11 of Cohen.
+By employing the Hilbert Transform with `gete_ms`, you can estimate the instantaneous power of EEG signals, allowing for further analysis of the temporal dynamics and power fluctuations in the neural activity. Follow previous steps, you can apply Hilbert transfrom to band-pass filtered EEG signals to obtain instantaneous power (signal power as a function of time). To compute the instantaneous power of EEG signals using the Hilbert Transform with `gete_ms`, you can follow these steps:
+
+**Example Codes:**
+```matlab
+% Assume xxx_eeg is a trial by time matrix (each row is an eeg trial)
+analytic_signal = hilbert(EEG);
+
+% Apply hilbert transfrom to eeg signals in different frequency bands
+
+theta_analytic = hilbert(theta_eeg')'; % Theta band analytical signal
+gamma_analytic = hilbert(gamma_eeg')'; % Gamma band analytical signal
+
+% get the power of signal amplitude(envelope)
+theta_power = abs(theta_analytic).^2;
+gama_power = abs(gamma_analytic).^2;
+```
+
+The resulting `xxx_power` will provide the time-varying power estimates for each event trial in the EEG data.
 
 
-
-
-
-
-
-
-
-
-
-## 3.4 Oscillatory Power
-
-## 3.4.1 Instantaneous Power using Hilbert Transform with `gete_ms`
-
-In addition to calculating oscillatory power using the Wavelet Transform, another approach to estimate the instantaneous power of EEG signals is by utilizing the Hilbert Transform. The Hilbert Transform provides a means to extract the analytic signal, which consists of the instantaneous amplitude and phase of a time-varying signal.
-
-To compute the instantaneous power of EEG signals using the Hilbert Transform with `gete_ms`, you can follow these steps:
-
-1. Use the `gete_ms` function to extract the voltage values for the desired channel and events. For example:
-   ```matlab
-   EEG = gete_ms(21, events, 1800, -200, 500, [58 62], 'stop', 1, 200, [-200 0]);
-   ```
-
-2. Apply the Hilbert Transform to the extracted voltage signal to obtain the analytic signal. This can be done using the `hilbert` function in MATLAB:
-   ```matlab
-   analytic_signal = hilbert(EEG);
-   ```
-
-3. Compute the instantaneous power as the squared magnitude of the analytic signal:
-   ```matlab
-   instantaneous_power = abs(analytic_signal).^2;
-   ```
-
-The resulting `instantaneous_power` will provide the time-varying power estimates for each event trial in the EEG data.
-
-Please note that this approach assumes a single-channel analysis. If you have multiple channels, you can apply the same steps to each channel separately or consider multichannel methods such as computing the average power across channels.
-
-By employing the Hilbert Transform with `gete_ms`, you can estimate the instantaneous power of EEG signals, allowing for further analysis of the temporal dynamics and power fluctuations in the neural activity.
-
-## 3.4.2 Time-Frequency Representation (Instantaneous Power by Frequencies) with `getphasepow`
+### 4.5.2 Time-Frequency Representation (Instantaneous Power by Frequencies) with `getphasepow`
 
 As mentioned in the signal processing background section, time-frequency decomposition allows us to examine changes in various frequency components of a signal over time. This type of analysis is fundamental and can be performed using a critical function in the EEG toolbox called `getphasepow`. As the name suggests, this function calculates the phase and power values of a signal across all event trials in a time-frequency space using the Wavelet Transform.
 
@@ -264,7 +243,7 @@ The resulting `phase` and `power` matrices provide information about the phase a
 
 As you delve into more literature in the field, particularly studies involving rodents, you will encounter theories and findings based on changes in oscillatory power. Understanding the trends and implications of increased or decreased activities in different frequency bands in different brain regions during various memory paradigms will help you develop a better understanding of the expected results in your own analysis.
 
-## 3.5 Connectivity Analysis
+## 4.6 Connectivity Analysis
 When performing connectivity analysis on EEG data, several measures can be utilized, including Phase-Locking Value (PLV), Cross-Phase Amplitude Coupling (xPAC), Phase-Amplitude Coupling (PAC), Coherence, and Correlation. Let's explore each of these measures briefly:
 
 1. **Phase-Locking Value (PLV)**: PLV measures the phase synchronization between two EEG signals. It quantifies the consistency of phase relationships between different frequency components across trials or channels. PLV values range from 0 to 1, with higher values indicating stronger phase synchronization.
