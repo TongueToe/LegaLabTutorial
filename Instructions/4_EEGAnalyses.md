@@ -88,6 +88,7 @@ To preserve temporal precision during the transformation, a finite kernel is use
 In our lab, we predominantly use wavelets for time-frequency decomposition, as they allow us to analyze how frequency patterns change over time during the encoding and retrieval periods of a memory task. While a detailed understanding of the mathematical intricacies behind time-frequency decomposition is not necessary for performing analysis, it is beneficial to have a general understanding of these algorithms and how they process signals. This understanding helps to grasp the overall process and interpretation of the results.
 
 For more comprehensive information on decomposition and wavelet theories, I recommend referring to Chapter 11 of Cohen's book, which delves deeper into these concepts and their applications in signal processing.
+## 4.1.1 EEG Pre-processing
 
 - [Line Noise Removal](/Instructions/4_EEGAnalyses.md#line-noise-removal)
       Line noise can often corrupt EEG signals, introducing unwanted frequency components that can interfere with the analysis. In order to address this issue, we employ techniques for line noise removal. These techniques involve filtering the EEG data to attenuate or eliminate the specific frequencies associated with line noise, typically 60 Hz, depending on the power grid frequency in your region. By removing line noise, we can enhance the quality of the EEG signals and reduce potential distortions in the data.
@@ -96,13 +97,12 @@ For more comprehensive information on decomposition and wavelet theories, I reco
 - [Denoise (Optional)](/Instructions/4_EEGAnalyses.md#denoise-optional)
       In some cases, additional denoising techniques may be applied to further improve the quality of the EEG data. Denoising methods can help reduce unwanted noise, artifacts, or interference that might be present in the signals. These techniques employ various algorithms and signal processing approaches to enhance the signal-to-noise ratio and extract more meaningful information from the EEG data. The choice to utilize denoising techniques depends on the specific research goals and the nature of the data being analyzed. While denoising can be beneficial, it is important to carefully evaluate its potential effects on the data and interpret the results accordingly.
 
-- - [Denoise (Optional)](/Instructions/4_EEGAnalyses.md#denoise-optional)
 **References:**
-[^1]: Wang, D.X., & Davila, C.E. (2019). Subspace averaging of auditory evoked potentials. *2019 41st Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)*. IEEE. [Link to Paper](https://example.com)
+[^1]: Wang, D.X., & Davila, C.E. (2019). Subspace averaging of auditory evoked potentials. *2019 41st Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)*. IEEE. [Link to Paper](https://ieeexplore.ieee.org/abstract/document/8857818)
 
 **Example Codes:**
 ```matlab
-% Step 2: Remove DC offsets and line noise
+% Remove DC offsets and line noise
 EEG_denoised = bandstop(EEG', [59, 61], Fs, 'Steepness', 0.85)'; % remove line-noise
 EEG_offsetfixed = highpass(EEG_denoised', 1, Fs, 'Steepness', 0.8)'; % remove DC offset
 subplot(4, 1, 2)
@@ -111,7 +111,7 @@ xlabel('Time (ms)')
 ylabel('Amplitude (uV)')
 title('EEG trials after DC offset & line noise removal')
 
-% Step 3: Remove outliers
+% Remove outliers
 [EEG_outremoved, ind1] = EucOutRemove(EEG_offsetfixed, 0.3);
 subplot(4, 1, 3)
 plot(tval, EEG_outremoved')
@@ -119,13 +119,91 @@ xlabel('Time (ms)')
 ylabel('Amplitude (uV)')
 title('EEG trials after outlier removal')
 
-% Step 4: Denoise using subspace approach
+% Denoise using subspace approach
 EEG_subdenoised = SubSpaceDenoise(EEG_outremoved, 10);
 subplot(4, 1, 4)
 plot(tval, EEG_subdenoised')
 xlabel('Time (ms)')
 ylabel('Amplitude (uV)')
 title('EEG trials after subspace denoised')
+```
+### 4.1.2 Power Spectrum
+Applying the Fourier Transform: MATLAB provides functions such as fft or pwelch for calculating the power spectral density (PSD) estimate of the EEG signals. The Fourier transform is applied to each segment of the data to obtain the frequency-domain representation. Visualizing Power Spectra: Utilize MATLAB's plotting capabilities to visualize the power spectra. The PSD estimates can be plotted as a function of frequency, allowing you to observe the power distribution across different frequency bands. MATLAB's plot or spectrogram functions can be used for this purpose, providing customizable options for visualization. 
+
+**Example Codes (FFT):**
+```matlab
+% Assuming you have preprocessed EEG data stored in the variable 'eegData'
+% Segment length (in samples) and sampling rate (in Hz)
+segmentLength = 1000;
+samplingRate = 1000;
+
+% Apply the Fourier Transform to each segment of the data
+numSegments = floor(length(eegData) / segmentLength);
+powerSpectra = zeros(segmentLength, numSegments);
+
+for i = 1:numSegments
+    segment = eegData((i-1)*segmentLength + 1 : i*segmentLength);
+    powerSpectra(:, i) = abs(fft(segment));
+end
+
+% Assuming you have the power spectra stored in the variable 'powerSpectra'
+% Frequency range (in Hz)
+frequencyRange = linspace(0, samplingRate/2, segmentLength/2 + 1);
+
+% Plotting the power spectra
+figure;
+plot(frequencyRange, mean(powerSpectra, 2)); % Average power spectra across segments
+xlabel('Frequency (Hz)');
+ylabel('Power');
+title('Power Spectra');
+
+% Alternatively, you can use the spectrogram function for a 2D representation
+figure;
+spectrogram(eegData, windowSize, overlap, frequencyRange, samplingRate, 'yaxis');
+title('Spectrogram');
+colorbar;
+```
+
+**Example Codes (Periodogram for PSD):**
+```matlab
+% Parameters for periodogram calculation
+window = hamming(256); % Window function for spectral analysis
+nfft = 512; % Number of FFT points
+fs = 1000; % Sampling frequency of the EEG data
+
+% Calculate periodogram
+[Pxx, f] = periodogram(eeg_data, window, nfft, fs);
+
+% Plot the power spectral density
+figure;
+plot(f, 10*log10(Pxx)); % Convert to dB scale for better visualization
+xlabel('Frequency (Hz)');
+ylabel('Power Spectral Density (dB/Hz)');
+title('Power Spectral Density using Periodogram');
+grid on;
+```
+
+## 4.1.3 Analyzing Frequency Bands:
+
+Analyze specific frequency bands of interest to explore the neural oscillatory activity related to your research question. Common frequency bands include delta (0.5-4 Hz), theta (4-8 Hz), alpha (8-13 Hz), beta (13-30 Hz), and gamma (>30 Hz). MATLAB allows you to extract and quantify the power within these frequency bands using appropriate filtering or integration techniques.
+
+**Example Codes:**
+```matlab
+$ Assume eeg_data is a trial by time matrix (each row is an eeg trial)
+
+% Define frequency bands of interest
+delta_band = [0.5 4]; % Delta frequency band (0.5-4 Hz)
+theta_band = [4 8]; % Theta frequency band (4-8 Hz)
+alpha_band = [8 13]; % Alpha frequency band (8-13 Hz)
+beta_band = [13 30]; % Beta frequency band (13-30 Hz)
+gamma_band = [30 100]; % Gamma frequency band (30-100 Hz)
+
+% Apply bandpass filtering to extract frequency bands
+delta_eeg = bandpass(eeg_data', delta_band, fs)'; % Delta band
+theta_eeg = bandpass(eeg_data', theta_band, fs)'; % Theta band
+alpha_eeg = bandpass(eeg_data', alpha_band, fs)'; % Alpha band
+beta_eeg = bandpass(eeg_data', beta_band, fs)'; % Beta band
+gamma_eeg = bandpass(eeg_data', gamma_band, fs)'; % Gamma band
 ```
 
 ## Basic Signal Processing
