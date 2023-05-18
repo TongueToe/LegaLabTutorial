@@ -9,6 +9,7 @@ The Lega Lab is a neuroscience research lab dedicated to investigating the neura
 
 Our research primarily focuses on studying memory in clinical populations, such as patients with epilepsy and those undergoing deep brain stimulation. By working closely with patients and employing state-of-the-art techniques, we aim to advance our understanding of memory processes and contribute to the development of effective treatments for memory disorders.
 
+[Lega Lab website](https://labs.utsouthwestern.edu/texas-computational-memory-lab)
 ## Acknowledgment
 
 We would like to express our sincere gratitude to all the previous lab members who have contributed to the success of the Lega Lab. Their hard work, dedication, and passion have been instrumental in shaping the lab's research and fostering a collaborative and supportive environment.
