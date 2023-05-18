@@ -208,8 +208,9 @@ beta_eeg = bandpass(eeg_data', beta_band, fs)'; % Beta band
 gamma_eeg = bandpass(eeg_data', gamma_band, fs)'; % Gamma band
 ```
 
-## 4.6 Oscillatory Power
-### 4.6.1 Instantaneous Power using Hilbert Transform with band-pass filtered EEG signals via `gete_ms`
+## 4.6 Oscillatory Power and Phase 
+
+### 4.6.1 Instantaneous Power and phase using Hilbert Transform with band-pass filtered EEG signals via `gete_ms`
 
 By employing the Hilbert Transform with `gete_ms`, you can estimate the instantaneous power of EEG signals, allowing for further analysis of the temporal dynamics and power fluctuations in the neural activity. Follow previous steps, you can apply Hilbert transfrom to band-pass filtered EEG signals to obtain instantaneous power (signal power as a function of time). To compute the instantaneous power of EEG signals using the Hilbert Transform with `gete_ms`, you can follow these steps:
 
@@ -223,15 +224,20 @@ analytic_signal = hilbert(EEG);
 theta_analytic = hilbert(theta_eeg')'; % Theta band analytical signal
 gamma_analytic = hilbert(gamma_eeg')'; % Gamma band analytical signal
 
-% get the power of signal amplitude(envelope)
+% get the power of signal amplitudes (envelopes)
 theta_power = abs(theta_analytic).^2;
-gama_power = abs(gamma_analytic).^2;
+gamma_power = abs(gamma_analytic).^2;
+
+% get the phase of the signals 
+theta_phase = angle(theta_analytic);
+gamma_phase = angle(gamma_analytic);
+
 ```
 
 The resulting `xxx_power` will provide the time-varying power estimates for each event trial in the EEG data.
 
 
-### 4.6.2 Time-Frequency Representation (Instantaneous Power by Frequencies) with `getphasepow`
+### 4.6.2 Time-Frequency Representation (Instantaneous Power and Phase by Frequencies) with `getphasepow`
 
 As mentioned in the signal processing background section, time-frequency decomposition allows us to examine changes in various frequency components of a signal over time. This type of analysis is fundamental and can be performed using a critical function in the EEG toolbox called `getphasepow`. As the name suggests, this function calculates the phase and power values of a signal across all event trials in a time-frequency space using the Wavelet Transform.
 
@@ -278,7 +284,9 @@ Please note that these descriptions provide a brief overview, and the specific i
 
 Statistical testing plays a crucial role in research analysis by allowing us to make inferences about populations based on sample data. It helps determine the significance of observed differences or relationships and provides a framework for drawing conclusions from the data. In this section, we will discuss some common statistical tests used in this lab and provide additional resources for further understanding.
 
-1. **T-test**: The t-test is used to compare means between two groups. It assesses whether the difference in means is statistically significant or likely to have occurred by chance. The t-test is applicable when the data follows a normal distribution and assumptions are met. Here is a resource that explains the t-test: [T-test YouTube Video](https://www.youtube.com/watch?v=0Pd3dc1GcHc&t=141s). The t-test is used to compare means between two groups. It assesses whether the difference in means is statistically significant or likely to have occurred by chance.
+### 4.8.1 T-test
+
+The t-test is used to compare means between two groups. It assesses whether the difference in means is statistically significant or likely to have occurred by chance. The t-test is applicable when the data follows a normal distribution and assumptions are met. Here is a resource that explains the t-test: [T-test YouTube Video](https://www.youtube.com/watch?v=0Pd3dc1GcHc&t=141s). The t-test is used to compare means between two groups. It assesses whether the difference in means is statistically significant or likely to have occurred by chance.
 
 ```matlab
 % Perform independent samples t-test
@@ -291,7 +299,9 @@ disp(stats);
 disp(['p-value: ' num2str(p)]);
 ```
 
-2. **Wilcoxon Rank-Sum Test**: The Wilcoxon rank-sum test, also known as the Mann-Whitney U test, is a nonparametric test used to compare two independent groups when the assumptions for the t-test are not met. It evaluates whether there is a significant difference in the distribution of ranks between the groups. Here is a resource on the Wilcoxon rank-sum test: [Wilcoxon Rank-Sum Test YouTube Video](https://www.youtube.com/watch?v=nRAAAp1Bgnw&t=72s). The Wilcoxon rank-sum test, also known as the Mann-Whitney U test, is a nonparametric test used to compare two independent groups when the assumptions for the t-test are not met.
+### 4.8.2 Wilcoxon Rank-Sum Test
+
+The Wilcoxon rank-sum test, also known as the Mann-Whitney U test, is a nonparametric test used to compare two independent groups when the assumptions for the t-test are not met. It evaluates whether there is a significant difference in the distribution of ranks between the groups. Here is a resource on the Wilcoxon rank-sum test: [Wilcoxon Rank-Sum Test YouTube Video](https://www.youtube.com/watch?v=nRAAAp1Bgnw&t=72s). The Wilcoxon rank-sum test, also known as the Mann-Whitney U test, is a nonparametric test used to compare two independent groups when the assumptions for the t-test are not met.
 
 ```matlab
 % Perform Wilcoxon rank-sum test
@@ -304,7 +314,9 @@ disp(stats);
 disp(['p-value: ' num2str(p)]);
 ```
 
-3. **Analysis of Variance (ANOVA)**: ANOVA is a statistical test used to compare means across multiple groups or conditions. It determines whether there are significant differences between the means and provides information on which specific groups differ from each other. ANOVA assumes that the data follows a normal distribution and that variances are homogeneous. Here is a resource on ANOVA: [ANOVA YouTube Video](https://www.youtube.com/watch?v=-yQbZJnFXw&t=4s). NOVA is a statistical test used to compare means across multiple groups or conditions. It determines whether there are significant differences between the means.
+### 4.8.3 Analysis of Variance (ANOVA)
+
+ANOVA is a statistical test used to compare means across multiple groups or conditions. It determines whether there are significant differences between the means and provides information on which specific groups differ from each other. ANOVA assumes that the data follows a normal distribution and that variances are homogeneous. Here is a resource on ANOVA: [ANOVA YouTube Video](https://www.youtube.com/watch?v=-yQbZJnFXw&t=4s). NOVA is a statistical test used to compare means across multiple groups or conditions. It determines whether there are significant differences between the means.
 
 ```matlab
 % Perform one-way ANOVA
@@ -318,7 +330,9 @@ disp(tbl);
 disp(['p-value: ' num2str(p)]);
 ```
 
-4. **Linear Mixed Effects Model**: In addition to the previously mentioned statistical tests, another powerful tool for analyzing data with complex structures is the Mixed Effects Model. Mixed Effects Models, also known as Multilevel Models or Hierarchical Models, allow for the analysis of data with nested or clustered structures, such as repeated measures or data collected from different subjects.
+### 4.8.4 Linear Mixed Effects Model
+
+In addition to the previously mentioned statistical tests, another powerful tool for analyzing data with complex structures is the Mixed Effects Model. Mixed Effects Models, also known as Multilevel Models or Hierarchical Models, allow for the analysis of data with nested or clustered structures, such as repeated measures or data collected from different subjects.
 
 In MATLAB, the Statistics and Machine Learning Toolbox provides functions for fitting mixed effects models. The `fitlme` function is commonly used for fitting linear mixed effects models. Here's an example of how to use `fitlme`:
 
