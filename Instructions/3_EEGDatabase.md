@@ -1,18 +1,35 @@
 # 3-EEG_database
 
-## EEG database 
 
 ## 3.1 Behavioral-Tasks
 
-**Free Recall (FR) Task**
+### 3.1.1 Free Recall (FR) Task
 
-
-**Assciocative Recognition (AR) Task** 
+### 3.1.2 Assciocative Recognition (AR) Task 
 you can find detailed explanation of AR task here: [AR Task](../src/ar_task_explanation.pdf)
 
-## 3.2 EEG-structure
 
-### 3.2.1 EEG directory
+## 3.2 EEG structure
+
+**BehData Folder**: This folder contains the a subset of our data. The folders within `BehData` correspond to individual subjects. For example, folder UT014 contains the data for a subject with the unique subject code
+`UT014`. The `UT` in the subject code indicates that the subject was enrolled in the study at the University of Texas, Southwestern. The subject number is 014. The UT subject codes follows the format `UT###` where the number indicates the number relative to the first subject enrolled in any of our studies at UT Southwestern. The first subject is UT001, the second subject is UT002 and so forth. Dr. Bradley Lega also collected data during his fellowship at the Cleveland Clinic. The subject code for these subjects follows the format `CC###`. For the purpose of this tutorial, you were only given data for `UT###` subjects. 
+
+**Example Subject** in BehData Folder:
+1. UT014
+   This folder contains data for subject UT014.
+   i. behavioral
+      This folder contains the behavioral data for subject UT014. The contents of each subject folder are grouped by the experimental paradigm. This subject participated in 'acc reward', 'FR1', 'PS', 'pyFR stim', and 'YC1'. A brief description of the various paradigms is outlined in the Experimental Paradigms section of this document.
+      A. FR1
+         This folder contains all of the relevant behavioral files for subject UT014's free recall data.
+         - events.mat: This file contains all of the events for subject UT014's FR1 data. Each row in the event corresponds to a single event within each FR1 session (e.g. the beginning of the session, a single word presentation, a spoken response from the subject). Each field of the events structure is outlined later in this section.
+         - session 0: The events.mat file described above contains the events for all sessions combined. There are also individual session folders that contain the events only for one session. If you look inside the FR1 folder for UT014, you will see that there are 5 session folders (session 0, session 1, session 2, session 3, and session 4). This indicates that UT014 participated in 5 sessions of FR1. A full session of FR1 contains 25 lists of 12 words but a subject may also only complete a portion of a session.
+   ii. eeg.noreref
+       This folder typically contains the non-rereferenced EEG files for a subject. For this tutorial, we will instead be using the eeg.reref folder described below.
+   iii. eeg.reref
+       The eeg.reref folder contains the raw EEG files after being re-referenced to the weighted average of the activity at all other electrodes. For the purpose of this tutorial, you do not need to understand the specifics of this re-referencing. Each EEG filename is in the format of `[Subject Code] [Experimental Paradigm] [session number] [Date (DDMonthYY] [Military Time].[channel number]` or `[Subject Code] [Date (DDMonthYY] [Military Time].[channel number]`.Therefore, the file `UT014 02Sep15 1705.001` corresponds to the EEG file for subject `UT014` collected on `September 2, 2016 at 5:05 PM for electrode number 001`. There is usually one EEG file for each session for each electrode (i.e. EEG filename.001 to EEG filename.128 for channels 1 to 128). For the purpose of the tutorial, a subset of the channels are included. For subject UT014, we included channels `001, 002, 003, 042, 043 and 044`. These electrodes are all located in the hippocampus.
+
+
+### 3.2.1 Description of Free Recall events.mat Fields
 
 The EEG data collected from subjects in our lab is organized and formatted consistently using event structures, which are Matlab .mat files. These event structures contain various information about the task performed, including patient performance, task parameters, and most importantly, time offset values that align the EEG time with the Unix computer time when the event occurred. Below is a breakdown of the information included in the event structure for a Free-Recall (FR) task:
 
@@ -45,7 +62,7 @@ The EEG data collected from subjects in our lab is organized and formatted consi
 
 Understanding the organization and structure of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
 
-### 3.2.1 event.mat structure 
+### 3.2.2 Free reacall behavioral results 
 
 There is one event structure per for each subject. All sessions for the subject will be in the same event structure. The structure contains 688 entries in an array, each of which has these fields shown below.
 Example of non-recalled word:
@@ -118,101 +135,97 @@ Example of successfully recalled word:
 Events for 20 subjects
 
 
+**Encoding Period Analysis**: The goal of analyzing the encoding period is to identify differences in brain states that occur after the presentation of a stimulus or item. Typically, conditions in the encoding period are categorized as "Recalled" and "Non-recalled" based on the subject's later response to the item. The Recalled condition represents trials in which the subject later recalls the item, while the Non-recalled condition represents trials in which the subject does not recall the item.
 
-
-
-
-
-
-
-
-
-In computational neuroscience, analyzing EEG data often involves studying signal characteristics across trials of different conditions. In the context of memory research, the focus is on understanding the brain signals associated with remembering or forgetting information. This analysis can be conducted during two specific time periods: the encoding period and the retrieval period.
-
-1. **Encoding Period Analysis**: The goal of analyzing the encoding period is to identify differences in brain states that occur after the presentation of a stimulus or item. Typically, conditions in the encoding period are categorized as "Recalled" and "Non-recalled" based on the subject's later response to the item. The Recalled condition represents trials in which the subject later recalls the item, while the Non-recalled condition represents trials in which the subject does not recall the item.
-
-2. **Retrieval Period Analysis**: Analyzing the retrieval period focuses on examining brain states before the recall of an item. Similar to the encoding period, conditions in the retrieval period are categorized as "Correctly Recalled" and "Incorrectly Recalled" (or "Intrusions"). The Correctly Recalled condition represents trials in which the subject accurately recalls the item, while the Incorrectly Recalled condition represents trials in which the subject recalls an incorrect item or makes an intrusion error.
+**Retrieval Period Analysis**: Analyzing the retrieval period focuses on examining brain states before the recall of an item. Similar to the encoding period, conditions in the retrieval period are categorized as "Correctly Recalled" and "Incorrectly Recalled" (or "Intrusions"). The Correctly Recalled condition represents trials in which the subject accurately recalls the item, while the Incorrectly Recalled condition represents trials in which the subject recalls an incorrect item or makes an intrusion error.
 
 To ensure clarity and facilitate effective communication, it is important to maintain consistent terminology when describing these conditions and their associated analysis methods. By using standardized terms, researchers can better explain and understand the specific analysis techniques employed in memory-related EEG studies.
 
-## 3.1 Basic Signal Processing Background
+## 3.3 Behavioral Analyses (Exercises)
 
-In signal processing, a fundamental concept is the Fourier Theorem, which states that any continuous time-varying signal can be expressed as a sum of sinusoids with varying frequencies, amplitudes, and phase shifts (Fourier Series). While Fourier Series deals with expressing signals as a combination of sinusoids, in time-frequency decomposition, we encounter the reverse problem: we have a signal and want to break it down into its individual frequency components.
+### 3.3.1 Calculating Recall Probability 
+In this first exercise, you will perform a simple behavioral analysis of free recall data. The probability of recall is simply the percentage of words that a subject remembered. You will first perform this analysis for one list for one subject. Once you are able to accomplish that, you will perform the analysis across all lists for one session for one subject. By the end of this exercise, you will be able to calculate the recall probability for across all sessions and all subjects. The steps necessary to perform these analyses are outlined below. As the exercises require you to calculate multiple recall probability, be sure to save the values out in an intuitive way that you can then work with later to average within a subject and then across all subjects.
 
-This is achieved through a linear operation called the Fourier Transform or Fast Fourier Transform (FFT). The Fourier Transform calculates multiple dot products between the signal of interest and sinusoids of different frequencies, allowing us to visualize the presence of different frequency components in the signal. By applying the FFT, the signal is transformed from the time-domain into the frequency-domain, where time information is lost since sinusoids have infinite duration.
+**For following excercises, please note that the path `LegaLabTutorial/BehData/UT014/behavioral/FR1/events.mat` is assumed to be the correct path to the `events.mat` file.**
 
-To preserve temporal precision during the transformation, a finite kernel is used in the dot product calculations. One common approach is to use a wavelet, with the Morlet wavelet being a widely used example. The Morlet wavelet represents a sine wave modulated by a Gaussian (normal distribution) function. Wavelets, such as the Morlet wavelet, are particularly useful for localizing frequency information in time, as they provide control over the tradeoff between temporal and frequency precision.
+### Probability of Recall for UT014 Session 0 List 1
 
-In our lab, we predominantly use wavelets for time-frequency decomposition, as they allow us to analyze how frequency patterns change over time during the encoding and retrieval periods of a memory task. While a detailed understanding of the mathematical intricacies behind time-frequency decomposition is not necessary for performing analysis, it is beneficial to have a general understanding of these algorithms and how they process signals. This understanding helps to grasp the overall process and interpretation of the results.
+The objective of this exercise is to familiarize you with the `events.mat` file used to filter experimental events. In this exercise, you will easily be able to check that your code is running properly by manually calculating the recall probability for a list and verifying that your manual calculation gives you the same result as your code.
 
-For more comprehensive information on decomposition and wavelet theories, I recommend referring to Chapter 11 of Cohen's book, which delves deeper into these concepts and their applications in signal processing.
+1. Load the `events.mat` file located at `LegaLabTutorial/BehData/UT014/behavioral/FR1/events.mat`.
+2. Extract the events for session 0 list 1 that have type 'WORD'.
+3. Using the 'recalled' field in the events structure, find the total number of words that were recalled.
+4. Count the total number of words that were presented for session 0 list 1.
+5. To calculate the probability of recall, divide the number of words recalled by the number of words presented.
+6. Save out the probability of recall for R1134T session 0 list 1.
 
-## 3.2 Organization of Data
+### Probability of Recall for UT014 Session 0 All Lists
 
-The EEG data collected from subjects in our lab is organized and formatted consistently using event structures, which are Matlab .mat files. These event structures contain various information about the task performed, including patient performance, task parameters, and most importantly, time offset values that align the EEG time with the Unix computer time when the event occurred. Below is a breakdown of the information included in the event structure for a Free-Recall (FR) task:
+This exercise should not require any skills beyond the skills used in the previous exercise. Because this exercise is over a larger set of data, it will be more difficult to manually check your work. This exercise should demonstrate why analyzing data is much more efficient using MATLAB.
 
-- **subject**: This field contains the subject code corresponding to the event in that row.
-- **session**: This field specifies the session number for the event.
-- **list**: This field specifies the list number within the corresponding session. For example, if a subject participated in 3 sessions, there will be 3 list #1s. If a subject completed 1 full session and 2 partial sessions, there may only be 1 list #25. For events that are not part of a list of words or recalls, the value is -999.
-- **serialpos**: This field specifies the position of the word corresponding to the event in the corresponding list. The first word in list 1 will have a serial position of 1, the sixth word will have a serial position of 6, and so on. The eighth word of the eleventh list will have a serial position of 8 (within list 11).
-- **type**: This field indicates the type of event. The possible entries are as follows:
-  - B: Beginning of the EEG recording.
-  - SESS START: Beginning of the session on the testing computer.
-  - COUNTDOWN START: Beginning of the countdown from 10 to 0 that precedes each list.
-  - COUNTDOWN END: End of the countdown that precedes each list.
-  - PRACTICE WORD: Word presented during the first list of each session, which serves as a practice list.
-  - PRACTICE DISTRACT START: Beginning of the distractor math problems for the practice list.
-  - PRACTICE DISTRACT END: End of the distractor math problems for the practice list.
-  - PRACTICE REC START: Beginning of the 30-second recall period for the practice list.
-  - PRACTICE REC END: End of the recall period for the practice list.
-  - TRIAL: Precedes any events for a new list.
-  - ORIENT: Fixation point on the screen (+) that precedes the list of words after the countdown.
-  - WORD: Presentation of a word on a test list (relevant for encoding analysis).
-  - REC WORD: Vocalized response of a word during the recall period. These entries are manually scored by research assistants.
-  - SESS END: Marks the end of the session.
-  - E: Marks the end of the recordings.
-- **item**: This field specifies the specific word that was presented or recalled. Entries that do not correspond to a presented or recalled word are marked as 'X'.
-- **itemno**: This field specifies the number of the word presented or recalled from the word pool. Analyses can be performed using either the word number or the actual word entry in the 'item' field.
-- **recalled**: This field contains -999 for entries that are not word presentations. For words that were presented and remembered, it has a value of 1. For words that were presented but not remembered, it has a value of 0.
-- **intrusion**: Indicates whether the item was correctly recalled (intrusion == 0), a Prior List Intrusion (PLI) if intrusion > 0, or an Extra List Intrusion (ELI) if intrusion == -1.
-- **eegfile**: This field points to the corresponding EEG file for that entry in the events structure. You will need to update this field to point to the location of the EEG files on your system. The filename should remain the same, but the folder location may need to be modified.
-- **set**: This field specifies the number of milliseconds from the beginning of the EEG file where the event in that entry starts. This information is used by functions in the EEG toolbox to determine which segment of the EEG data to analyze for a specific event.
+1. Load the `events.mat` file located at `LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat`.
+2. Extract the events for session 0 that have type 'WORD'.
+3. Using the 'recalled' field in the events structure, find the total number of words that were recalled across all events for session 0.
+4. Count the total number of words that were presented for session 0.
+5. To calculate the probability of recall, divide the number of words recalled by the number of words presented during this session.
+6. Save out the probability of recall for UT014 session 0.
 
-Understanding the organization and structure of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
+### Probability of Recall for UT014 All Sessions, All Lists
 
-## 3.3 Raw EEG and Event-Related Potentials (ERPs)
+While there are many different ways to perform this analysis, one way to complete this exercise is using a 'for-loop'. You will want your code to check for the number of sessions and calculate a probability of recall for each session if a subject participated in more than one session. This exercise will also introduce you to plotting in MATLAB and calculating the standard error of the mean.
 
-An event-related potential (ERP) refers to the change in voltage patterns observed during an "event" of interest. These events can be any stimuli presented to the subject or any responses obtained from them during a memory task. The underlying idea of an ERP is that any consistent voltage deflection observed after averaging across multiple events reflects a time-locked response to the evaluated event.
+1. Load the `events.mat` file located at `LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat`.
+2. Determine the number of sessions that R1158T participated in based on the unique entries in the 'session' field.
+3. Loop through each session number.
+4. Extract the events for the session you are looping for that have type 'WORD'.
+5. Using the 'recalled' field in the events structure, find the total number of words that were recalled across all events for the session you are looping through.
+6. Count the total number of words that were presented for that session.
+7. To calculate the probability of recall, divide the number of words recalled by the number of words presented during that session.
+8. Repeat until you have a recall probability for all sessions for UT014.
+9. Create a labeled and titled barplot showing the recall probability for UT014.
+   - The bar height should be the average of the recall probabilities for all sessions. You should also add error bars to the barplot. The error bar length should be 1 standard error of the mean (SEM). To calculate SEM, calculate the standard deviation of the recall probabilities across the sessions and divide the standard deviation by the sqrt(# sessions - 1). Because you cannot calculate a STD from 1 value and some subjects only participated in 1 session, it will be helpful to write your code so that the STD is only computed if there is more than 1 session.
 
-For example, if a positive voltage deflection consistently occurs every time a subject studies a word, averaging the voltage across all encoding events will reveal a positive voltage deflection. However, if there are positive deflections for some words and negative deflections for others, the averaged voltages will be roughly around zero. Similarly, if there are early positive deflections for some words and late deflections for others, the average voltage (ERP) may show a broad positive deflection with a small magnitude or no discernible voltage deflection at all. ERPs primarily show strong effects for voltage changes with consistent directionality and timing across multiple trials.
 
-It is important to note that the voltage deflections observed in an ERP do not necessarily reflect a true voltage deflection occurring in every encoding event. For instance, if a few trials exhibit very large positive voltage deflections while the majority of trials show small negative voltage deflections, the average may appear to show a positive deflection (although not as large as those few trials with true positive deflections).
+### Probability of Recall for All Subjects, All Sessions, and All Lists
 
-ERPs are extracted from raw EEG signals as time-specific segments. In our lab, we utilize a custom Matlab function called `gete_ms` for this purpose. This function is a core component of the EEG toolbox and enables the extraction of voltages recorded from a specific electrode. It utilizes the `eegfile` path in the `event.mat` structure to locate the corresponding EEG file and the `eegoffset` field in the `events.mat` file to determine the time relative to the beginning of the recording for analysis.
+This next exercise will require you to navigate through folders using MATLAB. One approach is to use the 'dir' function to get all of the folder names in the data folder. These will be the subject names. You will then loop through each subject, load the events structure for that subject, and calculate the probability of recall for each session that subject participated in. This will require more sophisticated use of strings to generate the unique filenames for each subject. This exercise will also introduce a new method of plotting data: the grouped bar plot.
 
-The inputs and outputs of the `gete_ms` function are as follows:
+1. Write code to dynamically find the subjects who have FR1 'events.mat' files. Your code should be able to work if a new subject is added to the folder without you having to change anything in your code.
+2. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/[Subject]/behavioral/FR1/events.mat' for each subject.
+3. Determine the number of sessions that each subject participated in based on the unique entries in the 'session' field.
+4. Loop through each session number.
+5. Extract the events for the session you are looping for that have type 'WORD'.
+6. Using the 'recalled' field in the events structure, find the total number of words that were recalled across all events for the session you are looping through.
+7. Count the total number of words that were presented for that session.
+8. To calculate the probability of recall, divide the number of words recalled by the number of words presented during that session.
+9. Repeat until you have a recall probability for all sessions for all subjects.
+10. Create a grouped bar plot where there is one bar for each session for each subject. All sessions for a subject should be grouped together. The subject name will be on the x-axis, and the recall probability will be on the y-axis. There will be a separate bar for each session for each subject.
+    - Because you are plotting the recall probability for each session, you do not need error bars for this figure.
+    - Your plot should dynamically create the labels and groupings so that if another subject or session is added, the plot can be generated without having to change your code.
+11. Plot a bar plot showing the average recall probability across all subjects. First, average the recall probability for each subject across all sessions. Then, compute the SEM and mean of the average recall probability. Plot error bars for the average recall probability across subjects. In your title, include the number of subjects that contributed to the average.
 
-**Inputs:**
-- `channel`: The channel number you wish to analyze.
-- `events`: The events for which you want the voltages. The output will provide a voltage for each time point for each event.
-- `DurationMS`: The duration (in milliseconds) of the EEG recording you want to analyze.
-- `OffsetMS`: The time (in milliseconds) relative to the beginning of the event at which you want to start analyzing the EEG data.
-- `BufferMS`: The time (in milliseconds) before and after the desired time window to use as a buffer to prevent edge artifacts. A value of 500 ms can be used for this.
-- `filtfreq`: The frequencies you want to filter out or allow through. For example, [58 62] can be used to filter out 60 Hz line noise from electrical outlets in the U.S.
-- `filttype`: The type of filter you want to use. "stop" does not allow the specified frequencies through and is typically used for line-noise filtering. "low" allows frequencies below `filtfreq` through (low-pass filtering), while "high" allows frequencies above the specified frequency through (high-pass filtering).
-- `filtorder`: The significance of this input is beyond the scope of this tutorial. A value of 1 can be used for this field.
-- `resampleFreq`: This input can be used to change the sampling rate of the EEG file. It is useful when comparing EEG recordings with different sampling rates. For example, if subjects from different institutions have different recording rates, resampling the data to a common rate can facilitate comparison.
-- `RelativeMS`: This input allows you to subtract a baseline period from the voltage. It helps mitigate the effects of voltage drift across a session and enables a more standardized comparison of activity across electrodes and subjects.
+### 3.3.2 Generating Serial Position Curve
 
-**Outputs:**
-- `EEG`: A matrix of voltage values with dimensions (# of events by # of time points).
-- `resampleFreq`: The output of the sampling rate used.
+This exercise will guide you through how to generate a serial position curve (SPC). The SPC is the recall probability at each item output position. It shows how likely subjects were to remember a word at each position in the list, and it can reveal the primacy effect (higher recall probability for items at the beginning) and the recency effect (higher recall probability for items at the end). The SPC is calculated across multiple lists.
 
-Here is an example of using the `gete_ms` function:
-```matlab
-EEG = gete_ms(21, events, 1800, -200, 500, [58 62], 'stop', 1, 200, [-200 0]);
-```
-This example will return a matrix with a number of rows equal to the number of events in `events` and 360 columns. The resample frequency is 200 Hz, so each sample represents 5 ms. The duration of the computed voltage is 1800 ms (360 samples). The voltage output starts 200 ms before the word onset and ends 1600 ms after the word onset. Therefore, samples 1 to 40 correspond to the period before the word, and samples 41 to 360 represent the period after the word. A baseline subtraction of the average voltage from -200 ms to 0 ms was performed.
+#### Serial Position Curve for UT014 Session 0
 
-By utilizing the `gete_ms` function, researchers can extract ERPs from the raw EEG signals and examine the voltage changes over time in response to specific events of interest.
+1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+2. Filter for events for session 0.
+3. Count the number of words that were presented for each condition using the 'serialpos' field.
+4. For each serial position, count the number of times that the word in that position was recalled using the 'recalled' field.
+5. Calculate the percentage of words at each serial position that were recalled for this subject and session. You should have one probability for each serial position.
+6. Plot the serial position curve for UT014 Session 0 as a line. Title and label your plot accordingly.
 
+#### Serial Position Curve for UT014 All Sessions
+
+1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+2. Loop through each session and calculate the recall probability at each serial position for each session.
+3. Calculate the standard error of the mean (SEM) of the recall probability at each serial position and plot the serial position curve with error bars for this subject.
+
+#### Serial Position Curve for All Subjects, All Sessions
+
+1. Loop through each subject and load the 'events.mat' file for each subject.
+2. Loop through each session for each subject and calculate the serial position curve for each session.
+3. Average the serial position curves across sessions for each subject.
+4. Plot the average serial position curve across subjects with SEM error bars. Include the number of subjects in the title of the plot.

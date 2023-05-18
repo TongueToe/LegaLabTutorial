@@ -11,14 +11,6 @@ Our research primarily focuses on studying memory in clinical populations, such 
 
 [Lega Lab website](https://labs.utsouthwestern.edu/texas-computational-memory-lab)
 
-## Acknowledgment
-
-We would like to express our sincere gratitude to all the previous lab members who have contributed to the success of the Lega Lab. Their hard work, dedication, and passion have been instrumental in shaping the lab's research and fostering a collaborative and supportive environment.
-
-In particular, we would like to acknowledge the following individuals for their significant contributions to this Tutorial: Jui-Jui Lin, Ryan Tan, Sarah Seger, Lexie Hassien, Srinivas Kota, and David Wang
-
-We would like to extend our appreciation to all other past lab members for their hard work, creativity, and commitment to advancing our research goals. Each individual has made valuable contributions to the lab's collective knowledge and achievements.
-
 ## Getting Started
 
 To get started in the Lega Lab, familiarize yourself with the ongoing projects, research protocols, and datasets. Take the time to explore our documentation, code repositories, and previous publications. Feel free to reach out to current lab members for guidance or any questions you may have.
@@ -52,7 +44,9 @@ To get started in the Lega Lab, familiarize yourself with the ongoing projects, 
   - [Chapter 2](/Instructions/5_EEGProcessing.md)
 
 
+## Acknowledgment
 
+We would like to express our sincere gratitude to all the previous lab members who have contributed to the success of the Lega Lab. Their hard work, dedication, and passion have been instrumental in shaping the lab's research and fostering a collaborative and supportive environment. In particular, we would like to acknowledge the following individuals for their significant contributions to this Tutorial: Jui-Jui Lin, Ryan Tan, Sarah Seger, Lexie Hassien, Srinivas Kota, and David Wang. We would like to extend our appreciation to all other past lab members for their hard work, creativity, and commitment to advancing our research goals. Each individual has made valuable contributions to the lab's collective knowledge and achievements.
 
 We are excited to have you as part of the Lega Lab, and we look forward to collaborating with you on groundbreaking research in the field of memory neuroscience!
 
