@@ -314,9 +314,6 @@ This exercise focuses on computing and plotting event-related potentials (ERP) f
 Please note that the path in events.eegfile needs to be modified to point to the location of the EEG files on your computer.
 
 
-Certainly! Here's the updated information with MATLAB code for each step:
-
-```markdown
 ### Electrophysiological Analyses
 
 In this section, you will learn how to analyze the EEG data collected during the behavioral task. This includes plotting raw voltage, calculating event-related potentials (ERP), baseline re-referencing, and generating average ERPs.
@@ -393,4 +390,72 @@ This exercise focuses on computing and plotting event-related potentials (ERP) f
   voltage_channel2 = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000], 'ch',2);
 
   % Plot the ERPs for channel 1 and channel
-  
+
+ 2 on the same figure
+  figure;
+  errorbar(t, mean_voltage, std_voltage, 'b');  % Channel 1
+  hold on;
+  errorbar(t, mean(voltage_channel2), std(voltage_channel2), 'r');  % Channel 2
+  xlabel('Time (ms)');
+  ylabel('Voltage (\muV)');
+  title('ERP for 2 Channels for All Encoding Events for UT014');
+  legend('Channel 1', 'Channel 2');
+  hold off;
+  ```
+
+- **Plotting the Baseline Re-referenced ERP for 2 Channels**
+  ```matlab
+  % Calculate the baseline-referenced ERP for channels 1 and 2
+  baseline = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 0]);
+  voltage_channel1_baseline = voltage_channel1 - mean(baseline);
+  voltage_channel2_baseline = voltage_channel2 - mean(baseline);
+
+  % Plot the baseline-referenced ERPs for each channel
+  figure;
+  errorbar(t, mean(voltage_channel1_baseline), std(voltage_channel1_baseline), 'b');  % Channel 1
+  hold on;
+  errorbar(t, mean(voltage_channel2_baseline), std(voltage_channel2_baseline), 'r');  % Channel 2
+  xlabel('Time (ms)');
+  ylabel('Voltage (\muV)');
+  title('Baseline Re-referenced ERP for 2 Channels');
+  legend('Channel 1', 'Channel 2');
+  line([min(t) max(t)], [0 0], 'Color', 'k');  % Horizontal line at y=0
+  line([0 0], ylim, 'Color', 'g');  % Word onset (green line)
+  line([1600 1600], ylim, 'Color', 'r');  % Word offset (red line)
+  hold off;
+  ```
+
+- **Plotting the Average ERP in the Hippocampus**
+  ```matlab
+  % Determine the electrodes with EEG files for each subject
+  electrodes = [1, 2, 3, 42, 43, 44];
+
+  % Initialize average ERP matrix
+  average_erp = zeros(numel(t), numel(electrodes));
+
+  % Loop through each electrode for each subject and calculate the ERP
+  for subject = subjects
+      for electrode = electrodes
+          % Load events.mat file for the subject
+          events_file = fullfile('LegaLabTutorial', 'sampleData', subject, 'behavioral', 'FR1', 'events.mat');
+          load(events_file);
+
+          % Change the path in events.eegfile to point to the EEG files on your computer
+          events.eegfile = sprintf('/path/to/%s/eeg.reref/%s', subject, eeg_file_for_electrode(electrode));
+
+          % Filter events.mat structure for only the encoding events
+          encoding_events = events(strcmp({events.type}, 'WORD'));
+
+          % Calculate the raw voltage for all encoding events
+          voltage = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000], 'ch', electrode);
+
+          % Add the voltage to the average ERP matrix
+          average_erp(:, electrode) = average_erp(:, electrode) + mean(voltage);
+      end
+  end
+
+  % Average the ERP across all electrodes for all subjects
+  average_erp = average_erp / numel(subjects);
+
+  % Calculate the standard error of the mean (SEM)
+  sem_erp = std(average_erp, 0,
