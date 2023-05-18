@@ -259,6 +259,76 @@ When performing connectivity analysis on EEG data, several measures can be utili
 
 PLV measures the phase synchronization between two EEG signals. It quantifies the consistency of phase relationships between different frequency components across trials or channels. PLV values range from 0 to 1, with higher values indicating stronger phase synchronization.
 
+**Funciton (with shuffling)**
+```matlab
+% This function computes trial-by-trial Phase-Locking Value (PLV) between
+% two regions.
+%
+% [PLV_norm,PLV_raw] = PLV_DW(X1,X2,NumShuffle)
+% Inputs:
+% X1 - filtered signal matrix from region 1, in a format of trials x times.
+% X2 - filtered signal matrix from region 2, in a format of trials x times.
+% NumShuffle - Number of shuffles in normalizing PLV.
+%
+% Outputs:
+% PLV_norm: normalized Phase locking value (z-scored), showing PLV
+% statistics against null distribution (e.g. significiantly phase locked).
+% PLV_raw: raw phase locking value showing the absolute locking value
+% between two phases, ranging from 0 to 1.
+% Both PLV_norm and PLV_raw are one value (averaged across time in the process)
+% per two phase trial, in a vector with length of number of trials.
+%
+% Latest update : June 2022
+% David Wang
+
+
+
+function [PLV_norm,PLV_raw] = PLV_DW(X1,X2,NumShuffle)
+
+% get instantaneous phase from filtered signal matrix
+Phase1 = angle(hilbert(X1')');
+Phase2 = angle(hilbert(X2')');
+
+NumTrial = size(X1,1);
+
+PLV_norm = zeros(1,NumTrial);
+PLV_raw = zeros(1,NumTrial);
+
+for i = 1: NumTrial
+    
+    phase1 = Phase1(i,:);
+    phase2 = Phase2(i,:);
+    % compute raw phase locking value
+    zn = exp(1i*(phase1-phase2));
+    plv_raw = abs(mean(zn));
+    
+    %% compute shuffle values
+    numpoints=length(phase1);
+    minskip=50;
+    maxskip=numpoints-50;
+    skip=ceil(numpoints.*rand(NumShuffle*2,1));
+    skip(skip>maxskip)=[];
+    skip(skip<minskip)=[];
+    skip=skip(1:NumShuffle,1);
+    surrogate_plv=zeros(NumShuffle,1);
+    
+    for s=1:NumShuffle
+        surrogate_phase=[phase1(skip(s):end) phase1(1:skip(s)-1)];
+        surrogate_plv(s) = abs(mean(exp(1i*(surrogate_phase-phase2))));
+        
+    end
+    
+    % fit gaussian to shuffled data, uses normfit.m from MATLAB Statistics toolbox
+    [surrogate_mean,surrogate_std]=normfit(surrogate_plv);
+    % normalize PLV (z-score) using shuffled data (null distribution)
+    plv_norm=(plv_raw-surrogate_mean)/surrogate_std;
+    
+    PLV_norm(i) = plv_norm;
+    PLV_raw(i) = plv_raw;
+end
+
+end
+```
 
 ### 4.7.2 Cross-Phase Amplitude Coupling (xPAC) 
 
@@ -266,7 +336,141 @@ xPAC examines the relationship between the phase of one frequency band and the a
 
 ### 4.7.3 Phase-Amplitude Coupling (PAC)
 
- PAC assesses the coupling between the phase of one frequency band and the amplitude of the same or another frequency band. It captures how the amplitude of a signal at a specific frequency is modulated by the phase of another signal at a different frequency. PAC is commonly employed in studying functional interactions between oscillatory components.
+PAC assesses the coupling between the phase of one frequency band and the amplitude of the same or another frequency band. It captures how the amplitude of a signal at a specific frequency is modulated by the phase of another signal at a different frequency. PAC is commonly employed in studying functional interactions between oscillatory components.
+
+**Function (Canolty's method):**
+```matlab
+% This function computes normoalizes xPAC using a surrogate procedure
+% (Canolty's method)
+% [M_norm_t,PfPha,totalMI,M_raw] = surr_norm(amplitude_t,phase_t)
+% amplitude_t is the input matrix of amplitudes and phase_t is the input 
+% matrix of phases, where each row is an individual trial.
+% M_norm_t is the vector of output normalized Modulation Index for trials. 
+% PfPha is the vector of preferred phase of coupling for trials.
+% totalMI is the cell matrix of surrogate data where each cell contains all
+% (250) surrogate trials for each indiviual EEG trial. 
+% M_raw is the vector of raw modulation index without
+% normalization (surrogate).
+% David Wang 03/20/2019
+
+
+
+function [M_norm_t,PfPha,totalMI,M_raw] = PAC_canolty(amplitude_t,phase_t)
+
+PfPha = zeros(1,size(amplitude_t,1));
+M_norm_t = zeros(1,size(amplitude_t,1));
+M_raw = zeros(1,size(amplitude_t,1));
+totalMI = cell(1,size(amplitude_t,1));
+for i = 1: size(amplitude_t,1)
+    amplitude = amplitude_t(i,:);
+    phase = phase_t(i,:);
+    numpoints=length(amplitude);
+    
+    numsurrogate=250;
+    minskip=50;
+    maxskip=400;
+    
+    skip=ceil(numpoints.*rand(numsurrogate*2,1));
+    skip(skip>maxskip)=[];
+    skip(skip<minskip)=[];
+    skip=skip(1:numsurrogate,1);
+    surrogate_m=zeros(numsurrogate,1);
+    
+    
+    z=amplitude.*exp(1i*phase);
+    %% mean of z over time, prenormalized value
+    m_raw=mean(z);
+    
+    %% compute surrogate values
+    for s=1:numsurrogate
+        surrogate_amplitude=[amplitude(skip(s):end) amplitude(1:skip(s)-1)];
+        surrogate_m(s)=abs(mean(surrogate_amplitude.*exp(1i*phase)));
+        %disp(numsurrogate-s)
+    end
+    %% fit gaussian to surrogate data, uses normfit.m from MATLAB Statistics toolbox
+    % [surrogate_mean,surrogate_std]=normfit(surrogate_m);
+    %% normalize length using surrogate data (z-score)
+    % surrogate_mean = mean(surrogate_m);
+    % surrogate_std = std(surrogate_m);
+    [surrogate_mean,surrogate_std]=normfit(surrogate_m);
+    m_norm_length=(abs(m_raw)-surrogate_mean)/surrogate_std;
+    m_norm_phase=angle(m_raw);
+    m_norm=m_norm_length*exp(1i*m_norm_phase);
+    
+    M_raw(i) = abs(m_raw);
+    M_norm = abs(m_norm);
+    PfPha(i) = angle(mean(z));
+    M_norm_t(i) = M_norm;
+    totalMI{i}=surrogate_m;
+end
+end
+```
+
+**Function (Tort's method):**
+```matlab
+function [MI_t,PfPha]=PAC_tort(phase_t,amplitude_t,nBins)
+%
+% Function to compute Modulation Index (measure of Phase Amplitude Coupling)
+% - Ideally extract the phase and amplitude using hilbert
+% - Based on Tort et.al 2010, uses Kullback-Leibner distance to measure
+% disparity between two distribution
+% - nBin defaults to 18 bins spaced between -180 to 180 (-pi to pi).
+% changing bins
+%
+% Ryan Tan 10/22/18
+% Modified by David Wang 03/2019
+if nargin<3
+    nBins=18; % default value
+end
+
+MI_t = zeros(1,size(amplitude_t,1));
+distKL_t = zeros(1,size(amplitude_t,1));
+PfPha = zeros(1,size(amplitude_t,1));
+for i = 1: size(amplitude_t,1)
+    ampl = amplitude_t(i,:);
+    phas = phase_t(i,:);
+    
+    %% bin the amplitudes according to the phases
+    
+    binEdges=linspace(-pi,pi,nBins+1);
+    %binCenters=binEdges(1:end-1)-diff(binEdges)/2;
+    
+    [~,binIdx]=histc(phas,binEdges);
+    
+    ampBin=zeros(1,nBins);
+    for bin=1:nBins
+        if any(binIdx==bin)
+            ampBin(bin)=mean(ampl(binIdx==bin));
+        end
+    end
+    
+    ampSig=ampBin/sum(ampBin);
+    amplNorm=ones(1,nBins)./nBins;
+    
+    % prefered phase bin (where has strongest MI)
+
+    Phaspan = -pi:2*pi/(nBins-1):pi;
+    phasecandidate = Phaspan(ampBin==max(ampBin));
+    if length(phasecandidate)~=1
+        continue
+    else
+        PfPha(i) = phasecandidate;
+    end
+    % in the special case where observed probability in a bin is 0, this tweak
+    % allows computing a meaningful KL distance nonetheless
+    if any(ampSig==0)
+        ampSig(ampSig==0)=eps;
+    end
+    
+    %% KL Distance and ML
+    distKL=sum(ampSig.*log(ampSig./amplNorm));
+    
+    MI=distKL./log(nBins);
+    MI_t(i) = MI;
+    distKL_t(i) = distKL;
+end
+end
+'''
 
 ### 4.7.4 Coherence
 Coherence measures the linear relationship between two EEG signals across different frequencies. It quantifies the degree of synchronization or similarity in the phase and magnitude between two signals. Coherence values range from 0 to 1, with higher values indicating stronger linear relationships.
