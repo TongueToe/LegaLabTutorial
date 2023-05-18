@@ -4,6 +4,7 @@
 
 ## 4.1 Raw EEG and Event-Related Potentials (ERPs)
 
+
 An event-related potential (ERP) refers to the change in voltage patterns observed during an "event" of interest. These events can be any stimuli presented to the subject or any responses obtained from them during a memory task. The underlying idea of an ERP is that any consistent voltage deflection observed after averaging across multiple events reflects a time-locked response to the evaluated event.
 
 For example, if a positive voltage deflection consistently occurs every time a subject studies a word, averaging the voltage across all encoding events will reveal a positive voltage deflection. However, if there are positive deflections for some words and negative deflections for others, the averaged voltages will be roughly around zero. Similarly, if there are early positive deflections for some words and late deflections for others, the average voltage (ERP) may show a broad positive deflection with a small magnitude or no discernible voltage deflection at all. ERPs primarily show strong effects for voltage changes with consistent directionality and timing across multiple trials.
@@ -76,8 +77,6 @@ title('Raw EEG Trials')
 
 ```
 
-
-
 ## 4.1 Basic Signal Processing Background
 
 In signal processing, a fundamental concept is the Fourier Theorem, which states that any continuous time-varying signal can be expressed as a sum of sinusoids with varying frequencies, amplitudes, and phase shifts (Fourier Series). While Fourier Series deals with expressing signals as a combination of sinusoids, in time-frequency decomposition, we encounter the reverse problem: we have a signal and want to break it down into its individual frequency components.
@@ -90,19 +89,18 @@ In our lab, we predominantly use wavelets for time-frequency decomposition, as t
 
 For more comprehensive information on decomposition and wavelet theories, I recommend referring to Chapter 11 of Cohen's book, which delves deeper into these concepts and their applications in signal processing.
 
+- [Line Noise Removal](/Instructions/4_EEGAnalyses.md#line-noise-removal)
+      Line noise can often corrupt EEG signals, introducing unwanted frequency components that can interfere with the analysis. In order to address this issue, we employ techniques for line noise removal. These techniques involve filtering the EEG data to attenuate or eliminate the specific frequencies associated with line noise, typically 60 Hz, depending on the power grid frequency in your region. By removing line noise, we can enhance the quality of the EEG signals and reduce potential distortions in the data.
+- [Outlier Removal](/Instructions/4_EEGAnalyses.md#outlier-removal)
+      Outliers in EEG data can arise due to various factors, such as artifacts, electrode disconnections, or physiological anomalies. These outliers can significantly affect the accuracy and reliability of subsequent analyses. To ensure robust and accurate data analysis, we implement outlier removal methods. These methods aim to identify and exclude data points that deviate significantly from the overall pattern of the EEG signals. By removing outliers, we can mitigate their impact on the analysis results and obtain more reliable findings.
+- [Denoise (Optional)](/Instructions/4_EEGAnalyses.md#denoise-optional)
+      In some cases, additional denoising techniques may be applied to further improve the quality of the EEG data. Denoising methods can help reduce unwanted noise, artifacts, or interference that might be present in the signals. These techniques employ various algorithms and signal processing approaches to enhance the signal-to-noise ratio and extract more meaningful information from the EEG data. The choice to utilize denoising techniques depends on the specific research goals and the nature of the data being analyzed. While denoising can be beneficial, it is important to carefully evaluate its potential effects on the data and interpret the results accordingly.
 
- - [Line Noise Removal]
+- - [Denoise (Optional)](/Instructions/4_EEGAnalyses.md#denoise-optional)
+**References:**
+[^1]: Wang, D.X., & Davila, C.E. (2019). Subspace averaging of auditory evoked potentials. *2019 41st Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)*. IEEE. [Link to Paper](https://example.com)
 
-
-## Basic Signal Processing
-
-One of the most important element of signal processing is a mathematical concept called Fourier Theorem. It states that any continuous time-varying signal can be expressed as the sum of a series of sinusoids of varying frequencies, amplitude, and phase shifts (Fourier Series). In time-frequency decomposition we run into the reverse problem: we have signal and want to break it down to its individual frequency components. How this is done is through a linear operation called Fourier Transform, or Fast Fourier Transform (FFT). In this process, multiple dot products are calculated between a signal of interest and sinusoids of a range of frequencies in order to visualize how much of that frequency component exist in the signal. Through a FFT, the signal is transformed from the time-domain into the frequency-domain with no time information preserved, because sine waves have infinite length. A solution for preserving temporal precision during a transform operation is to use a finite kernal in calculating the dot products, and one of the most common way is with a wavelet. Wavelets, specifically the Morlet wavelet is a sine wave modeled by a Gaussian (normal distribution), provides an excellent means of localizing frequency information in time in terms of the control the user has over the tradeoff between temporal and frequency precision, which is the predominate method we use in this lab. This is a very rough explanation of how a signal is processed, but the main takeaway is that we breakdown signals to its individual frequency components to understand how these patterns change over time during the encoding and retrieval periods of a memory task. Although understanding of the minute arithmetic details behind time-frequency decomposition is not necessary in performing analysis, it is prudent to at least have a good sense of what these algorithms are doing to your signals in order to have a better idea of the overall process. For more information on decomposition and wavelet theories, refer to chapter 11 of Cohen.
-
-
-\[Wang, D.X., & Davila, C.E. (2019). Subspace averaging of auditory evoked potentials. *2019 41st Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)*. IEEE.\]\(https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8857818&casa_token=k9i8i1-JHd0AAAAA:7OdbbCIS16QEMUy6OUmk6TkSbwsP84U-m2VJ_9V8m6ZkN9C_FJlNS_mc0MJ5OPaRqyODuHMA-7ua&tag=1\)
-
-
-
+**Example Codes:**
 ```matlab
 % Step 2: Remove DC offsets and line noise
 EEG_denoised = bandstop(EEG', [59, 61], Fs, 'Steepness', 0.85)'; % remove line-noise
@@ -130,39 +128,18 @@ ylabel('Amplitude (uV)')
 title('EEG trials after subspace denoised')
 ```
 
+## Basic Signal Processing
+
+One of the most important element of signal processing is a mathematical concept called Fourier Theorem. It states that any continuous time-varying signal can be expressed as the sum of a series of sinusoids of varying frequencies, amplitude, and phase shifts (Fourier Series). In time-frequency decomposition we run into the reverse problem: we have signal and want to break it down to its individual frequency components. How this is done is through a linear operation called Fourier Transform, or Fast Fourier Transform (FFT). In this process, multiple dot products are calculated between a signal of interest and sinusoids of a range of frequencies in order to visualize how much of that frequency component exist in the signal. Through a FFT, the signal is transformed from the time-domain into the frequency-domain with no time information preserved, because sine waves have infinite length. A solution for preserving temporal precision during a transform operation is to use a finite kernal in calculating the dot products, and one of the most common way is with a wavelet. Wavelets, specifically the Morlet wavelet is a sine wave modeled by a Gaussian (normal distribution), provides an excellent means of localizing frequency information in time in terms of the control the user has over the tradeoff between temporal and frequency precision, which is the predominate method we use in this lab. This is a very rough explanation of how a signal is processed, but the main takeaway is that we breakdown signals to its individual frequency components to understand how these patterns change over time during the encoding and retrieval periods of a memory task. Although understanding of the minute arithmetic details behind time-frequency decomposition is not necessary in performing analysis, it is prudent to at least have a good sense of what these algorithms are doing to your signals in order to have a better idea of the overall process. For more information on decomposition and wavelet theories, refer to chapter 11 of Cohen.
 
 
 
-The EEG data collected from subjects in our lab is organized and formatted consistently using event structures, which are Matlab .mat files. These event structures contain various information about the task performed, including patient performance, task parameters, and most importantly, time offset values that align the EEG time with the Unix computer time when the event occurred. Below is a breakdown of the information included in the event structure for a Free-Recall (FR) task:
 
-- **subject**: This field contains the subject code corresponding to the event in that row.
-- **session**: This field specifies the session number for the event.
-- **list**: This field specifies the list number within the corresponding session. For example, if a subject participated in 3 sessions, there will be 3 list #1s. If a subject completed 1 full session and 2 partial sessions, there may only be 1 list #25. For events that are not part of a list of words or recalls, the value is -999.
-- **serialpos**: This field specifies the position of the word corresponding to the event in the corresponding list. The first word in list 1 will have a serial position of 1, the sixth word will have a serial position of 6, and so on. The eighth word of the eleventh list will have a serial position of 8 (within list 11).
-- **type**: This field indicates the type of event. The possible entries are as follows:
-  - B: Beginning of the EEG recording.
-  - SESS START: Beginning of the session on the testing computer.
-  - COUNTDOWN START: Beginning of the countdown from 10 to 0 that precedes each list.
-  - COUNTDOWN END: End of the countdown that precedes each list.
-  - PRACTICE WORD: Word presented during the first list of each session, which serves as a practice list.
-  - PRACTICE DISTRACT START: Beginning of the distractor math problems for the practice list.
-  - PRACTICE DISTRACT END: End of the distractor math problems for the practice list.
-  - PRACTICE REC START: Beginning of the 30-second recall period for the practice list.
-  - PRACTICE REC END: End of the recall period for the practice list.
-  - TRIAL: Precedes any events for a new list.
-  - ORIENT: Fixation point on the screen (+) that precedes the list of words after the countdown.
-  - WORD: Presentation of a word on a test list (relevant for encoding analysis).
-  - REC WORD: Vocalized response of a word during the recall period. These entries are manually scored by research assistants.
-  - SESS END: Marks the end of the session.
-  - E: Marks the end of the recordings.
-- **item**: This field specifies the specific word that was presented or recalled. Entries that do not correspond to a presented or recalled word are marked as 'X'.
-- **itemno**: This field specifies the number of the word presented or recalled from the word pool. Analyses can be performed using either the word number or the actual word entry in the 'item' field.
-- **recalled**: This field contains -999 for entries that are not word presentations. For words that were presented and remembered, it has a value of 1. For words that were presented but not remembered, it has a value of 0.
-- **intrusion**: Indicates whether the item was correctly recalled (intrusion == 0), a Prior List Intrusion (PLI) if intrusion > 0, or an Extra List Intrusion (ELI) if intrusion == -1.
-- **eegfile**: This field points to the corresponding EEG file for that entry in the events structure. You will need to update this field to point to the location of the EEG files on your system. The filename should remain the same, but the folder location may need to be modified.
-- **set**: This field specifies the number of milliseconds from the beginning of the EEG file where the event in that entry starts. This information is used by functions in the EEG toolbox to determine which segment of the EEG data to analyze for a specific event.
 
-Understanding the organization and structure of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
+
+
+
+
 
 
 ## 3.4 Oscillatory Power
