@@ -208,113 +208,207 @@ This next exercise will require you to navigate through folders using MATLAB. On
 
 This exercise will guide you through how to generate a serial position curve (SPC). The SPC is the recall probability at each item output position. It shows how likely subjects were to remember a word at each position in the list, and it can reveal the primacy effect (higher recall probability for items at the beginning) and the recency effect (higher recall probability for items at the end). The SPC is calculated across multiple lists.
 
-#### Serial Position Curve for UT014 Session 0
+- **Serial Position Curve for UT014 Session 0**
 
-1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
-2. Filter for events for session 0.
-3. Count the number of words that were presented for each condition using the 'serialpos' field.
-4. For each serial position, count the number of times that the word in that position was recalled using the 'recalled' field.
-5. Calculate the percentage of words at each serial position that were recalled for this subject and session. You should have one probability for each serial position.
-6. Plot the serial position curve for UT014 Session 0 as a line. Title and label your plot accordingly.
+  1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+  2. Filter for events for session 0.
+  3. Count the number of words that were presented for each condition using the 'serialpos' field.
+  4. For each serial position, count the number of times that the word in that position was recalled using the 'recalled' field.
+  5. Calculate the percentage of words at each serial position that were recalled for this subject and session. You should have one probability for each serial position.
+  6. Plot the serial position curve for UT014 Session 0 as a line. Title and label your plot accordingly.
+  
+  **Example codes**
+  ```matlab
+  % Serial Position Curve for UT014 Session 0
+  load('LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat');
 
-#### Serial Position Curve for UT014 All Sessions
+  % Filter for events for session 0
+  session0_events = events([events.session] == 0);
 
-1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
-2. Loop through each session and calculate the recall probability at each serial position for each session.
-3. Calculate the standard error of the mean (SEM) of the recall probability at each serial position and plot the serial position curve with error bars for this subject.
+  % Count the number of words presented for each condition
+  num_words_presented = histcounts([session0_events.serialpos], 1:13);
 
-#### Serial Position Curve for All Subjects, All Sessions
+  % Count the number of times each word was recalled
+  num_words_recalled = histcounts([session0_events([session0_events.recalled]).serialpos], 1:13);
 
-1. Loop through each subject and load the 'events.mat' file for each subject.
-2. Loop through each session for each subject and calculate the serial position curve for each session.
-3. Average the serial position curves across sessions for each subject.
-4. Plot the average serial position curve across subjects with SEM error bars. Include the number of subjects in the title of the plot.
+  % Calculate the recall probability at each serial position
+  recall_probability = num_words_recalled ./ num_words_presented;
+
+  % Plot the serial position curve for UT014 Session 0
+  figure;
+  plot(1:12, recall_probability, 'o-');
+  xlabel('Serial Position');
+  ylabel('Recall Probability');
+  title('Serial Position Curve for UT014 Session 0');
+  ```
+- **Serial Position Curve for UT014 All Sessions**
+
+  1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+  2. Loop through each session and calculate the recall probability at each serial position for each session.
+  3. Calculate the standard error of the mean (SEM) of the recall probability at each serial position and plot the serial position curve with error bars for this subject.
+
+- **Serial Position Curve for All Subjects, All Sessions**
+
+  1. Loop through each subject and load the 'events.mat' file for each subject.
+  2. Loop through each session for each subject and calculate the serial position curve for each session.
+  3. Average the serial position curves across sessions for each subject.
+  4. Plot the average serial position curve across subjects with SEM error bars. Include the number of subjects in the title of the plot.
 
 ### 3.3.3 Generating a Lag-Conditional Response Probability (CRP) Curve
 
 This exercise will guide you through generating a lag-conditional response probability (CRP) curve, which measures how a subject moves from one response to another in a free recall dataset. The CRP curve is calculated by determining the number of times a subject could have had a particular response lag and the number of times the subject actually produced a response with that lag.
 
-#### Lag-CRP for UT014 Session 0, List 1
+- **Lag-CRP for UT014 Session 0, List 1**
 
-1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
-2. Filter for events for session 0, list 1.
-3. Use events of type 'REC WORD' to determine the word a subject said and its order of presentation.
-4. Filter for events that are of type 'REC WORD' with an 'itemno' greater than 0 and 'intrusion' equal to 0.
-5. For each 'REC WORD', determine its serial position by comparing the 'itemno' with the 'itemno' of the 'WORD' events for the same list.
-6. Calculate the possible lags and actual lags for each recalled word by considering the serial position and previously recalled words.
-7. Generate the lag-CRP curve by dividing the number of times each transition was possible by the number of times it actually occurred.
-8. Plot the lag-CRP curve for lags of -3, -2, -1, 1, 2, and 3 for UT014, session 0, list 1.
+  1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+  2. Filter for events for session 0, list 1.
+  3. Use events of type 'REC WORD' to determine the word a subject said and its order of presentation.
+  4. Filter for events that are of type 'REC WORD' with an 'itemno' greater than 0 and 'intrusion' equal to 0.
+  5. For each 'REC WORD', determine its serial position by comparing the 'itemno' with the 'itemno' of the 'WORD' events for the same list.
+  6. Calculate the possible lags and actual lags for each recalled word by considering the serial position and previously recalled words.
+  7. Generate the lag-CRP curve by dividing the number of times each transition was possible by the number of times it actually occurred.
+  8. Plot the lag-CRP curve for lags of -3, -2, -1, 1, 2, and 3 for UT014, session 0, list 1.
 
-#### Lag-CRP for UT014 Session 0, All Lists
+  **Example codes** 
+  ```matlab
+  % Lag-CRP for UT014 Session 0, List 1
+  load('LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat');
+  events.eegfile = '/path/to/UT014/eeg.reref/UT01405Dec17_1545';
 
-1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
-2. Repeat the above exercise, considering all responses across all lists.
-3. Plot the lag-CRP curve for the entire session.
+  % Filter for events for session 0, list 1
+  session0_list1_events = events([events.session] == 0 & [events.list] == 1);
 
-#### Lag-CRP for UT014 All Sessions
+  % Filter for REC WORD events with itemno > 0 and intrusion == 0
+  rec_word_events = session0_list1_events(strcmp({session0_list1_events.type}, 'REC WORD') & [session0_list1_events.itemno] > 0 & [session0_list1_events.intrusion] == 0);
 
-1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
-2. Loop through sessions and calculate a separate lag-CRP for each session.
-3. Plot the lag-CRP curve for the average across sessions with SEM error bars.
+  % Determine the serial position for each recalled word
+  serial_positions = NaN(1, numel(rec_word_events));
+  for i = 1:numel(rec_word_events)
+      itemno = rec_word_events(i).itemno;
+      word_events = session0_list1_events(strcmp({session0_list1_events.type}, 'WORD') & [session0_list1_events.itemno] == itemno);
+      serial_positions(i) = word_events(1).serialpos;
+  end
 
-#### Lag-CRP for All Subjects, All Sessions
+  % Calculate the possible lags and actual lags
+  possible_lags = NaN(1, numel(rec_word_events));
+  actual_lags = NaN(1, numel(rec_word_events));
+  for i = 1:numel(rec_word_events)
+      serial_pos = serial_positions(i);
+      possible_lags(i) = 1 - serial_pos : numel(session0_list1_events) - serial_pos;
+      if i > 1
+          prev_recalled_words = serial_positions(1:i-1);
+          actual_lags(i) = serial_pos - prev_recalled_words(end);
+      end
+  end
 
-1. Load the 'events.mat' file for each subject.
-2. Repeat the above exercise for all subjects.
-3. Average the CRP across sessions for each subject.
-4. Plot the lag-CRP curve for the average across subjects showing SEM error bars.
+  % Calculate the lag-CRP curve
+  lag_crp = NaN(1, numel(possible_lags));
+  for i = 1:numel(possible_lags)
+      lag = possible_lags(i);
+      lag_crp(i) = sum(actual_lags == lag) / numel(find(possible_lags == lag));
+  end
 
-Sure! Here's the information formatted in Markdown:
+  % Plot the lag-CRP curve for lags of -3, -2, -1, 1, 2, and 3
+  lags = [-3, -2, -1, 1, 2, 3];
+  figure;
+  bar(lags, lag_crp(lags + 4));
+  xlabel('Lag');
+  ylabel('CRP');
+  title('Lag-CRP for UT014 Session 0, List 1');
+  ```
+- **Lag-CRP for UT014 Session 0, All Lists**
 
-### Electrophysiological Analyses
+  1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+  2. Repeat the above exercise, considering all responses across all lists.
+  3. Plot the lag-CRP curve for the entire session.
+  **Example codes** 
+  ```matlab 
+  % Lag-CRP for UT014 Session 0, All Lists
+  all_lists_events = events([events.session] == 0);
+  rec_word_events_all_lists = all_lists_events(strcmp({all_lists_events.type}, 'REC WORD') & [all_lists_events.itemno] > 0 & [all_lists_events.intrusion] == 0);
+  serial_positions_all_lists = NaN(1, numel(rec_word_events_all_lists));
+  for i = 1:numel(rec_word_events_all_lists)
+      itemno = rec_word_events_all_lists(i).itemno;
+      word_events = all_lists_events(strcmp({all_lists_events.type}, 'WORD') & [all_lists_events.itemno] == itemno);
+      serial_positions_all_lists(i) = word_events(1).serialpos;
+  end
+  possible_lags_all_lists = NaN(1, numel(rec_word_events_all_lists));
+  actual_lags_all_lists = NaN(1, numel(rec_word_events_all_lists));
+  for i = 1:numel(rec_word_events_all_lists)
+      serial_pos = serial_positions_all_lists(i);
+      possible_lags_all_lists(i) = 1 - serial_pos : numel(all_lists_events) - serial_pos;
+      if i > 1
+          prev_recalled_words = serial_positions_all_lists(1:i-1);
+          actual_lags_all_lists(i) = serial_pos - prev_recalled_words(end);
+      end
+  end
+  lag_crp_all_lists = NaN(1, numel(possible_lags_all_lists));
+  for i = 1:numel(possible_lags_all_lists)
+      lag = possible_lags_all_lists(i);
+      lag_crp_all_lists(i) = sum(actual_lags_all_lists == lag) / numel(find(possible_lags_all_lists == lag));
+  end
+  figure;
+  bar(lags, lag_crp_all_lists(lags + 4));
+  xlabel('Lag');
+  ylabel('CRP');
+  title('Lag-CRP for UT014 Session 0, All Lists');
+  ```
+  
+- **Lag-CRP for UT014 All Sessions**
 
-In this section, you will learn how to analyze the EEG data collected during the behavioral task. This includes plotting raw voltage, calculating event-related potentials (ERP), baseline re-referencing, and generating average ERPs.
+  1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+  2. Loop through sessions and calculate a separate lag-CRP for each session.
+  3. Plot the lag-CRP curve for the average across sessions with SEM error bars.
 
-#### Plotting Raw Voltage
+  **Example codes** 
+  ```matlab
+    % Lag-CRP for UT014 All Sessions
+  sessions = unique([events.session]);
+  lag_crp_all_sessions = NaN(numel(sessions), numel(lags));
+  for s = 1:numel(sessions)
+      session_events = events([events.session] == sessions(s));
+      rec_word_events_session = session_events(strcmp({session_events.type}, 'REC WORD') & [session_events.itemno] > 0 & [session_events.intrusion] == 0);
+      serial_positions_session = NaN(1, numel(rec_word_events_session));
+      for i = 1:numel(rec_word_events_session)
+          itemno = rec_word_events_session(i).itemno;
+          word_events = session_events(strcmp({session_events.type}, 'WORD') & [session_events.itemno] == itemno);
+          serial_positions_session(i) = word_events(1).serialpos;
+      end
+      possible_lags_session = NaN(1, numel(rec_word_events_session));
+      actual_lags_session = NaN(1, numel(rec_word_events_session));
+      for i = 1:numel(rec_word_events_session)
+          serial_pos = serial_positions_session(i);
+          possible_lags_session(i) = 1 - serial_pos : numel(session_events) - serial_pos;
+          if i > 1
+              prev_recalled_words = serial_positions_session(1:i-1);
+              actual_lags_session(i) = serial_pos - prev_recalled_words(end);
+          end
+      end
+      lag_crp_session = NaN(1, numel(possible_lags_session));
+      for i = 1:numel(possible_lags_session)
+          lag = possible_lags_session(i);
+          lag_crp_session(i) = sum(actual_lags_session == lag) / numel(find(possible_lags_session == lag));
+      end
+      lag_crp_all_sessions(s, :) = lag_crp_session(lags + 4);
+  end
+  mean_lag_crp_sessions = mean(lag_crp_all_sessions);
+  sem_lag_crp_sessions = std(lag_crp_all_sessions) / sqrt(numel(sessions));
+  figure;
+  errorbar(lags, mean_lag_crp_sessions, sem_lag_crp_sessions);
+  xlabel('Lag');
+  ylabel('CRP');
+  title('Lag-CRP for UT014 All Sessions');
+  ```
+- **Lag-CRP for All Subjects, All Sessions**
 
-This exercise focuses on plotting the voltage recorded from one electrode for a single event.
-
-- **Voltage for UT0145 ch 1, 1 Event**
-  1. Load the events.mat file for UT014.
-  2. Change the path in events.eegfile to point to the location of the EEG files on your computer.
-  3. Extract the first event corresponding to word presentation (type 'WORD').
-  4. Calculate the voltage for that event using a time window of 150 ms before word onset and 2000 ms after word onset with a buffer of 1000 ms. Filter out line-noise using a [58 62] Hz first-order 'stop' filter.
-  5. Plot the voltage with the time relative to word onset on the x-axis. Indicate the word onset with a green vertical line and the word offset with a red vertical line.
-  6. Label and title the plot appropriately specifying the subject, channel number, word presented, and sampling rate.
-
-- **Voltage for UT014 ch 1, 1 Event with Resampling**
-  1. Calculate the voltage for the same event and time window as above but now resample the data to 100 Hz.
-  2. Plot the resampled voltage on the same plot as the voltage calculated above to compare the two traces.
-
-#### Plotting Event-related Potential (ERP)
-
-This exercise focuses on computing and plotting event-related potentials (ERP) for single and multiple channels.
-
-- **Plotting the ERP for UT014, Channel 1 All Encoding Events**
-  1. Filter the events.mat structure for UT014 for only the encoding events.
-  2. Calculate the raw voltage for all these events.
-  3. Find the mean and standard deviation of voltage across all events.
-  4. Plot the ERP with error bars for this channel. Label and title the plot accordingly.
-
-- **Plotting the ERP for 2 Channels for All Encoding Events for UT014**
-  1. Calculate the ERP for channel 2 as done for channel 1 in the previous exercise.
-  2. Plot the ERP with error bars for channel 2 and 1 on the same figure, labeling each channel.
-
-- **Plotting the Baseline Re-referenced ERP for 2 Channels**
-  1. Calculate the ERP for channels 1 and 2 as done in the previous exercise. Perform a baseline subtraction using the -150 ms to 0 ms baseline.
-  2. Plot the baseline re-referenced ERP for each channel and label the plot accordingly.
-  3. Add a horizontal line at y=0 to indicate the baseline. Clearly indicate the word onset and offset in the figure.
-
-- **Plotting the Average ERP in the Hippocampus**
-  1. Determine the electrodes you have EEG files for each subject.
-  2. Loop through each electrode for each subject and calculate the ERP for all encoding events.
-  3. Average the ERP across all electrodes for all subjects to generate an average ERP for the hippocampus.
-  4. Plot the average hippocampal ERP with error bars.
-
-Please note that the path in events.eegfile needs to be modified to point to the location of the EEG files on your computer.
+  1. Load the 'events.mat' file for each subject.
+  2. Repeat the above exercise for all subjects.
+  3. Average the CRP across sessions for each subject.
+  4. Plot the lag-CRP curve for the average across subjects showing SEM error bars.
 
 
-### Electrophysiological Analyses
+
+### 3.3.4 Electrophysiological Analyses
 
 In this section, you will learn how to analyze the EEG data collected during the behavioral task. This includes plotting raw voltage, calculating event-related potentials (ERP), baseline re-referencing, and generating average ERPs.
 
@@ -389,9 +483,7 @@ This exercise focuses on computing and plotting event-related potentials (ERP) f
   % Calculate the ERP for channel 2
   voltage_channel2 = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000], 'ch',2);
 
-  % Plot the ERPs for channel 1 and channel
-
- 2 on the same figure
+  % Plot the ERPs for channel 1 and channel 2 on the same figure
   figure;
   errorbar(t, mean_voltage, std_voltage, 'b');  % Channel 1
   hold on;
