@@ -22,10 +22,10 @@ To get started in the Lega Lab, familiarize yourself with the ongoing projects, 
   - [Local Machine](/Instructions/2_Setups.md)
   - [BioHPC](/Instructions/2_Setups.md)
   - [Off Campus](/Instructions/2_Setups.md)
-- [3. EEG Database](/Instructions/3_EEGDatabase.md)
-  - [behavioral Tasks](/Instructions/3_EEGDatabase.md)
-  - [Data Structure](/Instructions/3_EEGDatabase.md)
-  - [RAW EEG and Event-related Potential (ERP)](/Instructions/3_EEGDatabase.md)
+- [3-EEG_database](/Instructions/3_EEGDatabase.md#3-eeg_database)
+  - [3.1 Behavioral Paradigms](/Instructions/3_EEGDatabase.md31-behavioral-tasks)
+  - [3.2 EEG structure](/Instructions/3_EEGDatabase.md32-eeg-structure)
+  - [3.3 Behavioral Analyses (Exercises)](/Instructions/3_EEGDatabase.md33-behavioral-analyses-exercises)
 - [4. Analyses of EEG Data](/Instructions/4_EEGAnalyses.md#4-analyses-of-eeg-data)
   - [4.1 Raw EEG and Event-Related Potentials (ERPs)](/Instructions/4_EEGAnalyses.md#41-raw-eeg-and-event-related-potentials-erps)
   - [4.2 Basic Signal Processing](/Instructions/4_EEGAnalyses.md#42-basic-signal-processing)
@@ -57,3 +57,4 @@ David Wang
 Lega Lab
 
 ![Logoman](src/logo/lega_lab_man.png)
+

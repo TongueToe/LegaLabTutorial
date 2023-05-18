@@ -1,12 +1,37 @@
 # 3-EEG_database
 
+# Table of Content
+- [3-EEG_database](#3-eeg_database)
+  - [3.1 Behavioral-Tasks](#31-behavioral-tasks)
+    - [Experimental Paradigms](#experimental-paradigms)
+  - [3.2 EEG structure](#32-eeg-structure)
+    - [3.2.1 Description of Free Recall events.mat Fields](#321-description-of-free-recall-eventsmat-fields)
+    - [3.2.2 Free recall behavioral results](#322-free-reacall-behavioral-results)
+  - [3.3 Behavioral Analyses (Exercises)](#33-behavioral-analyses-exercises)
+    - [3.3.1 Calculating Recall Probability](#331-calculating-recall-probability)
+    - [3.3.2 Generating Serial Position Curve](#332-generating-serial-position-curve)
+    - [3.3.3 Generating a Lag-Conditional Response Probability (CRP) Curve](#333-generating-a-lag-conditional-response-probability-crp-curve)
+    - [3.3.4 Electrophysiological Analyses](#334-electrophysiological-analyses)
+      - [3.3.4.1 Plotting Raw Voltage](#3341-plotting-raw-voltage)
+      - [3.3.4.2 Plotting Event-related Potential (ERP)](#3342-plotting-event-related-potential-erp)
 
 ## 3.1 Behavioral-Tasks
 
-### 3.1.1 Free Recall (FR) Task
+Experimental Paradigms:
 
-### 3.1.2 Assciocative Recognition (AR) Task 
-you can find detailed explanation of AR task here: [AR Task](../src/ar_task_explanation.pdf)
+- **FR1**: Verbal free recall paradigm for the RAM project.
+- **FR2**: Similar to FR1, but stimulation is delivered on random words within each list.
+- **pyFR**: Free recall paradigm similar to FR1, with minor differences in list length, recall duration, and number of lists.
+- **pyFR stim**: Similar to pyFR, but stimulation is delivered during entire lists. For some subjects, stimulation was delivered during the entire encoding period or the entire recall period.
+- **AccRew**: Reward processing task.
+- **PS2/PS3**: Tasks where stimulation is delivered with varying parameters (amplitude, frequency, duration, location) without any behavioral tasks.
+- **catFR1**: Similar to FR1, but the words within each list fall into category groupings (e.g., Animals: dog, cat, fish; Fruits: apple, orange, pear; Tools: saw, drill, hammer).
+- **catFR2**: Similar to catFR1, but with added stimulation.
+- **YC1**: Spatial navigation task.
+- **YC2**: Similar to YC1, but with stimulation.
+- **PAL1**: Paired-associate task where subjects have to remember a word from a pair of words instead of just any word from a list.
+- **PAL2**: Similar to PAL1, but with added stimulation.
+- **AR1**: Assciocative Recognition.You can find detailed explanation of AR task here: [AR Task](../src/ar_task_explanation.pdf)
 
 
 ## 3.2 EEG structure
