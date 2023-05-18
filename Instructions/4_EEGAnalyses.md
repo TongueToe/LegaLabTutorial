@@ -249,16 +249,25 @@ As you delve into more literature in the field, particularly studies involving r
 ## 4.7 Connectivity Analysis
 When performing connectivity analysis on EEG data, several measures can be utilized, including Phase-Locking Value (PLV), Cross-Phase Amplitude Coupling (xPAC), Phase-Amplitude Coupling (PAC), Coherence, and Correlation. Let's explore each of these measures briefly:
 
-1. **Phase-Locking Value (PLV)**: PLV measures the phase synchronization between two EEG signals. It quantifies the consistency of phase relationships between different frequency components across trials or channels. PLV values range from 0 to 1, with higher values indicating stronger phase synchronization.
+### 4.7.1 Phase-Locking Value (PLV)
+
+PLV measures the phase synchronization between two EEG signals. It quantifies the consistency of phase relationships between different frequency components across trials or channels. PLV values range from 0 to 1, with higher values indicating stronger phase synchronization.
 
 
-2. **Cross-Phase Amplitude Coupling (xPAC)**: xPAC examines the relationship between the phase of one frequency band and the amplitude of another frequency band. It measures how the amplitude of a higher-frequency signal is modulated by the phase of a lower-frequency signal. xPAC is particularly useful for investigating interactions between different frequency ranges.
+### 4.7.2 Cross-Phase Amplitude Coupling (xPAC) 
 
-3. **Phase-Amplitude Coupling (PAC)**: PAC assesses the coupling between the phase of one frequency band and the amplitude of the same or another frequency band. It captures how the amplitude of a signal at a specific frequency is modulated by the phase of another signal at a different frequency. PAC is commonly employed in studying functional interactions between oscillatory components.
+xPAC examines the relationship between the phase of one frequency band and the amplitude of another frequency band. It measures how the amplitude of a higher-frequency signal is modulated by the phase of a lower-frequency signal. xPAC is particularly useful for investigating interactions between different frequency ranges.
 
-4. **Coherence**: Coherence measures the linear relationship between two EEG signals across different frequencies. It quantifies the degree of synchronization or similarity in the phase and magnitude between two signals. Coherence values range from 0 to 1, with higher values indicating stronger linear relationships.
+### 4.7.3 Phase-Amplitude Coupling (PAC)
 
-5. **Correlation**: Correlation is a widely used measure to assess the statistical relationship between two EEG signals. It quantifies the linear dependence between signals and ranges from -1 to +1. Positive values indicate a positive linear relationship, negative values indicate a negative linear relationship, and a value of zero indicates no linear relationship.
+ PAC assesses the coupling between the phase of one frequency band and the amplitude of the same or another frequency band. It captures how the amplitude of a signal at a specific frequency is modulated by the phase of another signal at a different frequency. PAC is commonly employed in studying functional interactions between oscillatory components.
+
+### 4.7.4 Coherence
+Coherence measures the linear relationship between two EEG signals across different frequencies. It quantifies the degree of synchronization or similarity in the phase and magnitude between two signals. Coherence values range from 0 to 1, with higher values indicating stronger linear relationships.
+
+### 4.7.5 Correlation
+
+Correlation is a widely used measure to assess the statistical relationship between two EEG signals. It quantifies the linear dependence between signals and ranges from -1 to +1. Positive values indicate a positive linear relationship, negative values indicate a negative linear relationship, and a value of zero indicates no linear relationship.
 
 These measures provide different insights into connectivity patterns in EEG data. The choice of which measure to use depends on the research question, the specific hypotheses being tested, and the characteristics of the data. It is common to employ a combination of these measures to gain a more comprehensive understanding of the connectivity patterns in the brain.
 
