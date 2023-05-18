@@ -283,88 +283,22 @@ PLV measures the phase synchronization between two EEG signals. It quantifies th
 
 xPAC examines the relationship between the phase of one frequency band and the amplitude of another frequency band. It measures how the amplitude of a higher-frequency signal is modulated by the phase of a lower-frequency signal. xPAC is particularly useful for investigating interactions between different frequency ranges.
 
-there are two method of computing PAC/xPAC
+xPAC and PAC(following) shares the same computational procedures, and the differece is that xPAC uses amplitude and phase from two differnent regions whereas PAC uses amplitude and phase within the same region.
+there are two method of computing PAC/xPAC:
 ```maltab
 [M_norm_t,PfPha,totalMI,M_raw] = surr_norm(amplitude_t,phase_t)
 ```
+[Click Here to see PAC_canolty.m function](../src/connectivity/PAC_canolty.m)
 and 
 ```maltab
 [MI_t,PfPha]=PAC_tort(phase_t,amplitude_t,nBins)
 ```
-[Click Here to see PAC_canolty.m function](../src/connectivity/PAC_canolty.m.m)
-[Click Here to see PAC_tort.m function](../src/connectivity/PAC_tort.m.m)
+[Click Here to see PAC_tort.m function](../src/connectivity/PAC_tort.m)
 
 ### 4.7.3 Phase-Amplitude Coupling (PAC)
 
 PAC assesses the coupling between the phase of one frequency band and the amplitude of the same or another frequency band. It captures how the amplitude of a signal at a specific frequency is modulated by the phase of another signal at a different frequency. PAC is commonly employed in studying functional interactions between oscillatory components.
 
-
-
-**Function (Tort's method):**
-```matlab
-function [MI_t,PfPha]=PAC_tort(phase_t,amplitude_t,nBins)
-%
-% Function to compute Modulation Index (measure of Phase Amplitude Coupling)
-% - Ideally extract the phase and amplitude using hilbert
-% - Based on Tort et.al 2010, uses Kullback-Leibner distance to measure
-% disparity between two distribution
-% - nBin defaults to 18 bins spaced between -180 to 180 (-pi to pi).
-% changing bins
-%
-% Ryan Tan 10/22/18
-% Modified by David Wang 03/2019
-if nargin<3
-    nBins=18; % default value
-end
-
-MI_t = zeros(1,size(amplitude_t,1));
-distKL_t = zeros(1,size(amplitude_t,1));
-PfPha = zeros(1,size(amplitude_t,1));
-for i = 1: size(amplitude_t,1)
-    ampl = amplitude_t(i,:);
-    phas = phase_t(i,:);
-    
-    %% bin the amplitudes according to the phases
-    
-    binEdges=linspace(-pi,pi,nBins+1);
-    %binCenters=binEdges(1:end-1)-diff(binEdges)/2;
-    
-    [~,binIdx]=histc(phas,binEdges);
-    
-    ampBin=zeros(1,nBins);
-    for bin=1:nBins
-        if any(binIdx==bin)
-            ampBin(bin)=mean(ampl(binIdx==bin));
-        end
-    end
-    
-    ampSig=ampBin/sum(ampBin);
-    amplNorm=ones(1,nBins)./nBins;
-    
-    % prefered phase bin (where has strongest MI)
-
-    Phaspan = -pi:2*pi/(nBins-1):pi;
-    phasecandidate = Phaspan(ampBin==max(ampBin));
-    if length(phasecandidate)~=1
-        continue
-    else
-        PfPha(i) = phasecandidate;
-    end
-    % in the special case where observed probability in a bin is 0, this tweak
-    % allows computing a meaningful KL distance nonetheless
-    if any(ampSig==0)
-        ampSig(ampSig==0)=eps;
-    end
-    
-    %% KL Distance and ML
-    distKL=sum(ampSig.*log(ampSig./amplNorm));
-    
-    MI=distKL./log(nBins);
-    MI_t(i) = MI;
-    distKL_t(i) = distKL;
-end
-end
-'''
 
 ### 4.7.4 Coherence
 Coherence measures the linear relationship between two EEG signals across different frequencies. It quantifies the degree of synchronization or similarity in the phase and magnitude between two signals. Coherence values range from 0 to 1, with higher values indicating stronger linear relationships.
