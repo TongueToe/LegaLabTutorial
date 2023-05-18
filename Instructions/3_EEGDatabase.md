@@ -148,7 +148,7 @@ In this first exercise, you will perform a simple behavioral analysis of free re
 
 **For following excercises, please note that the path `LegaLabTutorial/BehData/UT014/behavioral/FR1/events.mat` is assumed to be the correct path to the `events.mat` file.**
 
-### Probability of Recall for UT014 Session 0 List 1
+#### Probability of Recall for UT014 Session 0 List 1
 
 The objective of this exercise is to familiarize you with the `events.mat` file used to filter experimental events. In this exercise, you will easily be able to check that your code is running properly by manually calculating the recall probability for a list and verifying that your manual calculation gives you the same result as your code.
 
@@ -159,7 +159,7 @@ The objective of this exercise is to familiarize you with the `events.mat` file 
 5. To calculate the probability of recall, divide the number of words recalled by the number of words presented.
 6. Save out the probability of recall for R1134T session 0 list 1.
 
-### Probability of Recall for UT014 Session 0 All Lists
+#### Probability of Recall for UT014 Session 0 All Lists
 
 This exercise should not require any skills beyond the skills used in the previous exercise. Because this exercise is over a larger set of data, it will be more difficult to manually check your work. This exercise should demonstrate why analyzing data is much more efficient using MATLAB.
 
@@ -170,7 +170,7 @@ This exercise should not require any skills beyond the skills used in the previo
 5. To calculate the probability of recall, divide the number of words recalled by the number of words presented during this session.
 6. Save out the probability of recall for UT014 session 0.
 
-### Probability of Recall for UT014 All Sessions, All Lists
+#### Probability of Recall for UT014 All Sessions, All Lists
 
 While there are many different ways to perform this analysis, one way to complete this exercise is using a 'for-loop'. You will want your code to check for the number of sessions and calculate a probability of recall for each session if a subject participated in more than one session. This exercise will also introduce you to plotting in MATLAB and calculating the standard error of the mean.
 
@@ -186,7 +186,7 @@ While there are many different ways to perform this analysis, one way to complet
    - The bar height should be the average of the recall probabilities for all sessions. You should also add error bars to the barplot. The error bar length should be 1 standard error of the mean (SEM). To calculate SEM, calculate the standard deviation of the recall probabilities across the sessions and divide the standard deviation by the sqrt(# sessions - 1). Because you cannot calculate a STD from 1 value and some subjects only participated in 1 session, it will be helpful to write your code so that the STD is only computed if there is more than 1 session.
 
 
-### Probability of Recall for All Subjects, All Sessions, and All Lists
+#### Probability of Recall for All Subjects, All Sessions, and All Lists
 
 This next exercise will require you to navigate through folders using MATLAB. One approach is to use the 'dir' function to get all of the folder names in the data folder. These will be the subject names. You will then loop through each subject, load the events structure for that subject, and calculate the probability of recall for each session that subject participated in. This will require more sophisticated use of strings to generate the unique filenames for each subject. This exercise will also introduce a new method of plotting data: the grouped bar plot.
 
@@ -229,3 +229,168 @@ This exercise will guide you through how to generate a serial position curve (SP
 2. Loop through each session for each subject and calculate the serial position curve for each session.
 3. Average the serial position curves across sessions for each subject.
 4. Plot the average serial position curve across subjects with SEM error bars. Include the number of subjects in the title of the plot.
+
+### 3.3.3 Generating a Lag-Conditional Response Probability (CRP) Curve
+
+This exercise will guide you through generating a lag-conditional response probability (CRP) curve, which measures how a subject moves from one response to another in a free recall dataset. The CRP curve is calculated by determining the number of times a subject could have had a particular response lag and the number of times the subject actually produced a response with that lag.
+
+#### Lag-CRP for UT014 Session 0, List 1
+
+1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+2. Filter for events for session 0, list 1.
+3. Use events of type 'REC WORD' to determine the word a subject said and its order of presentation.
+4. Filter for events that are of type 'REC WORD' with an 'itemno' greater than 0 and 'intrusion' equal to 0.
+5. For each 'REC WORD', determine its serial position by comparing the 'itemno' with the 'itemno' of the 'WORD' events for the same list.
+6. Calculate the possible lags and actual lags for each recalled word by considering the serial position and previously recalled words.
+7. Generate the lag-CRP curve by dividing the number of times each transition was possible by the number of times it actually occurred.
+8. Plot the lag-CRP curve for lags of -3, -2, -1, 1, 2, and 3 for UT014, session 0, list 1.
+
+#### Lag-CRP for UT014 Session 0, All Lists
+
+1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+2. Repeat the above exercise, considering all responses across all lists.
+3. Plot the lag-CRP curve for the entire session.
+
+#### Lag-CRP for UT014 All Sessions
+
+1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
+2. Loop through sessions and calculate a separate lag-CRP for each session.
+3. Plot the lag-CRP curve for the average across sessions with SEM error bars.
+
+#### Lag-CRP for All Subjects, All Sessions
+
+1. Load the 'events.mat' file for each subject.
+2. Repeat the above exercise for all subjects.
+3. Average the CRP across sessions for each subject.
+4. Plot the lag-CRP curve for the average across subjects showing SEM error bars.
+
+Sure! Here's the information formatted in Markdown:
+
+### Electrophysiological Analyses
+
+In this section, you will learn how to analyze the EEG data collected during the behavioral task. This includes plotting raw voltage, calculating event-related potentials (ERP), baseline re-referencing, and generating average ERPs.
+
+#### Plotting Raw Voltage
+
+This exercise focuses on plotting the voltage recorded from one electrode for a single event.
+
+- **Voltage for UT0145 ch 1, 1 Event**
+  1. Load the events.mat file for UT014.
+  2. Change the path in events.eegfile to point to the location of the EEG files on your computer.
+  3. Extract the first event corresponding to word presentation (type 'WORD').
+  4. Calculate the voltage for that event using a time window of 150 ms before word onset and 2000 ms after word onset with a buffer of 1000 ms. Filter out line-noise using a [58 62] Hz first-order 'stop' filter.
+  5. Plot the voltage with the time relative to word onset on the x-axis. Indicate the word onset with a green vertical line and the word offset with a red vertical line.
+  6. Label and title the plot appropriately specifying the subject, channel number, word presented, and sampling rate.
+
+- **Voltage for UT014 ch 1, 1 Event with Resampling**
+  1. Calculate the voltage for the same event and time window as above but now resample the data to 100 Hz.
+  2. Plot the resampled voltage on the same plot as the voltage calculated above to compare the two traces.
+
+#### Plotting Event-related Potential (ERP)
+
+This exercise focuses on computing and plotting event-related potentials (ERP) for single and multiple channels.
+
+- **Plotting the ERP for UT014, Channel 1 All Encoding Events**
+  1. Filter the events.mat structure for UT014 for only the encoding events.
+  2. Calculate the raw voltage for all these events.
+  3. Find the mean and standard deviation of voltage across all events.
+  4. Plot the ERP with error bars for this channel. Label and title the plot accordingly.
+
+- **Plotting the ERP for 2 Channels for All Encoding Events for UT014**
+  1. Calculate the ERP for channel 2 as done for channel 1 in the previous exercise.
+  2. Plot the ERP with error bars for channel 2 and 1 on the same figure, labeling each channel.
+
+- **Plotting the Baseline Re-referenced ERP for 2 Channels**
+  1. Calculate the ERP for channels 1 and 2 as done in the previous exercise. Perform a baseline subtraction using the -150 ms to 0 ms baseline.
+  2. Plot the baseline re-referenced ERP for each channel and label the plot accordingly.
+  3. Add a horizontal line at y=0 to indicate the baseline. Clearly indicate the word onset and offset in the figure.
+
+- **Plotting the Average ERP in the Hippocampus**
+  1. Determine the electrodes you have EEG files for each subject.
+  2. Loop through each electrode for each subject and calculate the ERP for all encoding events.
+  3. Average the ERP across all electrodes for all subjects to generate an average ERP for the hippocampus.
+  4. Plot the average hippocampal ERP with error bars.
+
+Please note that the path in events.eegfile needs to be modified to point to the location of the EEG files on your computer.
+
+
+Certainly! Here's the updated information with MATLAB code for each step:
+
+```markdown
+### Electrophysiological Analyses
+
+In this section, you will learn how to analyze the EEG data collected during the behavioral task. This includes plotting raw voltage, calculating event-related potentials (ERP), baseline re-referencing, and generating average ERPs.
+
+#### Plotting Raw Voltage
+
+This exercise focuses on plotting the voltage recorded from one electrode for a single event.
+
+- **Voltage for UT0145 ch 1, 1 Event**
+  ```matlab
+  % Load events.mat file for UT014
+  load('LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat');
+
+  % Change the path in events.eegfile to point to the EEG files on your computer
+  events.eegfile = '/path/to/UT014/eeg.reref/UT01405Dec17_1545';
+
+  % Extract the first event corresponding to word presentation
+  event = events(strcmp({events.type}, 'WORD'), 1);
+
+  % Calculate the voltage for that event
+  voltage = gete_ms(event, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000]);
+
+  % Plot the voltage
+  figure;
+  t = (-150:1:2000);  % Time vector
+  plot(t, voltage);
+  xlabel('Time (ms)');
+  ylabel('Voltage (\muV)');
+  title('Voltage for UT0145 ch 1, 1 Event');
+  hold on;
+  line([0 0], ylim, 'Color', 'g');  % Word onset (green line)
+  line([1600 1600], ylim, 'Color', 'r');  % Word offset (red line)
+  hold off;
+  ```
+
+- **Voltage for UT014 ch 1, 1 Event with Resampling**
+  ```matlab
+  % Calculate the voltage for the same event and time window with resampling
+  voltage_resampled = resample(voltage, 100, 1000);  % Resample to 100 Hz
+
+  % Plot the resampled voltage on the same plot
+  hold on;
+  plot(t, voltage_resampled);
+  legend('Raw Voltage', 'Resampled Voltage');
+  ```
+
+#### Plotting Event-related Potential (ERP)
+
+This exercise focuses on computing and plotting event-related potentials (ERP) for single and multiple channels.
+
+- **Plotting the ERP for UT014, Channel 1 All Encoding Events**
+  ```matlab
+  % Filter events.mat structure for UT014 encoding events
+  encoding_events = events(strcmp({events.type}, 'WORD'));
+
+  % Calculate the raw voltage for all encoding events
+  voltage_all = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000]);
+
+  % Compute mean and standard deviation of voltage across all events
+  mean_voltage = mean(voltage_all);
+  std_voltage = std(voltage_all);
+
+  % Plot the ERP with error bars
+  figure;
+  errorbar(t, mean_voltage, std_voltage);
+  xlabel('Time (ms)');
+  ylabel('Voltage (\muV)');
+  title('ERP for UT014, Channel 1 All Encoding Events');
+  ```
+
+- **Plotting the ERP for 2 Channels for All Encoding Events for UT014**
+  ```matlab
+  % Calculate the ERP for channel 2
+  voltage_channel2 = gete_ms(encoding_events, 'filt',[58 62], 'buff',1000, 'tWin',[-150 2000], 'ch',2);
+
+  % Plot the ERPs for channel 1 and channel
+  
