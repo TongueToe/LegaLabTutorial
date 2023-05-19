@@ -6,23 +6,18 @@
    - [Utilize efficient data structures](#611-utilize-efficient-data-structures)
    - [Vectorization](#612-vectorization)
    - [Memory management](#613-memory-management)
-   
 2. [Parallel Computing](#62-parallel-computing)
    - [Parallelize computations](#621-parallelize-computations)
    - [GPU computing](#622-gpu-computing)
-   
 3. [Algorithm Optimization](#63-algorithm-optimization)
    - [Algorithmic efficiency](#631-algorithmic-efficiency)
    - [Profiling and optimization](#632-profiling-and-optimization)
-   
 4. [Memory and I/O Optimization](#64-memory-and-io-optimization)
    - [Minimize disk I/O operations](#641-minimize-disk-io-operations)
    - [Memory-efficient operations](#642-memory-efficient-operations)
-   
 5. [Modularity and Reusability](#65-modularity-and-reusability)
    - [Function and script design](#651-function-and-script-design)
    - [Libraries and toolboxes](#652-libraries-and-toolboxes)
-   
 6. [Testing and Debugging](#66-testing-and-debugging)
    - [Unit testing](#661-unit-testing)
    - [Debugging techniques](#662-debugging-techniques)
