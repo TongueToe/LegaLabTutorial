@@ -208,20 +208,24 @@ end
 In these examples, the computations are performed considering the structure of the EEG data as channel by trial by time. The parallel for-loops or GPU acceleration is applied accordingly to distribute the computations across multiple cores/processors or leverage the parallel processing power of the GPU for improved efficiency and speed. Adjust the computations based on your specific analysis requirements and EEG data structure.
 
 ## 6.3 Algorithm Optimization:
-a. Algorithmic efficiency: Implement efficient algorithms tailored to specific EEG data analysis tasks, such as filtering, artifact removal, spectral analysis, or feature extraction. Consider existing MATLAB functions and toolboxes optimized for EEG analysis.
-b. Profiling and optimization: Use MATLAB's profiling tools (e.g., the Profiler) to identify and optimize the most time-consuming parts of the code. Optimize critical sections using techniques like algorithmic improvements, code vectorization, and preallocation.
+**a. Algorithmic efficiency:** Implement efficient algorithms tailored to specific EEG data analysis tasks, such as filtering, artifact removal, spectral analysis, or feature extraction. Consider existing MATLAB functions and toolboxes optimized for EEG analysis.
+
+**b. Profiling and optimization:** Use MATLAB's profiling tools (e.g., the Profiler) to identify and optimize the most time-consuming parts of the code. Optimize critical sections using techniques like algorithmic improvements, code vectorization, and preallocation.
 
 ## 6.4 Memory and I/O Optimization:
-a. Minimize disk I/O operations: Reduce unnecessary read/write operations from disk by optimizing file access strategies, using memory-mapped files, or preloading data into memory.
-b. Memory-efficient operations: Use memory-efficient techniques like streaming and block processing to avoid loading the entire dataset into memory simultaneously, particularly for long EEG recordings.
+**a. Minimize disk I/O operations:** Reduce unnecessary read/write operations from disk by optimizing file access strategies, using memory-mapped files, or preloading data into memory.
+
+**b. Memory-efficient operations:** Use memory-efficient techniques like streaming and block processing to avoid loading the entire dataset into memory simultaneously, particularly for long EEG recordings.
 
 ## 6.5 Modularity and Reusability:
-a. Function and script design: Organize EEG data analysis code into modular functions or scripts, promoting code reusability, maintainability, and readability.
-b. Libraries and toolboxes: Take advantage of existing MATLAB libraries and toolboxes specifically designed for EEG analysis to leverage optimized functions and workflows.
+**a. Function and script design:** Organize EEG data analysis code into modular functions or scripts, promoting code reusability, maintainability, and readability.
+
+**b. Libraries and toolboxes:** Take advantage of existing MATLAB libraries and toolboxes specifically designed for EEG analysis to leverage optimized functions and workflows.
 
 ## 6.6 Testing and Debugging:
-a. Unit testing: Implement unit tests to ensure the correctness and stability of individual functions or modules.
-b. Debugging techniques: Familiarize yourself with MATLAB's debugging tools (e.g., breakpoints, the MATLAB Debugger) to identify and fix code errors efficiently.
+**a. Unit testing:** Implement unit tests to ensure the correctness and stability of individual functions or modules.
+
+**b. Debugging techniques:** Familiarize yourself with MATLAB's debugging tools (e.g., breakpoints, the MATLAB Debugger) to identify and fix code errors efficiently.
 
 ```matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
