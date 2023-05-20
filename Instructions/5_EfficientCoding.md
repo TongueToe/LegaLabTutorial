@@ -154,8 +154,58 @@ end
 
 
 ## 6.2 Parallel Computing:
-a. Parallelize computations: Take advantage of MATLAB's parallel computing capabilities (e.g., parallel for-loops, parfor) to distribute computationally intensive tasks across multiple cores or processors.
-b. GPU computing: Explore GPU acceleration for specific EEG data analysis tasks, such as time-frequency analysis or machine learning algorithms, to leverage the parallel processing power of graphics cards.
+- **a. Parallelize computations:** 
+   Take advantage of MATLAB's parallel computing capabilities (e.g., parallel for-loops, parfor) to distribute computationally intensive tasks across multiple cores or processors.
+
+   **Example: Computing average EEG power across trials using parallel for-loops:**
+   ```matlab
+   % Load the EEG data (Assuming the data is stored in a 3D matrix called 'eegData')
+   load('eegData.mat');
+
+   % Initialize variables
+   [numChannels, numTrials, numTimePoints] = size(eegData);
+   averagePower = zeros(numChannels, numTimePoints);
+
+   % Perform computation in parallel using parfor
+   parfor c = 1:numChannels
+      for t = 1:numTimePoints
+         averagePower(c, t) = mean(abs(hilbert(eegData(c, :, t))).^2);
+      end
+   end
+   ```
+
+-**b. GPU computing:** 
+   Explore GPU acceleration for specific EEG data analysis tasks, such as time-frequency analysis or machine learning algorithms, to leverage the parallel processing power of graphics cards.
+
+   **Example: Time-frequency analysis using GPU acceleration:**
+   ```matlab
+   % Load the EEG data (Assuming the data is stored in a 3D matrix called 'eegData')
+   load('eegData.mat');
+
+   % Transfer the EEG data to the GPU
+   eegDataGPU = gpuArray(eegData);
+
+   % Define frequency range
+   frequencies = 1:100; % Example frequency range
+
+   % Initialize power spectrogram on the GPU
+   powerSpectrogram = zeros(numChannels, numTrials, length(frequencies), 'gpuArray');
+
+   % Perform time-frequency analysis using GPU acceleration
+   for c = 1:numChannels
+      for t = 1:numTrials
+         powerSpectrogram(c, t, :) = computePowerSpectrogram(eegDataGPU(c, t, :), frequencies);
+      end
+   end
+
+   % Function to compute the power spectrogram for a single channel and trial
+   function psd = computePowerSpectrogram(eegSignal, frequencies)
+      fs = 1000; % Example sampling rate (in Hz)
+      eegSignal = reshape(eegSignal, 1, []); % Reshape to a 1D signal
+      [psd, ~] = pwelch(gather(eegSignal), [], [], frequencies, fs);
+   end
+   ```
+In these examples, the computations are performed considering the structure of the EEG data as channel by trial by time. The parallel for-loops or GPU acceleration is applied accordingly to distribute the computations across multiple cores/processors or leverage the parallel processing power of the GPU for improved efficiency and speed. Adjust the computations based on your specific analysis requirements and EEG data structure.
 
 ## 6.3 Algorithm Optimization:
 a. Algorithmic efficiency: Implement efficient algorithms tailored to specific EEG data analysis tasks, such as filtering, artifact removal, spectral analysis, or feature extraction. Consider existing MATLAB functions and toolboxes optimized for EEG analysis.
