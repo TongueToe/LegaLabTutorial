@@ -209,8 +209,8 @@ In these examples, the computations are performed considering the structure of t
 
 ## 6.3 Algorithm Optimization:
 **a. Algorithmic efficiency:** Implement efficient algorithms tailored to specific EEG data analysis tasks, such as filtering, artifact removal, spectral analysis, or feature extraction. Consider existing MATLAB functions and toolboxes optimized for EEG analysis.
-Certainly! Here's an example of algorithmic efficiency improvement in MATLAB for EEG data analysis. We'll focus on filtering the EEG data before and after optimization:
 
+Here's an example of algorithmic efficiency improvement in MATLAB for EEG data analysis. We'll focus on filtering the EEG data before and after optimization:
 Before Optimization:
 ```matlab
 % Load the EEG data (Assuming the data is stored in a 3D matrix called 'eegData')
