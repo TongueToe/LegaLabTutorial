@@ -209,8 +209,62 @@ In these examples, the computations are performed considering the structure of t
 
 ## 6.3 Algorithm Optimization:
 **a. Algorithmic efficiency:** Implement efficient algorithms tailored to specific EEG data analysis tasks, such as filtering, artifact removal, spectral analysis, or feature extraction. Consider existing MATLAB functions and toolboxes optimized for EEG analysis.
+Certainly! Here's an example of algorithmic efficiency improvement in MATLAB for EEG data analysis. We'll focus on filtering the EEG data before and after optimization:
+
+Before Optimization:
+```matlab
+% Load the EEG data (Assuming the data is stored in a 3D matrix called 'eegData')
+load('eegData.mat');
+
+% Apply a bandpass filter to the EEG data using MATLAB's built-in filter function
+fs = 1000; % Example sampling rate (in Hz)
+filterOrder = 4; % Example filter order
+cutoffFreqs = [1 50]; % Example cutoff frequencies (in Hz)
+
+filteredData = zeros(size(eegData)); % Initialize filtered data matrix
+
+for c = 1:size(eegData, 1)
+    for t = 1:size(eegData, 2)
+        for p = 1:size(eegData, 3)
+            % Compute filter coefficients for each channel, trial, and time point
+            [b, a] = butter(filterOrder, cutoffFreqs/(fs/2), 'bandpass');
+            
+            % Apply zero-phase filtering to each time point of each trial of each channel
+            filteredData(c, t, p) = filtfilt(b, a, eegData(c, t, p));
+        end
+    end
+end
+```
+
+After Optimization:
+```matlab
+% Load the EEG data (Assuming the data is stored in a 3D matrix called 'eegData')
+load('eegData.mat');
+
+% Apply a bandpass filter to the EEG data using MATLAB's built-in filter function
+fs = 1000; % Example sampling rate (in Hz)
+filterOrder = 4; % Example filter order
+cutoffFreqs = [1 50]; % Example cutoff frequencies (in Hz)
+
+% Compute filter coefficients
+[b, a] = butter(filterOrder, cutoffFreqs/(fs/2), 'bandpass');
+
+% Reshape the EEG data to a 2D matrix for efficient filtering
+reshapedData = reshape(eegData, [], size(eegData, 3));
+
+% Apply zero-phase filtering to the reshaped data
+filteredData = filtfilt(b, a, reshapedData);
+
+% Reshape the filtered data back to the original shape
+filteredData = reshape(filteredData, size(eegData));
+```
+
+In the optimized version, the filtering process is improved by reshaping the 3D EEG data to a 2D matrix before applying the filter. This allows us to perform the filtering operation on the entire matrix in one step, which is more efficient than nested loops. After filtering, the filtered data is reshaped back to the original 3D shape.
+
+By reducing the number of nested loops and taking advantage of MATLAB's optimized filter function, we can significantly improve the efficiency of the filtering operation for EEG data analysis.
 
 **b. Profiling and optimization:** Use MATLAB's profiling tools (e.g., the Profiler) to identify and optimize the most time-consuming parts of the code. Optimize critical sections using techniques like algorithmic improvements, code vectorization, and preallocation.
+
 
 ## 6.4 Memory and I/O Optimization:
 **a. Minimize disk I/O operations:** Reduce unnecessary read/write operations from disk by optimizing file access strategies, using memory-mapped files, or preloading data into memory.
