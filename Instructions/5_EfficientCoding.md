@@ -209,6 +209,7 @@ In these examples, the computations are performed considering the structure of t
 
 ## 6.3 Algorithm Optimization:
 **a. Algorithmic efficiency:** Implement efficient algorithms tailored to specific EEG data analysis tasks, such as filtering, artifact removal, spectral analysis, or feature extraction. Consider existing MATLAB functions and toolboxes optimized for EEG analysis.
+**b. Profiling and optimization:** Use MATLAB's profiling tools (e.g., the Profiler) to identify and optimize the most time-consuming parts of the code. Optimize critical sections using techniques like algorithmic improvements, code vectorization, and preallocation.
 
 Here's an example of algorithmic efficiency improvement in MATLAB for EEG data analysis. We'll focus on filtering the EEG data before and after optimization:
 Before Optimization:
@@ -261,20 +262,61 @@ filteredData = reshape(filteredData, size(eegData));
 
 In the optimized version, the filtering process is improved by reshaping the 3D EEG data to a 2D matrix before applying the filter. This allows us to perform the filtering operation on the entire matrix in one step, which is more efficient than nested loops. After filtering, the filtered data is reshaped back to the original 3D shape.
 
-By reducing the number of nested loops and taking advantage of MATLAB's optimized filter function, we can significantly improve the efficiency of the filtering operation for EEG data analysis.
-
-**b. Profiling and optimization:** Use MATLAB's profiling tools (e.g., the Profiler) to identify and optimize the most time-consuming parts of the code. Optimize critical sections using techniques like algorithmic improvements, code vectorization, and preallocation.
-
 
 ## 6.4 Memory and I/O Optimization:
 **a. Minimize disk I/O operations:** Reduce unnecessary read/write operations from disk by optimizing file access strategies, using memory-mapped files, or preloading data into memory.
-
 **b. Memory-efficient operations:** Use memory-efficient techniques like streaming and block processing to avoid loading the entire dataset into memory simultaneously, particularly for long EEG recordings.
 
 ## 6.5 Modularity and Reusability:
 **a. Function and script design:** Organize EEG data analysis code into modular functions or scripts, promoting code reusability, maintainability, and readability.
 
 **b. Libraries and toolboxes:** Take advantage of existing MATLAB libraries and toolboxes specifically designed for EEG analysis to leverage optimized functions and workflows.
+
+**Here's an example of function and script design in MATLAB for EEG data analysis:**
+
+Function Design:
+```matlab
+% Function: computeAveragePower
+% Computes the average power across trials for each channel in EEG data
+% Inputs:
+%   - eegData: 3D matrix representing the EEG data (channel by trial by time)
+% Outputs:
+%   - averagePower: Column vector containing the average power for each channel
+
+function averagePower = computeAveragePower(eegData)
+    numChannels = size(eegData, 1);
+    numTrials = size(eegData, 2);
+    numTimePoints = size(eegData, 3);
+
+    reshapedData = reshape(eegData, [], numTimePoints);
+    sumPower = sum(abs(reshapedData).^2, 2);
+    averagePower = sumPower / (numTrials * numTimePoints);
+    averagePower = reshape(averagePower, numChannels, []);
+end
+```
+
+Script Design:
+```matlab
+% Script: eegAnalysisScript
+% An example script to demonstrate EEG data analysis using the computeAveragePower function
+
+% Load the EEG data (Assuming the data is stored in a matrix called 'eegData')
+load('eegData.mat');
+
+% Call the computeAveragePower function to compute the average power
+averagePower = computeAveragePower(eegData);
+
+% Display the results
+disp('Average Power for Each Channel:');
+disp(averagePower);
+```
+
+In this example, a function called `computeAveragePower` is designed to compute the average power across trials for each channel in the EEG data. The function takes the EEG data matrix as input and returns a column vector containing the average power for each channel.
+
+The script `eegAnalysisScript` demonstrates the usage of the `computeAveragePower` function. It loads the EEG data, calls the function to compute the average power, and displays the results.
+
+By designing modular functions and separating the analysis logic into functions and scripts, you can enhance code organization, reusability, and maintainability for EEG data analysis tasks.
+
 
 ## 6.6 Testing and Debugging:
 **a. Unit testing:** Implement unit tests to ensure the correctness and stability of individual functions or modules.
