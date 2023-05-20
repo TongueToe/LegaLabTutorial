@@ -72,7 +72,7 @@ Preprocessing and Data Organization:
    load('large_dataset.mat', 'eegData');
 
    % 
-   % Perform preprocessing eegData
+   % Perform preprocessing on eegData
    % ...
 
    % Clear variables to free up memory and use processed data
@@ -81,8 +81,76 @@ Preprocessing and Data Organization:
    In this example, the `load` function is used to load a large EEG dataset stored in a MAT file. Once the analysis on `eegData` is complete, the `clear` command is used to remove the `eegData` variable from the MATLAB workspace, freeing up memory resources.
    By efficiently using MATLAB data structures, leveraging vectorized operations, and managing memory effectively, you can optimize your preprocessing and data organization workflow for EEG data in MATLAB.
 
+In practical scenarios, it is often beneficial to reorganize raw EEG data obtained from a lab database, especially when the raw data is stored in binary format and requires access through a specialized system like biohpc or a VPN connection when off campus. By reorganizing the EEG data of multiple subjects, you can transfer the data to your local machine and store it conveniently. Additionally, you can preprocess the data once and save the preprocessed results locally. This approach eliminates the need for repetitive data retrieval and preprocessing, saving time and effort in future analyses. Having the data readily available on your local machine facilitates efficient access and reduces dependence on remote access or complex connectivity requirements.
 
+**Here's an example scirpt in MATLAB**
 
+```matlab 
+% EEG Data Conversion and Preprocessing Script
+% This MATLAB script converts raw EEG data to preprocessed MATLAB .mat
+% files using gete_ms funciton in the EEG_toolbox.
+% It retrieves raw EEG data from the lab database and reorganizes the data.
+% The preprocessed data is then saved as separate .mat files for each subject.
+% David Wang 
+% 05/19/2023
+
+clear
+close all
+clc
+
+% Define the list of subjects
+subjList = {'UT004';'UT025';'UT035';'UT037'};
+
+% Define the channels of interest
+channels = 1:128;
+
+% Loop through each subject
+for subjInd = 1:length(subjList)
+    % Check if the events file exists for the current subject
+    if exist(sprintf('/Volumes/project/TIBIR/Lega_lab/shared/lega_ansir/subjFiles/%s/behavioral/FR1/events.mat', subjList{subjInd}), 'file')
+        % Load talStruct data for electrode locations
+        load(sprintf('/Volumes/project/TIBIR/Lega_lab/shared/lega_ansir/subjFiles/%s/tal/%s_talLocs_database_monopol.mat', subjList{subjInd}, subjList{subjInd}));
+        
+        % Filter talStruct based on the selected channels
+        talStruct = talStruct(ismember([talStruct.channel]', channels));
+        
+        % Filter events data for non-empty eegfile field
+        events = events(cellfun(@(x) ~isempty(x), {events.eegfile}'));
+        
+        % Update the eegfile paths to the full file paths
+        for idx = 1:length(events)
+            events(idx).eegfile = fullfile('/Volumes', events(idx).eegfile);
+        end
+        
+        % Extract retrieval events and baseline events
+        events_retrieval = getRetrievalEvents_NEW(events, [1000, 500]);
+        events_retrieval_baseline = events_retrieval.recCntl;
+        events_retrieval = events_retrieval.rec;
+        
+        % Filter events for the 'WORD' type
+        events = events(cellfun(@(x) strcmp(x, 'WORD'), {events.type}'));
+        
+        % Initialize EEG matrix for the main events
+        eeg = nan(length(channels), length(events), 1800);
+        
+        % Loop through each channel and extract EEG data for the main events
+        for idx = 1:length(channels)
+            [eeg(idx, :, :)] = gete_ms(channels(idx, 1), events, 1800, 0, 0, [58 62], 'stop', 1);
+        end
+        
+        % Initialize EEG matrix for the retrieval events
+        eeg_retrieval = nan(length(channels), length(events_retrieval), 1000);
+        
+        % Loop through each channel and extract EEG data for the retrieval events
+        for idx = 1:length(channels)
+            [eeg_retrieval(idx, :, :)] = gete_ms(channels(idx, 1), events_retrieval, 1000, -1000, 0, [58 62], 'stop', 1);
+        end
+        
+        % Save the preprocessed data as a MATLAB .mat file
+        save(sprintf('/yourfolder/example_data/%s.mat', subjList{subjInd}), 'events', 'eeg', 'eeg_retrieval', 'talStruct', 'channels')
+    end
+end
+```
 
 
 ## 6.2 Parallel Computing:
