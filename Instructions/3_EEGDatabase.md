@@ -31,7 +31,7 @@ Experimental Paradigms:
 - **YC2**: Similar to YC1, but with stimulation.
 - **PAL1**: Paired-associate task where subjects have to remember a word from a pair of words instead of just any word from a list.
 - **PAL2**: Similar to PAL1, but with added stimulation.
-- **AR1**: Assciocative Recognition.You can find detailed explanation of AR task here: [AR Task](../src/ar_task_explanation.pdf)
+- **AR1**: Associative Recognition.You can find a detailed explanation of the AR task here: [AR Task](../src/ar_task_explanation.pdf)
 
 
 ## 3.2 EEG structure
