@@ -21,7 +21,7 @@ Experimental Paradigms:
 
 - **FR1**: Verbal free recall paradigm for the RAM project.
 - **FR2**: Similar to FR1, but stimulation is delivered on random words within each list.
-- **pyFR**: Free recall paradigm similar to FR1, with minor differences in list length, recall duration, and number of lists.
+- **pyFR**: Free recall paradigm similar to FR1, with minor differences in list length, recall duration, and number of lists (python).
 - **pyFR stim**: Similar to pyFR, but stimulation is delivered during entire lists. For some subjects, stimulation was delivered during the entire encoding period or the entire recall period.
 - **AccRew**: Reward processing task.
 - **PS2/PS3**: Tasks where stimulation is delivered with varying parameters (amplitude, frequency, duration, location) without any behavioral tasks.
@@ -31,8 +31,9 @@ Experimental Paradigms:
 - **YC2**: Similar to YC1, but with stimulation.
 - **PAL1**: Paired-associate task where subjects have to remember a word from a pair of words instead of just any word from a list.
 - **PAL2**: Similar to PAL1, but with added stimulation.
-- **AR1**: Associative Recognition.You can find a detailed explanation of the AR task here: [AR Task](../src/ar_task_explanation.pdf)
-
+- **AR1**: Associative Recognition. Visual explanation of AR task: [AR Task](../src/ar_task_explanation.pdf)
+- **AR stim**: Similar to associative recognition, but stimulation is used.
+- **SR**: Verbal serial recall paradigm.
 
 ## 3.2 EEG structure
 
