@@ -17,7 +17,15 @@
 
 ## 3.1 Behavioral-Tasks
 
+General Task Descriptions:
+- **FR Task**: In a free-recall task, a participant studies a list of words for a later recall test. The words are presented one at a time. Then after all the words are shown, the participant attempts to recall the words from the list in any order. A key feature of free recall is that the participant is allowed to recall the list items in any order. Thus, the analysis of the order in which a participant recalls the list items may give clues as to the underlying mechanisms of memory search. In particular, we may ask what factors determine the order in which participants recall words from the list, how these factors interact to determine whether a given item is recalled, and, in the end, how many items are actually recalled.
 Experimental Paradigms:
+- **AR Task**: Laboratory studies of associative memory are concerned with people’s ability to encode a relation between two items, including the ability to later use one of the items as a cue to retrieve the other item.
+In considering associative tasks, we not only explore how people forge a memory representation that combines or links information from two previously learned representations, but we also investigate associative recall: the ability of a cue item to help people recall a target item. Thus, we add two new dimensions beyond our prior analysis (i.e.: free recall) of recognition memory for items: the dimensions of association and recall.
+In general, associations being studied are links connecting two distinct knowledge representations. More specifically, these associations are new representations that combine elements of the constituent item representations. When studying these associations, it is important to consider situational and temporal context.
+Experimentation is comprised of multiple study and task sections. In the study and encoding phase – participants will see pairs of words on screen and attempt to form associations. During test, participants will categorize them as new, rearranged, or same pairs.
+•	See slides for visual representation of AR Task 
+- **SR Task**: Serial recall is the method for studying memory for sequentially ordered materials. Participants study a ordered list of items presented to them individually, and are tasked with recalling the exact sequence of said items. Conditions of this task allow us to study the encoding and retrieval phases of memory.
 
 - **FR1**: Verbal free recall paradigm for the RAM project.
 - **FR2**: Similar to FR1, but stimulation is delivered on random words within each list.
