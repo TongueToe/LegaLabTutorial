@@ -17,7 +17,7 @@
 
 ## 3.1 Behavioral-Tasks
 
-General Task Descriptions:
+__General Task Descriptions:
 - **FR Task**: In a free-recall task, a participant studies a list of words for a later recall test. The words are presented one at a time. Then after all the words are shown, the participant attempts to recall the words from the list in any order. A key feature of free recall is that the participant is allowed to recall the list items in any order. Thus, the analysis of the order in which a participant recalls the list items may give clues as to the underlying mechanisms of memory search. In particular, we may ask what factors determine the order in which participants recall words from the list, how these factors interact to determine whether a given item is recalled, and, in the end, how many items are actually recalled.
 Experimental Paradigms:
 - **AR Task**: Laboratory studies of associative memory are concerned with people’s ability to encode a relation between two items, including the ability to later use one of the items as a cue to retrieve the other item.
@@ -27,6 +27,7 @@ Experimentation is comprised of multiple study and task sections. In the study a
 •	See slides for visual representation of AR Task 
 - **SR Task**: Serial recall is the method for studying memory for sequentially ordered materials. Participants study a ordered list of items presented to them individually, and are tasked with recalling the exact sequence of said items. Conditions of this task allow us to study the encoding and retrieval phases of memory.
 
+__Experimental Paradigms:
 - **FR1**: Verbal free recall paradigm for the RAM project.
 - **FR2**: Similar to FR1, but stimulation is delivered on random words within each list.
 - **pyFR**: Free recall paradigm similar to FR1, with minor differences in list length, recall duration, and number of lists (python).
