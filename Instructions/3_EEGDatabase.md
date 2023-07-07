@@ -26,7 +26,7 @@ In general, associations being studied are links connecting two distinct knowled
 Experimentation is comprised of multiple study and task sections. In the study and encoding phase – participants will see pairs of words on screen and attempt to form associations. During test, participants will categorize them as new, rearranged, or same pairs.
 •	See slides for visual representation of AR Task 
 - **SR Task**: Serial recall is the method for studying memory for sequentially ordered materials. Participants study a ordered list of items presented to them individually, and are tasked with recalling the exact sequence of said items. Conditions of this task allow us to study the encoding and retrieval phases of memory.
-Kahana, M. J. (2012). Foundations of human memory. Oxford University Press.
+- [Kahana, M. J. (2012). Foundations of human memory. Oxford University Press.]
 
 Experimental Paradigms:
 
