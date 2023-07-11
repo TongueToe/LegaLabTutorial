@@ -103,7 +103,7 @@ The EEG data collected from subjects in our lab is organized and formatted consi
 
 Understanding the organization and structure of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
 
-### 3.2.2 Free reacall behavioral results 
+### 3.2.2 Free recall behavioral results 
 
 There is one event structure per for each subject. All sessions for the subject will be in the same event structure. The structure contains 688 entries in an array, each of which has these fields shown below.
 Example of non-recalled word:
