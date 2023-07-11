@@ -130,7 +130,7 @@ When the AR Task includes *stimulation*, there are a few more event fields that 
 -	**Study_ans**: This field provides information on whether the answer is top or bottom
 -	**Test_ans**: This field provides information on whether the pair being presented is the same, new, or rearranged pair
 
-Understanding the organization and structure of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
+Understanding the organization of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
 
 ### 3.2.2 Free recall behavioral results 
 
