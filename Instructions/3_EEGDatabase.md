@@ -118,6 +118,17 @@ While the event structures for the Associative-Recall (AR) task are organized an
 - **Eegfile**: This field points to the corresponding EEG file for that entry in the events structure. You will need to update this field to point to the location of the EEG files on your system. The filename should remain the same, but the folder location may need to be modified.
 - **eegoffset**: This field denotes the difference between the time frames of the eeg and computer recordings in milliseconds.
 
+When the AR Task includes *stimulation*, there are a few more event fields that will be used:
+-	**Block**: This field denotes the section of experiment (practice, section number, etc.)
+-	**Retr_stim**: This field provides an integer value of 0 or 1 which represents whether or not there was stimulation in that word pair.
+-	**Stim_elec**: This field provides a label of the channel that was stimulated.
+-	**Stim_mamp**: This field provides the stimulation amplitude in milliamperes.
+-	**Stim_hz**: This field provides the stimulation amplitude in hertz.
+-	**Log_num**: This field provides the number of the event that was logged.
+-	**Log_time**: This field provides the test computer time in which the event was logged.
+-	**Sec_time**: This field provides the time in seconds in which the event was logged.
+-	**Study_ans**: This field provides information on whether the answer is top or bottom
+-	**Test_ans**: This field provides information on whether the pair being presented is the same, new, or rearranged pair
 
 Understanding the organization and structure of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
 
