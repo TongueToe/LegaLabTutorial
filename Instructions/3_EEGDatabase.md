@@ -133,10 +133,10 @@ When the AR Task includes *stimulation*, there are a few more event fields that 
 Serial recall includes its own set of unique features as well. Below is a breakdown of the information unique to the event structure for the *Serial Recall* task. Any variables seen in the SR events.mat files not included below will be described in a previous section.
 -	**List**: This field specifies the list number within the corresponding session (see previous description). For SR, if the experiment is divided into multiple lists with a study and test sections, 0 would be the practice list.
 -	**Type**: This field indicates the type of event. The possible entries are as follows:
-    -WORD: An item in the list to be remembered by subject
-    -REC_START: When test portion of serial recall starts
-    -REC_STOP: When test portion of serial recall ends
-    -ORIENT: Fixation cross displayed at the center of the screen
+    WORD: An item in the list to be remembered by subject.
+    REC_START: When test portion of serial recall starts.
+    REC_STOP: When test portion of serial recall ends.
+    ORIENT: Fixation cross displayed at the center of the screen.
 -	**Item**: This field specifies the specific word that was presented or recalled. Entries that do not correspond to a presented or recalled word are marked as 'X'.
 -	**Loc_x**: This field denotes where on the screen (x axis) the word is positioned
 -	**Loc_y**: This field denotes where on the screen (y axis) the word is positioned.
