@@ -130,6 +130,30 @@ When the AR Task includes *stimulation*, there are a few more event fields that 
 -	**Study_ans**: This field provides information on whether the answer is top or bottom
 -	**Test_ans**: This field provides information on whether the pair being presented is the same, new, or rearranged pair
 
+Serial recall includes its own set of unique features as well. Below is a breakdown of the information unique to the event structure for the *Serial Recall* task. Any variables seen in the SR events.mat files not included below will be described in a previous section.
+-	**List**: This field specifies the list number within the corresponding session (see previous description). For SR, if the experiment is divided into multiple lists with a study and test sections, 0 would be the practice list.
+-	**Type**: This field indicates the type of event. The possible entries are as follows:
+  - WORD: An item in the list to be remembered by subject
+  - REC_START: When test portion of serial recall starts
+  - REC_STOP: When test portion of serial recall ends
+  - ORIENT: Fixation cross displayed at the center of the screen
+-	**Item**: This field specifies the specific word that was presented or recalled. Entries that do not correspond to a presented or recalled word are marked as 'X'.
+-	**Loc_x**: This field denotes where on the screen (x axis) the word is positioned
+-	**Loc_y**: This field denotes where on the screen (y axis) the word is positioned.
+The loc_x and loc_y values are used to identify the order the subject placed the words in.
+-	**Serialpos**: This field provides the actual serial position of the word in question (1-10)
+-	**Decode_serialpos**: This field provides the subject interpretation of the serial position of the word based on where subject placed the word.
+-	**Correct**: This field provides an integer based on a comparison between decode_serialpos and serialpos (1 represents a correct answer and match, 0 represents an incorrect answer)
+-	**Dist_correct**: This field describes the accuracy of the subject’s answer in terms of their answer’s distance from the correct answer (formula: decode_serialpos – serialpos)
+-	**Log_time**: This field provides the test computer time in which the event happened or ended, corresponding to each word by serial position.
+-	**Dur**: This field provides how long the word was displayed on the screen, and how long the orient lasted in seconds.
+-	**Log_num**: This field provides the order in which the events were logged.
+-	**Order**: This field is a representation of the type of event (2 is orient, 3 is word, 4 is rec start, 5 is rec stop)
+-	Sec_error:  ?
+-	Sec_time: (?) The time in which the words are first scattered on screen
+-	**Eegoffset**: We have a computer logged time event/sync pulses. Times when sync pulses are recorded on the computer and eeg recording, correlation is done that minimizes the error to match sync pulses (ms).
+
+
 Understanding the organization of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
 
 ### 3.2.2 Free recall behavioral results 
