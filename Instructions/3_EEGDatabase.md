@@ -72,7 +72,7 @@ Experimental Paradigms:
 
 ### 3.2.1 Description of Free Recall events.mat Fields
 
-The EEG data collected from subjects in our lab is organized and formatted consistently using event structures, which are Matlab .mat files. These event structures contain various information about the task performed, including patient performance, task parameters, and most importantly, time offset values that align the EEG time with the Unix computer time when the event occurred. Below is a breakdown of the information included in the event structure for a Free-Recall (FR) task:
+The EEG data collected from subjects in our lab is organized and formatted consistently using event structures, which are Matlab .mat files. These event structures contain various information about the task performed, including patient performance, task parameters, and most importantly, time offset values that align the EEG time with the Unix computer time when the event occurred. Below is a breakdown of the information included in the event structure for a *Free-Recall (FR) task*:
 
 - **subject**: This field contains the subject code corresponding to the event in that row.
 - **session**: This field specifies the session number for the event.
@@ -100,6 +100,24 @@ The EEG data collected from subjects in our lab is organized and formatted consi
 - **intrusion**: Indicates whether the item was correctly recalled (intrusion == 0), a Prior List Intrusion (PLI) if intrusion > 0, or an Extra List Intrusion (ELI) if intrusion == -1.
 - **eegfile**: This field points to the corresponding EEG file for that entry in the events structure. You will need to update this field to point to the location of the EEG files on your system. The filename should remain the same, but the folder location may need to be modified.
 - **set**: This field specifies the number of milliseconds from the beginning of the EEG file where the event in that entry starts. This information is used by functions in the EEG toolbox to determine which segment of the EEG data to analyze for a specific event.
+
+While the event structures for the Associative-Recall (AR) task are organized and contain similar information to the FR task, there are unique features attributed to AR related to the rearrangement aspect of the test. Below is a breakdown of the information included in the event structure for an *AR task*:
+- **Subject**: This field contains the subject code corresponding to the event in that row.
+- **mstime**: This field provides the task computer time when the row event happened in milliseconds.
+- **event**: This field provides information regarding the stage of the trial being executed, distinguishing between encoding and retrieval phases, or indicating the completion of a specific block.
+- **correct_ans**: This field denotes the expected ideal response, represented as an integer (with 1 indicating the top word, 2 indicating the bottom word, and -999 indicating non-applicability).
+- **Response**: This field provides the subject’s inputted response
+- **Correct**: This field provides an integer value representing whether the response matches the correct_ans (1 indicates a match, 0 indicates no match).
+- **mstime_toRes**: This field indicates the duration between the presentation of a pair of words on the screen and the subsequent button press by the participant, indicating the time taken to respond in milliseconds
+- **wp**: This field provides the word-pair being tested. The first one listed is the top word in the pair, and the second is the bottom word in the pair.
+- **Rearrange**: This field is a logical integer variable that represents whether or not the word pair in question was rearranged or not, in both the encoding and retrieval sections.
+- **correct_opp_1**: This field assigns a value to the top word in the word pair, and tests whether or not the subject was able to accurately categorize the word in the new setting.
+- **correct_opp_2**: For example, when words are rearranged, correct_opp_2 would represent whether the word pair that contained the bottom word was correctly classified as rearranged by the subject
+- **retrieval_ans_1**: This field provides the subject’s answer to the rearranged pair that included the top word, based on answer to study part of the experiment.
+- **retrieval_ans_2**: This field does the same for the bottom word in the pair.
+- **Eegfile**: This field points to the corresponding EEG file for that entry in the events structure. You will need to update this field to point to the location of the EEG files on your system. The filename should remain the same, but the folder location may need to be modified.
+- **eegoffset**: This field denotes the difference between the time frames of the eeg and computer recordings in milliseconds.
+
 
 Understanding the organization and structure of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
 
