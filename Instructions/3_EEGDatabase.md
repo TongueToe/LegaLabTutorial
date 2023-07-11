@@ -24,7 +24,7 @@ Experimental Paradigms:
 In considering associative tasks, we not only explore how people forge a memory representation that combines or links information from two previously learned representations, but we also investigate associative recall: the ability of a cue item to help people recall a target item. Thus, we add two new dimensions beyond our prior analysis (i.e.: free recall) of recognition memory for items: the dimensions of association and recall.
 In general, associations being studied are links connecting two distinct knowledge representations. More specifically, these associations are new representations that combine elements of the constituent item representations. When studying these associations, it is important to consider situational and temporal context.
 Experimentation is comprised of multiple study and task sections. In the study and encoding phase – participants will see pairs of words on screen and attempt to form associations. During test, participants will categorize them as new, rearranged, or same pairs.
-•	See slides for visual representation of AR Task 
+•	See slides below for visual representation of AR Task 
 - **SR Task**: Serial recall is the method for studying memory for sequentially ordered materials. Participants study a ordered list of items presented to them individually, and are tasked with recalling the exact sequence of said items. Conditions of this task allow us to study the encoding and retrieval phases of memory.
 - [Kahana, M. J. (2012). Foundations of human memory. Oxford University Press.]
 
@@ -51,7 +51,7 @@ Experimental Paradigms:
 **BehData Folder**: This folder contains the a subset of our data. The folders within `BehData` correspond to individual subjects. For example, folder UT014 contains the data for a subject with the unique subject code
 `UT014`. The `UT` in the subject code indicates that the subject was enrolled in the study at the University of Texas, Southwestern. The subject number is 014. The UT subject codes follows the format `UT###` where the number indicates the number relative to the first subject enrolled in any of our studies at UT Southwestern. The first subject is UT001, the second subject is UT002 and so forth. Dr. Bradley Lega also collected data during his fellowship at the Cleveland Clinic. The subject code for these subjects follows the format `CC###`. For the purpose of this tutorial, you were only given data for `UT###` subjects. 
 
-**Example Subject** in BehData Folder:
+**Example Subjects** in BehData Folder:
 1. UT014
    This folder contains data for subject UT014.
    i. behavioral
@@ -65,6 +65,10 @@ Experimental Paradigms:
    iii. eeg.reref
        The eeg.reref folder contains the raw EEG files after being re-referenced to the weighted average of the activity at all other electrodes. For the purpose of this tutorial, you do not need to understand the specifics of this re-referencing. Each EEG filename is in the format of `[Subject Code] [Experimental Paradigm] [session number] [Date (DDMonthYY] [Military Time].[channel number]` or `[Subject Code] [Date (DDMonthYY] [Military Time].[channel number]`.Therefore, the file `UT014 02Sep15 1705.001` corresponds to the EEG file for subject `UT014` collected on `September 2, 2016 at 5:05 PM for electrode number 001`. There is usually one EEG file for each session for each electrode (i.e. EEG filename.001 to EEG filename.128 for channels 1 to 128). For the purpose of the tutorial, a subset of the channels are included. For subject UT014, we included channels `001, 002, 003, 042, 043 and 044`. These electrodes are all located in the hippocampus.
 
+2. UT104
+   This folder contains data for subject UT104.
+3. UT340
+   This folder contains data for subject UT340. 
 
 ### 3.2.1 Description of Free Recall events.mat Fields
 
