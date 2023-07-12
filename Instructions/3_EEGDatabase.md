@@ -158,8 +158,9 @@ The loc_x and loc_y values are used to identify the order the subject placed the
 
 Understanding the organization of the event structures is crucial for performing analyses on the EEG data. It allows researchers to extract the relevant information for specific conditions, events, or time points of interest during the encoding and retrieval periods of the memory task.
 
-### 3.2.2 Free recall behavioral results 
+### 3.2.2 Subject Example Behavioral Results 
 
+*Free Recall*
 There is one event structure per for each subject. All sessions for the subject will be in the same event structure. The structure contains 688 entries in an array, each of which has these fields shown below.
 Example of non-recalled word:
 
@@ -192,6 +193,26 @@ Example of non-recalled word:
   - Suffix .15 = channel 15
   - Anatomical location of these channels is coded in a separate structure
   - `eegoffset`: 1328198     --- # samples from beginning
+ 
+*Serial Recall*
+Example of incorrectly placed word:
+- `EVENTS.events(30)`
+  - `subject`: 'UT140'     ---- UID for subject
+   - `list`: 0           ---- which list of words (of 25 lists)
+  - `type`: 'REC_STOP'      ---- test portion identified
+  - `item`: 'ROAD'     ---- which word
+  - `loc_x`: 1.2665e+03           ---- horizontal location
+  - `loc_y`: 1.3010e+03           ---- vertical location
+  - `serialpos`: 9           ---- which word (of 10 words/list)
+  - `decode_serialpos`: 5         ---- subject interpretation of word’s serial position
+  - `correct`: 0           ---- 0=not correct, 1=correct
+  - `dist_correct `: -4  --- distance from correct word 
+  - `log_time`: 1.0114e+05           --- test computer time recorded
+  - `dur`: NaN        --- time the word was displayed
+  - `order`: 0           --- corresponds to type 
+  - `eegfile`: '/project/TIBIR/Lega_lab/shared/lega_ansir/subjFiles/UT340/eeg.reref/UT340_SR1_0_02Feb23_1142'
+  - eeg file that corresponds to the epoch 
+  - `eegoffset`: 505809     --- # samples from beginning
 
 
 Depth electrodes: Probes and the 10 contacts along the probes 
