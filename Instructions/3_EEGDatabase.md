@@ -193,27 +193,6 @@ Example of non-recalled word:
   - Suffix .15 = channel 15
   - Anatomical location of these channels is coded in a separate structure
   - `eegoffset`: 1328198     --- # samples from beginning
- 
-*Serial Recall*
-Example of incorrectly placed word:
-- `EVENTS.events(30)`
-  - `subject`: 'UT140'     ---- UID for subject
-   - `list`: 0           ---- which list of words (of 25 lists)
-  - `type`: 'REC_STOP'      ---- test portion identified
-  - `item`: 'ROAD'     ---- which word
-  - `loc_x`: 1.2665e+03           ---- horizontal location
-  - `loc_y`: 1.3010e+03           ---- vertical location
-  - `serialpos`: 9           ---- which word (of 10 words/list)
-  - `decode_serialpos`: 5         ---- subject interpretation of word’s serial position
-  - `correct`: 0           ---- 0=not correct, 1=correct
-  - `dist_correct `: -4  --- distance from correct word 
-  - `log_time`: 1.0114e+05           --- test computer time recorded
-  - `dur`: NaN        --- time the word was displayed
-  - `order`: 0           --- corresponds to type 
-  - `eegfile`: '/project/TIBIR/Lega_lab/shared/lega_ansir/subjFiles/UT340/eeg.reref/UT340_SR1_0_02Feb23_1142'
-  - eeg file that corresponds to the epoch 
-  - `eegoffset`: 505809     --- # samples from beginning
-
 
 Depth electrodes: Probes and the 10 contacts along the probes 
 Surface electrodes: The cortical surface electrodes
@@ -251,12 +230,31 @@ Example of successfully recalled word:
   - `eegoffset`: 1333095
 Events for 20 subjects
 
-
 **Encoding Period Analysis**: The goal of analyzing the encoding period is to identify differences in brain states that occur after the presentation of a stimulus or item. Typically, conditions in the encoding period are categorized as "Recalled" and "Non-recalled" based on the subject's later response to the item. The Recalled condition represents trials in which the subject later recalls the item, while the Non-recalled condition represents trials in which the subject does not recall the item.
 
 **Retrieval Period Analysis**: Analyzing the retrieval period focuses on examining brain states before the recall of an item. Similar to the encoding period, conditions in the retrieval period are categorized as "Correctly Recalled" and "Incorrectly Recalled" (or "Intrusions"). The Correctly Recalled condition represents trials in which the subject accurately recalls the item, while the Incorrectly Recalled condition represents trials in which the subject recalls an incorrect item or makes an intrusion error.
 
 To ensure clarity and facilitate effective communication, it is important to maintain consistent terminology when describing these conditions and their associated analysis methods. By using standardized terms, researchers can better explain and understand the specific analysis techniques employed in memory-related EEG studies.
+
+*Serial Recall*
+Example of incorrectly placed word:
+- `EVENTS.events(30)`
+  - `subject`: 'UT140'     ---- UID for subject
+   - `list`: 0           ---- which list of words (of 25 lists)
+  - `type`: 'REC_STOP'      ---- test portion identified
+  - `item`: 'ROAD'     ---- which word
+  - `loc_x`: 1.2665e+03           ---- horizontal location
+  - `loc_y`: 1.3010e+03           ---- vertical location
+  - `serialpos`: 9           ---- which word (of 10 words/list)
+  - `decode_serialpos`: 5         ---- subject interpretation of word’s serial position
+  - `correct`: 0           ---- 0=not correct, 1=correct
+  - `dist_correct `: -4  --- distance from correct word 
+  - `log_time`: 1.0114e+05           --- test computer time recorded
+  - `dur`: NaN        --- time the word was displayed
+  - `order`: 0           --- corresponds to type 
+  - `eegfile`: '/project/TIBIR/Lega_lab/shared/lega_ansir/subjFiles/UT340/eeg.reref/UT340_SR1_0_02Feb23_1142'
+  - eeg file that corresponds to the epoch 
+  - `eegoffset`: 505809     --- # samples from beginning
 
 ## 3.3 Behavioral Analyses (Exercises)
 
