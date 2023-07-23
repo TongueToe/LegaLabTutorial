@@ -66,6 +66,8 @@ Experimental Paradigms:
    iii. eeg.reref
        The eeg.reref folder contains the raw EEG files after being re-referenced to the weighted average of the activity at all other electrodes. For the purpose of this tutorial, you do not need to understand the specifics of this re-referencing. Each EEG filename is in the format of `[Subject Code] [Experimental Paradigm] [session number] [Date (DDMonthYY] [Military Time].[channel number]` or `[Subject Code] [Date (DDMonthYY] [Military Time].[channel number]`.Therefore, the file `UT014 02Sep15 1705.001` corresponds to the EEG file for subject `UT014` collected on `September 2, 2016 at 5:05 PM for electrode number 001`. There is usually one EEG file for each session for each electrode (i.e. EEG filename.001 to EEG filename.128 for channels 1 to 128). For the purpose of the tutorial, a subset of the channels are included. For subject UT014, we included channels `001, 002, 003, 042, 043 and 044`. These electrodes are all located in the hippocampus.
 
+The same information applies to the other subject examples listed below:
+
 2. UT104
    This folder contains data for subject UT104.
 3. UT340
