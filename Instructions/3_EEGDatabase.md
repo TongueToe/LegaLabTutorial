@@ -49,7 +49,7 @@ Experimental Paradigms:
 
 ## 3.2 EEG structure
 
-**BehData Folder**: This folder contains the a subset of our data. The folders within `BehData` correspond to individual subjects. For example, folder UT014 contains the data for a subject with the unique subject code
+**BehData Folder**: This folder contains a subset of our data. The folders within `BehData` correspond to individual subjects. For example, folder UT014 contains the data for a subject with the unique subject code
 `UT014`. The `UT` in the subject code indicates that the subject was enrolled in the study at the University of Texas, Southwestern. The subject number is 014. The UT subject codes follows the format `UT###` where the number indicates the number relative to the first subject enrolled in any of our studies at UT Southwestern. The first subject is UT001, the second subject is UT002 and so forth. Dr. Bradley Lega also collected data during his fellowship at the Cleveland Clinic. The subject code for these subjects follows the format `CC###`. For the purpose of this tutorial, you were only given data for `UT###` subjects. 
 
 **Example Subjects** in BehData Folder:
@@ -247,7 +247,7 @@ To ensure clarity and facilitate effective communication, it is important to mai
   - `response`: 2     
   - `correct`: 1     
   - `mstime_toRes`: 2518           
-  - `wp`: ‘NOOSE/MELON         
+  - `wp`: ‘NOOSE/MELON'         
   - `rearrange`: 1           
   - `correct_opp_1 `: 2  
   - `retrieval_ans_1`: 1           
