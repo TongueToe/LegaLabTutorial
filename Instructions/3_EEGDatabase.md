@@ -151,8 +151,6 @@ The loc_x and loc_y values are used to identify the order the subject placed the
 -	**Dur**: This field provides how long the word was displayed on the screen, and how long the orient lasted in seconds.
 -	**Log_num**: This field provides the order in which the events were logged.
 -	**Order**: This field is a representation of the type of event (2 is orient, 3 is word, 4 is rec start, 5 is rec stop)
--	Sec_error:  ?
--	Sec_time: (?) The time in which the words are first scattered on screen
 -	**Eegoffset**: We have a computer logged time event/sync pulses. Times when sync pulses are recorded on the computer and eeg recording, correlation is done that minimizes the error to match sync pulses (ms).
 
 
