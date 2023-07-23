@@ -236,6 +236,25 @@ Events for 20 subjects
 
 To ensure clarity and facilitate effective communication, it is important to maintain consistent terminology when describing these conditions and their associated analysis methods. By using standardized terms, researchers can better explain and understand the specific analysis techniques employed in memory-related EEG studies.
 
+*Example of a rearranged word taken from an AR Data .matlab file:*
+- `EVENTS.events(30)`
+  - `subject`: 'UT104'     
+   - `display`: 1          
+  - `event`: ‘PRACTICE_ ENCODING’    
+  - `correct_ans`: 2     
+  - `response`: 2     
+  - `correct`: 1     
+  - `mstime_toRes`: 2518           
+  - `wp`: ‘NOOSE/MELON         
+  - `rearrange`: 1           
+  - `correct_opp_1 `: 2  
+  - `retrieval_ans_1`: 1           
+  - `correct_opp_2`: 1       
+  - `retrieval_ans_2`: 2           
+  - `eegfile`: '/project/shared/lega_ansir/subjFiles/UT104/eeg.reref/UT104_AR_0_28Jun18_0913'
+  - `eegoffset`: 467706     
+
+
 *Serial Recall*
 Example of incorrectly placed word:
 - `EVENTS.events(30)`
