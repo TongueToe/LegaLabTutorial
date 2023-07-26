@@ -83,7 +83,7 @@ Preprocessing and Data Organization:
 
 In practical scenarios, it is often beneficial to reorganize raw EEG data obtained from a lab database, especially when the raw data is stored in binary format and requires access through a specialized system like biohpc or a VPN connection when off campus. By reorganizing the EEG data of multiple subjects, you can transfer the data to your local machine and store it conveniently. Additionally, you can preprocess the data once and save the preprocessed results locally. This approach eliminates the need for repetitive data retrieval and preprocessing, saving time and effort in future analyses. Having the data readily available on your local machine facilitates efficient access and reduces dependence on remote access or complex connectivity requirements.
 
-**Here's an example scirpt in MATLAB**
+**Here's an example script in MATLAB**
 
 ```matlab 
 % EEG Data Conversion and Preprocessing Script
