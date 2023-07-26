@@ -14,9 +14,9 @@ Fortunately, Matlab is extremely user-friendly and offers abundant online and of
 For experienced Matlab users, the provided templates serve as a guide. As you become more familiar with the analysis, you can write your own scripts to process the code in a way that suits your needs.
 
 Relevant Attachments:
-[Lega Lab Research Info](../src/LegaLab%20Research%20Info.pdf)
-[Lega Lab Text pt.1](../src/LegaLabTutorial%20pt%201.pdf)
-[Lega Lab Text pt.2](../src/LegaLabTutorial%20pt%202.pdf)
+- [Lega Lab Research Info](../src/LegaLab%20Research%20Info.pdf)
+- [Lega Lab Text pt.1](../src/LegaLabTutorial%20pt%201.pdf)
+- [Lega Lab Text pt.2](../src/LegaLabTutorial%20pt%202.pdf)
 ## Feedback and Updates
 
 If you come across any issues with this tutorial (e.g., unclear instructions, typos), please send an email to jui-jui.lin@gmail.com. This tutorial will be continuously updated to provide a comprehensive guide for new lab members, helping them develop the necessary skills for complex neural signal analyses. Remember, if you have a question, it's likely that someone in the future will have the same question too. By addressing as many questions as possible within this guide, we can create a valuable resource for everyone.
