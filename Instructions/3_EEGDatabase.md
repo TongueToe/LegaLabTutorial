@@ -923,3 +923,192 @@ xlabel('Time relative to word onset (ms)');
 ylabel('Voltage');
 title('Average ERP in the Hippocampus');
 ```
+#### 3.3.5 Analyzing AR Data
+This exercise focuses on sifting through Associative Recognition data for a subject and finding useful calculations that reveal information about their potential memory patterns.
+- **Finding probability of each AR condition for UT104 for Session 0, All Lists**
+  1. Load the events.mat file for UT104.
+  2. Set counting variables for each condition being measured. For this example, we will sort through 4 conditions. Each of 3 correct conditions (intact, rearranged, new) and an incorrect condition. 
+  3. Use a for-loop to cycle through each event field of the data. 
+  4. Use the “string comparison” function and “integer-to-string” conversion in order to compare data within the same category. 
+  5. Find totals for each condition, and divide counts by them in order to calculate recall probabilities for each condition.
+  6. Label and print results.
+  ```matlab
+% Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT104/behavioral/AR1/events.mat'
+load('LegaLabTutorial/sampleData/UT104/behavioral/AR1/events.mat');
+
+%This logic uses a count for each of the conditions being measured. 
+%"Intact" measures a correctly identified intact pair, while "Rearrange" & 
+%"NewPair" measure the same for other other conditions.
+Correct = 0;
+Intact = 0;
+Rearrange = 0;
+NewPair = 0;
+Incorrect = 0;
+
+%This loops through the data, matching user input to correct answers
+for i = 1:length(events)
+    %response variable accounts for all columns in a single field of data
+    %"response.response" takes the response data within the subject data
+    %field
+    response = events(i);
+    %String comparison/conversion is needed bc data is provided in both
+    %integer and string form
+    if strcmp(response.correct_ans, num2str(response.response))
+        Correct = Correct + 1;
+        if response.response == 1
+            Intact = Intact + 1;
+        elseif response.response == 2
+            Rearrange = Rearrange + 1;
+        elseif response.response == 3
+            NewPair = NewPair + 1;
+        end
+    else
+        %Same logic is applied to incorrect conditions
+        Incorrect = Incorrect + 1;
+    end
+end
+
+%Find the total number of wp for each condition
+num_intact=length(events(strcmp([events.correct_ans], '1')));
+num_rearranged=length(events(strcmp([events.correct_ans],'2')));
+num_new=length(events(strcmp([events.correct_ans],'3')));
+
+%Calculate probability of each occurrence
+probcorrect_intact = Intact / num_intact;
+probcorrect_rearranged = Rearrange / num_rearranged;
+probcorrect_new = NewPair / num_new;
+probincorrect = Incorrect / length(events);
+
+%Print results
+fprintf("Intact = %d\n", probcorrect_intact)
+fprintf("Rearrange = %d\n", probcorrect_rearranged)
+fprintf("NewPair = %d\n", probcorrect_new)
+fprintf("Incorrect = %d\n", probincorrect)
+
+```
+#### 3.3.6 Filtering SR Data
+This exercise focuses on categorizing serial recall data based on corresponding user input.
+- **Finding probability of each SR condition for UT340 for Session 0, All Lists**
+  1. Load the events.mat file for UT340.
+  2. Structure is built to classify items as “correct”, “drifted”, “reverse”, or “scrambled”. Descriptions of these classifications are included in the comments of example code shown below. 
+  3. Extract incorrect trials and filter for ‘0’. Process is outlined in comments.
+  4. Identify indexes of consecutive matching trials, and make sure we are choosing consecutive serial items. 
+  5. Extract correct trials and filter for ‘1’. Process is outlined in comments.
+  6. Combine serial positions from driftStruct and backStruct to identify items that fit the "scramble" condition.
+  ```matlab
+   
+function [correctStruct,driftStruct,backStruct,scrStruct] = filterSrStruct(list_numb)
+ % This function processes a given structure 'list_numb' and returns four different structures(conditions):
+ %  Correct: Items are classified as "correct" when patients are able to remember at least two items in the correct order they were presented. Single item recollection is not classified as correct.
+ %  Drift or Shift: Drifted items are items that have a forward temporal order but they are in the wrong serial positions.
+ %  Reverse: Reverse items have reverse temporal orders. For instance, if encoding was 1 2 3 4 5 and recall was 1 2 4 3 5, then 3 4 are considered reversed
+ %  Scramble: No order whatsoever
+
+
+
+           
+           % Extracting incorrect trials from list_numb where 'correct'
+           % field is 0. For filtering scramble, reverse, and drift
+           % conditions
+           incorrect_trials = filterStruct(list_numb,'correct == 0');
+              
+           % Identifying the indexes of consecutive trials with the same 'dist_correct'
+           % value. This is for filtering for the drift condition. Drifted
+           % items have the same dist_correct values, so we find the
+           % rows in the given list where the difference between two
+           % consecutive dist_correct values is 0 to identify drifted
+           % items. Also, we make sure that we are actually choosing
+           % consecutive serial items.
+           
+           a = [incorrect_trials.dist_correct];
+           p=find(diff(a)==0); q=[p p+1]; qq = sort(q); ii = unique(qq);
+           drift_st = incorrect_trials(ii);
+           b = [drift_st.serialpos];f = find(diff(b) == 1); t = [f f+1]; cc = sort(t); zz = unique(cc);
+           if ~isempty(ii)
+               driftStruct = drift_st(zz);
+           else
+               driftStruct = drift_st;
+           end
+        
+           % Identifying cases where the difference between consecutive
+           % 'decode_serialpos' values is -1. This is for filtering for the
+           % reverse condition. We find the indexes where the difference of
+           % values in "decode_serialpos" field is -1. Also, we make sure that we are actually choosing
+           % consecutive serial items. 
+           bac = [incorrect_trials.decode_serialpos];
+           bak=find(diff(bac)==-1);c=[bak bak+1]; cc = sort(c); ccc = unique(cc);
+           back_st = incorrect_trials(ccc);
+           rr = [back_st.serialpos];
+           ff = find(diff(rr) == 1); ttt = [ff ff+1]; ccp = sort(ttt); zzp = unique(ccp);
+           if ~isempty(ccc)
+               backStruct = back_st(zzp);
+           else
+               backStruct = back_st;
+           end
+           
+           
+        
+           % Extracting correct trials where 'correct' field is 1.
+
+           correct_trials = filterStruct(list_numb,'correct == 1');
+
+           % Identifying consecutive trials with the same 'dist_correct'
+           % value for correct trials. Correct items have the same
+           % "dist_correct" values. This process is similar to filtering
+           % for the drift condition, but in this case we are only look at
+           % items where the "correct" field is 1. Also, we make sure that we are actually choosing
+           % consecutive serial items.  
+
+           a = [correct_trials.dist_correct]; p=find(diff(a)==0); q=[p p+1]; qq = sort(q);ii = unique(qq);
+           corr_struct = correct_trials(ii);
+           b = [corr_struct.serialpos];f = find(diff(b) == 1); t = [f f+1]; mm = sort(t); uu = unique(mm);
+           if ~isempty(ii)
+           correctStruct = corr_struct(uu);
+           elseif isempty(corr_struct)
+               correctStruct = corr_struct;
+           end
+        
+           
+        
+           % Identifying trials that do not fit the above classifications.
+           result = setdiff(ii, zz); 
+           bad_t_corr = corr_struct(result);
+           indices = [list_numb.serialpos];
+
+           %combining serial positions from driftStruct and backStruct to
+           %identify items that fit the "scramble" condition. Basically,
+           %anything that is not drifted or reversed is a scrambled item.
+           %So, we are combining drift and reverse indexes and finding the
+           %nonsimilar indexes between those combined indexes and the filtered
+           %indexes where the "correct" field is 0.
+         
+           if ~isempty([driftStruct.serialpos]) && ~isempty([backStruct.serialpos])
+           scr_arr = [[backStruct.serialpos] [driftStruct.serialpos]];
+           elseif isempty([driftStruct.serialpos]) && exist(["backStruct"])
+               scr_arr = [backStruct.serialpos];
+           elseif  exist(["backStruct"]) && isempty([backStruct.serialpos]) 
+               scr_arr = [driftStruct.serialpos];
+           else
+               ob_pre = filterStruct(list_numb,'correct == 0'); not_incorr = [ob_pre.serialpos];
+               not_corr = setdiff([correct_trials.serialpos],[correctStruct.serialpos]);
+               fin = [not_corr not_incorr]; finS = sort(fin); ob = list_numb(finS);
+               og = correctStruct;    scrStruct = filterStruct(ob,'correct == 0');
+        
+           end
+           if ~exist("ob") && exist('correctStruct')
+          
+           godord = [[correctStruct.serialpos] [backStruct.serialpos] [driftStruct.serialpos]];
+           godsort = sort(godord); godfufU = unique(godsort); og = list_numb(godfufU);
+        
+           ww = [og.serialpos]; giga = setdiff([list_numb.serialpos],ww); ob = list_numb(giga);
+        
+           scrStruct = filterStruct(ob,'correct == 0');
+           else
+               seco = [[backStruct.serialpos] [driftStruct.serialpos]]; secsort = sort(seco);
+               secI = [incorrect_trials.serialpos]; secG = setdiff(secI,secsort); scrStruct = list_numb(secG);
+    
+           end
+    
+    end
+
+```
