@@ -932,27 +932,29 @@ This exercise focuses on sifting through Associative Recognition data for a subj
   4. Use the “string comparison” function and “integer-to-string” conversion in order to compare data within the same category. 
   5. Find totals for each condition, and divide counts by them in order to calculate recall probabilities for each condition.
   6. Label and print results.
-  ```matlab
+     
+```matlab
+
 % Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT104/behavioral/AR1/events.mat'
 load('LegaLabTutorial/sampleData/UT104/behavioral/AR1/events.mat');
 
-%This logic uses a count for each of the conditions being measured. 
-%"Intact" measures a correctly identified intact pair, while "Rearrange" & 
-%"NewPair" measure the same for other other conditions.
+% This logic uses a count for each of the conditions being measured. 
+% "Intact" measures a correctly identified intact pair, while "Rearrange" & 
+% "NewPair" measure the same for other other conditions.
 Correct = 0;
 Intact = 0;
 Rearrange = 0;
 NewPair = 0;
 Incorrect = 0;
 
-%This loops through the data, matching user input to correct answers
+% This loops through the data, matching user input to correct answers
 for i = 1:length(events)
-    %response variable accounts for all columns in a single field of data
-    %"response.response" takes the response data within the subject data
-    %field
+    % response variable accounts for all columns in a single field of data
+    % "response.response" takes the response data within the subject data
+    % field
     response = events(i);
-    %String comparison/conversion is needed bc data is provided in both
-    %integer and string form
+    % String comparison/conversion is needed bc data is provided in both
+    % integer and string form
     if strcmp(response.correct_ans, num2str(response.response))
         Correct = Correct + 1;
         if response.response == 1
@@ -968,24 +970,25 @@ for i = 1:length(events)
     end
 end
 
-%Find the total number of wp for each condition
+% Find the total number of wp for each condition
 num_intact=length(events(strcmp([events.correct_ans], '1')));
 num_rearranged=length(events(strcmp([events.correct_ans],'2')));
 num_new=length(events(strcmp([events.correct_ans],'3')));
 
-%Calculate probability of each occurrence
+% Calculate probability of each occurrence
 probcorrect_intact = Intact / num_intact;
 probcorrect_rearranged = Rearrange / num_rearranged;
 probcorrect_new = NewPair / num_new;
 probincorrect = Incorrect / length(events);
 
-%Print results
+% Print results
 fprintf("Intact = %d\n", probcorrect_intact)
 fprintf("Rearrange = %d\n", probcorrect_rearranged)
 fprintf("NewPair = %d\n", probcorrect_new)
 fprintf("Incorrect = %d\n", probincorrect)
 
 ```
+
 #### 3.3.6 Filtering SR Data
 This exercise focuses on categorizing serial recall data based on corresponding user input.
 - **Finding probability of each SR condition for UT340 for Session 0, All Lists**
@@ -995,7 +998,8 @@ This exercise focuses on categorizing serial recall data based on corresponding 
   4. Identify indexes of consecutive matching trials, and make sure we are choosing consecutive serial items. 
   5. Extract correct trials and filter for ‘1’. Process is outlined in comments.
   6. Combine serial positions from driftStruct and backStruct to identify items that fit the "scramble" condition.
-  ```matlab
+     
+```matlab
    
 function [correctStruct,driftStruct,backStruct,scrStruct] = filterSrStruct(list_numb)
  % This function processes a given structure 'list_numb' and returns four different structures(conditions):
@@ -1003,10 +1007,7 @@ function [correctStruct,driftStruct,backStruct,scrStruct] = filterSrStruct(list_
  %  Drift or Shift: Drifted items are items that have a forward temporal order but they are in the wrong serial positions.
  %  Reverse: Reverse items have reverse temporal orders. For instance, if encoding was 1 2 3 4 5 and recall was 1 2 4 3 5, then 3 4 are considered reversed
  %  Scramble: No order whatsoever
-
-
-
-           
+         
            % Extracting incorrect trials from list_numb where 'correct'
            % field is 0. For filtering scramble, reverse, and drift
            % conditions
@@ -1067,9 +1068,7 @@ function [correctStruct,driftStruct,backStruct,scrStruct] = filterSrStruct(list_
            elseif isempty(corr_struct)
                correctStruct = corr_struct;
            end
-        
-           
-        
+               
            % Identifying trials that do not fit the above classifications.
            result = setdiff(ii, zz); 
            bad_t_corr = corr_struct(result);
