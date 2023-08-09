@@ -10,8 +10,8 @@ Verbal tasks involve tasks that are focused on language and verbal memory. The f
 
 - FR1: This task is known as Free Recall 1. It involves subjects freely recalling a list of words.
 - fr_stim: This task pertains to stimulation of PCC or AG.
-- ARstim: 
-- AR1:
+- ARstim: This task pertains to stimulation within the AR task.
+- AR1: Overview of this task is given in section 3.
 
 ### 5.2 Spatial Tasks
 Spatial tasks concentrate on spatial cognition and memory. The following spatial tasks are included:
