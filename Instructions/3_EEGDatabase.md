@@ -69,10 +69,10 @@ Experimental Paradigms:
 The same information applies to the other subject examples listed below:
 
 2. UT104
-   This folder contains data for subject UT104.
+   This folder contains data for subject UT104. This example data can be found within the behData folder.
    
 3. UT340
-   This folder contains data for subject UT340. 
+   This folder contains data for subject UT340. This example data can be found within the behData folder.
 
 ### 3.2.1 Description of Free Recall events.mat Fields
 
@@ -932,62 +932,62 @@ This exercise focuses on sifting through Associative Recognition data for a subj
   4. Use the “string comparison” function and “integer-to-string” conversion in order to compare data within the same category. 
   5. Find totals for each condition, and divide counts by them in order to calculate recall probabilities for each condition.
   6. Label and print results.
+ 
+**Example Code**
      
-```matlab
+  ```matlab
+  % Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT104/behavioral/AR1/events.mat'
+  load('LegaLabTutorial/sampleData/UT104/behavioral/AR1/events.mat');
 
-% Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT104/behavioral/AR1/events.mat'
-load('LegaLabTutorial/sampleData/UT104/behavioral/AR1/events.mat');
+  % This logic uses a count for each of the conditions being measured. 
+  % "Intact" measures a correctly identified intact pair, while "Rearrange" & 
+  % "NewPair" measure the same for other other conditions.
+  Correct = 0;
+  Intact = 0;
+  Rearrange = 0;
+  NewPair = 0;
+  Incorrect = 0;
 
-% This logic uses a count for each of the conditions being measured. 
-% "Intact" measures a correctly identified intact pair, while "Rearrange" & 
-% "NewPair" measure the same for other other conditions.
-Correct = 0;
-Intact = 0;
-Rearrange = 0;
-NewPair = 0;
-Incorrect = 0;
+  % This loops through the data, matching user input to correct answers
+  for i = 1:length(events)
+      % response variable accounts for all columns in a single field of data
+      % "response.response" takes the response data within the subject data
+      % field
+      response = events(i);
+      % String comparison/conversion is needed bc data is provided in both
+      % integer and string form
+      if strcmp(response.correct_ans, num2str(response.response))
+          Correct = Correct + 1;
+          if response.response == 1
+              Intact = Intact + 1;
+          elseif response.response == 2
+              Rearrange = Rearrange + 1;
+          elseif response.response == 3
+              NewPair = NewPair + 1;
+          end
+      else
+          %Same logic is applied to incorrect conditions
+          Incorrect = Incorrect + 1;
+      end
+  end
 
-% This loops through the data, matching user input to correct answers
-for i = 1:length(events)
-    % response variable accounts for all columns in a single field of data
-    % "response.response" takes the response data within the subject data
-    % field
-    response = events(i);
-    % String comparison/conversion is needed bc data is provided in both
-    % integer and string form
-    if strcmp(response.correct_ans, num2str(response.response))
-        Correct = Correct + 1;
-        if response.response == 1
-            Intact = Intact + 1;
-        elseif response.response == 2
-            Rearrange = Rearrange + 1;
-        elseif response.response == 3
-            NewPair = NewPair + 1;
-        end
-    else
-        %Same logic is applied to incorrect conditions
-        Incorrect = Incorrect + 1;
-    end
-end
+  % Find the total number of wp for each condition
+  num_intact=length(events(strcmp([events.correct_ans], '1')));
+  num_rearranged=length(events(strcmp([events.correct_ans],'2')));
+  num_new=length(events(strcmp([events.correct_ans],'3')));
 
-% Find the total number of wp for each condition
-num_intact=length(events(strcmp([events.correct_ans], '1')));
-num_rearranged=length(events(strcmp([events.correct_ans],'2')));
-num_new=length(events(strcmp([events.correct_ans],'3')));
+  % Calculate probability of each occurrence
+  probcorrect_intact = Intact / num_intact;
+  probcorrect_rearranged = Rearrange / num_rearranged;
+  probcorrect_new = NewPair / num_new;
+  probincorrect = Incorrect / length(events);
 
-% Calculate probability of each occurrence
-probcorrect_intact = Intact / num_intact;
-probcorrect_rearranged = Rearrange / num_rearranged;
-probcorrect_new = NewPair / num_new;
-probincorrect = Incorrect / length(events);
-
-% Print results
-fprintf("Intact = %d\n", probcorrect_intact)
-fprintf("Rearrange = %d\n", probcorrect_rearranged)
-fprintf("NewPair = %d\n", probcorrect_new)
-fprintf("Incorrect = %d\n", probincorrect)
-
-```
+  % Print results
+  fprintf("Intact = %d\n", probcorrect_intact)
+  fprintf("Rearrange = %d\n", probcorrect_rearranged)
+  fprintf("NewPair = %d\n", probcorrect_new)
+  fprintf("Incorrect = %d\n", probincorrect)
+  ```
 
 #### 3.3.6 Filtering SR Data
 This exercise focuses on categorizing serial recall data based on corresponding user input.
@@ -998,9 +998,10 @@ This exercise focuses on categorizing serial recall data based on corresponding 
   4. Identify indexes of consecutive matching trials, and make sure we are choosing consecutive serial items. 
   5. Extract correct trials and filter for ‘1’. Process is outlined in comments.
   6. Combine serial positions from driftStruct and backStruct to identify items that fit the "scramble" condition.
+
+**Example Code**
      
 ```matlab
-   
 function [correctStruct,driftStruct,backStruct,scrStruct] = filterSrStruct(list_numb)
  % This function processes a given structure 'list_numb' and returns four different structures(conditions):
  %  Correct: Items are classified as "correct" when patients are able to remember at least two items in the correct order they were presented. Single item recollection is not classified as correct.
@@ -1109,5 +1110,4 @@ function [correctStruct,driftStruct,backStruct,scrStruct] = filterSrStruct(list_
            end
     
     end
-
 ```
