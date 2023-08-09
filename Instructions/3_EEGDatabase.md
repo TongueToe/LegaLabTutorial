@@ -6,7 +6,7 @@
     - [Experimental Paradigms](#experimental-paradigms)
   - [3.2 EEG structure](#32-eeg-structure)
     - [3.2.1 Description of Free Recall events.mat Fields](#321-description-of-free-recall-eventsmat-fields)
-    - [3.2.2 Free recall behavioral results](#322-free-reacall-behavioral-results)
+    - [3.2.2 Subject Example Behavioral Results](#322-subject-example-behavioral-results)
   - [3.3 Behavioral Analyses (Exercises)](#33-behavioral-analyses-exercises)
     - [3.3.1 Calculating Recall Probability](#331-calculating-recall-probability)
     - [3.3.2 Generating Serial Position Curve](#332-generating-serial-position-curve)
@@ -14,6 +14,8 @@
     - [3.3.4 Electrophysiological Analyses](#334-electrophysiological-analyses)
       - [3.3.4.1 Plotting Raw Voltage](#3341-plotting-raw-voltage)
       - [3.3.4.2 Plotting Event-related Potential (ERP)](#3342-plotting-event-related-potential-erp)
+    - [3.3.5 Analyzing AR Data](#335-analyzing-AR-data)
+    - [3.3.6 Filtering SR Data](#336-filtering-SR-data)    
 
 ## 3.1 Behavioral-Tasks
 
