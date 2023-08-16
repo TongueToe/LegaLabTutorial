@@ -331,6 +331,37 @@ These measures provide different insights into connectivity patterns in EEG data
 
 Please note that these descriptions provide a brief overview, and the specific implementation and interpretation of these measures can vary depending on the research context.
 
+```matlab
+% Simulated EEG signals (replace with your actual EEG data)
+eeg_signal_1 = randn(1, 100); % Replace with your EEG data
+eeg_signal_2 = randn(1, 100); % Replace with your EEG data
+
+% Calculate the mean of each signal
+mean_signal_1 = mean(eeg_signal_1);
+mean_signal_2 = mean(eeg_signal_2);
+
+% Calculate the numerator of the correlation coefficient
+numerator = sum((eeg_signal_1 - mean_signal_1) .* (eeg_signal_2 - mean_signal_2));
+
+% Calculate the denominator of the correlation coefficient
+denominator = sqrt(sum((eeg_signal_1 - mean_signal_1).^2) * sum((eeg_signal_2 - mean_signal_2).^2));
+
+% Calculate the correlation coefficient
+correlation_value = numerator / denominator;
+
+% Display the correlation value
+fprintf('Correlation coefficient between EEG signals: %.4f\n', correlation_value);
+
+% Interpret the correlation value
+if correlation_value > 0
+    fprintf('Positive correlation: There is a positive linear relationship between the signals.\n');
+elseif correlation_value < 0
+    fprintf('Negative correlation: There is a negative linear relationship between the signals.\n');
+else
+    fprintf('No correlation: There is no linear relationship between the signals.\n');
+end
+```
+This example code calculates the correlation coefficient using the formula for correlation coefficient. It then interprets the correlation value given the context within predetermined guidelines. Remember to replace the eeg_signal_1 and eeg_signal_2 variables with your actual EEG data.
 
 ## 4.8 Statistical Testing
 
