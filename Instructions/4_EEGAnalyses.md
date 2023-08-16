@@ -323,6 +323,12 @@ PAC assesses the coupling between the phase of one frequency band and the amplit
 ### 4.7.4 Coherence
 Coherence measures the linear relationship between two EEG signals across different frequencies. It quantifies the degree of synchronization or similarity in the phase and magnitude between two signals. Coherence values range from 0 to 1, with higher values indicating stronger linear relationships.
 
+```matlab
+[coherence, freq] = mscohere(eeg1, eeg2);
+```
+In this example code, we calculate the coherence values using the mscohere function and then displaying the computed coherence values along with their corresponding frequencies. Adjust the input data in “eeg1” and “eeg2” and add/adjust any other parameters as needed for your specific EEG signals and analysis requirements. 
+Note: the mscohere function requires the signal processing toolbox in matlab
+
 ### 4.7.5 Correlation
 
 Correlation is a widely used measure to assess the statistical relationship between two EEG signals. It quantifies the linear dependence between signals and ranges from -1 to +1. Positive values indicate a positive linear relationship, negative values indicate a negative linear relationship, and a value of zero indicates no linear relationship.
