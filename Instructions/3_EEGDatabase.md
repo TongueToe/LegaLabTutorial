@@ -413,7 +413,7 @@ In this first exercise, you will perform a simple behavioral analysis of free re
 
   % Get the list of subject folders
   subject_folders = dir(data_folder);
-  subject_folders = subject_folders(~ismember({subject_folders.name}, {'.', '..'}));
+  subject_folders = subject_folders(~ismember({subject_folders.name}, {'.', '..', '.DS_Store'}));
 
   recall_probability_subjects = cell(numel(subject_folders), 1);
 
@@ -422,6 +422,7 @@ In this first exercise, you will perform a simple behavioral analysis of free re
       
       % Get the list of session folders for the current subject
       session_folders = dir(fullfile(data_folder, subject_name, 'behavioral/FR1'));
+      session_folders = session_folders([session_folders.isdir]);
       session_folders = session_folders(~ismember({session_folders.name}, {'.', '..'}));
       
       recall_probability_sessions = zeros(numel(session_folders), 1);
