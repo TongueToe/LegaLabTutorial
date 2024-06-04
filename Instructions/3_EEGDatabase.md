@@ -480,7 +480,7 @@ This exercise will guide you through how to generate a serial position curve (SP
   num_words_presented = histcounts([session0_events.serialpos], 1:13);
 
   % Count the number of times each word was recalled
-  num_words_recalled = histcounts([session0_events([session0_events.recalled]).serialpos], 1:13);
+  num_words_recalled = histcounts([session0_events([session0_events.recalled]).serialpos == 1], 1:13);
 
   % Calculate the recall probability at each serial position
   recall_probability = num_words_recalled ./ num_words_presented;
