@@ -97,7 +97,7 @@ The EEG data collected from subjects in our lab is organized and formatted consi
   - TRIAL: Precedes any events for a new list.
   - ORIENT: Fixation point on the screen (+) that precedes the list of words after the countdown.
   - WORD: Presentation of a word on a test list (relevant for encoding analysis).
-  - REC WORD: Vocalized response of a word during the recall period. These entries are manually scored by research assistants.
+  - REC_WORD: Vocalized response of a word during the recall period. These entries are manually scored by research assistants.
   - SESS END: Marks the end of the session.
   - E: Marks the end of the recordings.
 - **item**: This field specifies the specific word that was presented or recalled. Entries that do not correspond to a presented or recalled word are marked as 'X'.
@@ -567,9 +567,9 @@ This exercise will guide you through generating a lag-conditional response proba
 
   1. Load the 'events.mat' file located at 'LegaLabTutorial/sampleData/UT014/behavioral/FR1/events.mat'.
   2. Filter for events for session 0, list 1.
-  3. Use events of type 'REC WORD' to determine the word a subject said and its order of presentation.
-  4. Filter for events that are of type 'REC WORD' with an 'itemno' greater than 0 and 'intrusion' equal to 0.
-  5. For each 'REC WORD', determine its serial position by comparing the 'itemno' with the 'itemno' of the 'WORD' events for the same list.
+  3. Use events of type 'REC_WORD' to determine the word a subject said and its order of presentation.
+  4. Filter for events that are of type 'REC_WORD' with an 'itemno' greater than 0 and 'intrusion' equal to 0.
+  5. For each 'REC_WORD', determine its serial position by comparing the 'itemno' with the 'itemno' of the 'WORD' events for the same list.
   6. Calculate the possible lags and actual lags for each recalled word by considering the serial position and previously recalled words.
   7. Generate the lag-CRP curve by dividing the number of times each transition was possible by the number of times it actually occurred.
   8. Plot the lag-CRP curve for lags of -3, -2, -1, 1, 2, and 3 for UT014, session 0, list 1.
@@ -583,8 +583,8 @@ This exercise will guide you through generating a lag-conditional response proba
   % Filter for events for session 0, list 1
   session0_list1_events = events([events.session] == 0 & [events.list] == 1);
 
-  % Filter for REC WORD events with itemno > 0 and intrusion == 0
-  rec_word_events = session0_list1_events(strcmp({session0_list1_events.type}, 'REC WORD') & [session0_list1_events.itemno] > 0 & [session0_list1_events.intrusion] == 0);
+  % Filter for REC_WORD events with itemno > 0 and intrusion == 0
+  rec_word_events = session0_list1_events(strcmp({session0_list1_events.type}, 'REC_WORD') & [session0_list1_events.itemno] > 0 & [session0_list1_events.intrusion] == 0);
 
   % Determine the serial position for each recalled word
   serial_positions = NaN(1, numel(rec_word_events));
@@ -630,7 +630,7 @@ This exercise will guide you through generating a lag-conditional response proba
   ```matlab 
   % Lag-CRP for UT014 Session 0, All Lists
   all_lists_events = events([events.session] == 0);
-  rec_word_events_all_lists = all_lists_events(strcmp({all_lists_events.type}, 'REC WORD') & [all_lists_events.itemno] > 0 & [all_lists_events.intrusion] == 0);
+  rec_word_events_all_lists = all_lists_events(strcmp({all_lists_events.type}, 'REC_WORD') & [all_lists_events.itemno] > 0 & [all_lists_events.intrusion] == 0);
   serial_positions_all_lists = NaN(1, numel(rec_word_events_all_lists));
   for i = 1:numel(rec_word_events_all_lists)
       itemno = rec_word_events_all_lists(i).itemno;
@@ -672,7 +672,7 @@ This exercise will guide you through generating a lag-conditional response proba
   lag_crp_all_sessions = NaN(numel(sessions), numel(lags));
   for s = 1:numel(sessions)
       session_events = events([events.session] == sessions(s));
-      rec_word_events_session = session_events(strcmp({session_events.type}, 'REC WORD') & [session_events.itemno] > 0 & [session_events.intrusion] == 0);
+      rec_word_events_session = session_events(strcmp({session_events.type}, 'REC_WORD') & [session_events.itemno] > 0 & [session_events.intrusion] == 0);
       serial_positions_session = NaN(1, numel(rec_word_events_session));
       for i = 1:numel(rec_word_events_session)
           itemno = rec_word_events_session(i).itemno;
